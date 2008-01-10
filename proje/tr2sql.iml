@@ -8,27 +8,11 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
-      <library>
+      <library name="runtime">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib-runtime/zemberek-tr-2.0.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib-runtime/zemberek-cekirdek-2.0.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib-runtime/helpers-0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib-dagitim/zemberek-tr-2.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib-dagitim/zemberek-cekirdek-2.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib-dagitim/helpers-0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
