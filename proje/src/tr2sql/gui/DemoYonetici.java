@@ -1,0 +1,252 @@
+/*
+ *  ***** BEGIN LICENSE BLOCK *****
+ *
+ *  Version: MPL 1.1
+ *
+ *  The contents of this file are subject to the Mozilla Public License Version
+ *  1.1 (the "License"); you may not use this file except in compliance with
+ *  the License. You may obtain a copy of the License at
+ *  http://www.mozilla.org/MPL/
+ *
+ *  Software distributed under the License is distributed on an "AS IS" basis,
+ *  WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ *  for the specific language governing rights and limitations under the
+ *  License.
+ *
+ *  The Original Code is "Zemberek Dogal Dil Isleme Kutuphanesi"
+ *
+ *  The Initial Developer of the Original Code is
+ *  Ahmet A. Akin, Mehmet D. Akin.
+ *  Portions created by the Initial Developer are Copyright (C) 2006
+ *  the Initial Developer. All Rights Reserved.
+ *
+ *  Contributor(s):
+ *
+ *  ***** END LICENSE BLOCK *****
+ */
+
+package tr2sql.gui;
+
+import net.zemberek.araclar.Kayitci;
+import net.zemberek.araclar.turkce.YaziBirimi;
+import net.zemberek.araclar.turkce.YaziBirimiTipi;
+import net.zemberek.araclar.turkce.YaziIsleyici;
+import net.zemberek.erisim.Zemberek;
+import net.zemberek.islemler.TurkceYaziTesti;
+import net.zemberek.yapi.DilBilgisi;
+import net.zemberek.yapi.Kelime;
+import net.zemberek.tr.yapi.TurkiyeTurkcesi;
+
+import java.util.*;
+import java.util.logging.Logger;
+
+import tr2sql.KelimeEleyici;
+import tr2sql.Tr2SQLKelimeEleyici;
+
+/**
+ */
+public class DemoYonetici {
+
+    private static Logger logger = Kayitci.kayitciUret(DemoYonetici.class);
+    private Zemberek zemberek = new Zemberek(new TurkiyeTurkcesi());
+    private DilBilgisi dilBilgisi = zemberek.dilBilgisi();
+    private KelimeEleyici eleyici = new Tr2SQLKelimeEleyici(dilBilgisi);
+
+    public DemoYonetici() {
+    }
+
+    public char[] ozelKarakterDizisiGetir() {
+        return dilBilgisi.alfabe().asciiDisiHarfler();
+    }
+
+    public String islemUygula(String islemTipi, String giris) {
+
+        IslemTipi islem;
+        try {
+            islem = IslemTipi.valueOf(islemTipi);
+            return islemUygula(islem, giris);
+        } catch (IllegalArgumentException e) {
+            logger.severe("istenilen islem:" + islemTipi + " mevcut degil");
+            return "";
+        }
+    }
+
+    public String islemUygula(IslemTipi islemTipi, String giris) {
+        switch (islemTipi) {
+            case YAZI_DENETLE:
+                return yaziDenetle(giris);
+            case YAZI_COZUMLE:
+                return yaziCozumle(giris);
+            case KISITLI_COZUMLE:
+                return kisitliCozumle(giris);
+            case ASCII_TURKCE:
+                return asciiToTurkce(giris);
+            case TURKCE_ASCII:
+                return turkceToAscii(giris);
+            case HECELE:
+                return hecele(giris);
+            case ONER:
+                return oner(giris);
+            default:
+                return "";
+        }
+    }
+
+    public String kisitliCozumle(String giris) {
+        List<YaziBirimi> analizDizisi = YaziIsleyici.analizDizisiOlustur(giris);
+        StringBuffer sonuc = new StringBuffer();
+        for (YaziBirimi birim : analizDizisi) {
+            if (birim.tip == YaziBirimiTipi.KELIME) {
+                List<Kelime> cozumler = eleyici.ele(zemberek.kelimeCozumle(birim.icerik));
+                sonuc.append(birim.icerik).append('\n');
+                if (cozumler.size() == 0)
+                    sonuc.append(" :cozulemedi\n");
+                else {
+                    for (Kelime cozum : cozumler)
+                        sonuc.append(cozum).append("\n");
+                }
+            }
+        }
+        return sonuc.toString();
+    }
+
+    public String yaziDenetle(String giris) {
+        List<YaziBirimi> analizDizisi = YaziIsleyici.analizDizisiOlustur(giris);
+        StringBuffer sonuc = new StringBuffer();
+        for (YaziBirimi birim : analizDizisi) {
+            if (birim.tip == YaziBirimiTipi.KELIME) {
+                if (!zemberek.kelimeDenetle(birim.icerik))
+                    birim.icerik = "#" + birim.icerik;
+            }
+            sonuc.append(birim.icerik);
+        }
+        return sonuc.toString();
+    }
+
+    public String yaziCozumle(String giris) {
+        List<YaziBirimi> analizDizisi = YaziIsleyici.analizDizisiOlustur(giris);
+        StringBuffer sonuc = new StringBuffer();
+        for (YaziBirimi birim : analizDizisi) {
+            if (birim.tip == YaziBirimiTipi.KELIME) {
+                Kelime[] cozumler = zemberek.kelimeCozumle(birim.icerik);
+                sonuc.append(birim.icerik).append('\n');
+                if (cozumler.length == 0)
+                    sonuc.append(" :cozulemedi\n");
+                else {
+                    for (Kelime cozum : cozumler)
+                        sonuc.append(cozum).append("\n");
+                }
+            }
+        }
+        return sonuc.toString();
+    }
+
+
+    public String asciiToTurkce(String giris) {
+        List<YaziBirimi> analizDizisi = YaziIsleyici.analizDizisiOlustur(giris);
+        StringBuffer sonuc = new StringBuffer();
+        for (YaziBirimi birim : analizDizisi) {
+            if (birim.tip == YaziBirimiTipi.KELIME) {
+                Kelime[] sonuclar = zemberek.asciiCozumle(birim.icerik);
+                Set<String> tekilSonuclar = new HashSet<String>(2);
+                for (Kelime s : sonuclar) {
+                    tekilSonuclar.add(s.icerik().toString());
+                }
+
+                if (tekilSonuclar.size() == 0)
+                    birim.icerik = "#" + birim.icerik;
+                else if (tekilSonuclar.size() == 1)
+                    birim.icerik = tekilSonuclar.iterator().next();
+                else {
+                    StringBuffer bfr = new StringBuffer("[ ");
+                    for (String aTekilSonuclar : tekilSonuclar) {
+                        bfr.append(aTekilSonuclar).append(" ");
+                    }
+                    bfr.append("]");
+                    birim.icerik = bfr.toString();
+                }
+            }
+            sonuc.append(birim.icerik);
+        }
+        return sonuc.toString();
+    }
+
+
+    public String turkceToAscii(String giris) {
+        List analizDizisi = YaziIsleyici.analizDizisiOlustur(giris);
+        StringBuffer sonuc = new StringBuffer();
+        for (Object anAnalizDizisi : analizDizisi) {
+            YaziBirimi birim = (YaziBirimi) anAnalizDizisi;
+            if (birim.tip == YaziBirimiTipi.KELIME)
+                birim.icerik = zemberek.asciiyeDonustur(birim.icerik);
+            sonuc.append(birim.icerik);
+        }
+        return sonuc.toString();
+    }
+
+    public String hecele(String giris) {
+        List analizDizisi = YaziIsleyici.analizDizisiOlustur(giris);
+        StringBuffer sonuc = new StringBuffer();
+        for (Object anAnalizDizisi : analizDizisi) {
+            YaziBirimi birim = (YaziBirimi) anAnalizDizisi;
+            if (birim.tip == YaziBirimiTipi.KELIME) {
+                birim.icerik = dilBilgisi.alfabe().ayikla(birim.icerik);
+                if (!dilBilgisi.alfabe().cozumlemeyeUygunMu(birim.icerik))
+                    birim.icerik = "#" + birim.icerik;
+                else {
+                    String[] sonuclar = zemberek.hecele(birim.icerik);
+                    if (sonuclar.length == 0)
+                        birim.icerik = "#" + birim.icerik;
+                    else {
+                        StringBuffer bfr = new StringBuffer("[");
+                        for (int j = 0; j < sonuclar.length - 1; j++)
+                            bfr.append(sonuclar[j]).append("-");
+                        bfr.append(sonuclar[sonuclar.length - 1]).append("]");
+                        birim.icerik = bfr.toString();
+                    }
+                }
+            }
+            sonuc.append(birim.icerik);
+        }
+        return sonuc.toString();
+    }
+
+    public String oner(String giris) {
+        List<YaziBirimi> analizDizisi = YaziIsleyici.analizDizisiOlustur(giris);
+        StringBuffer sonuc = new StringBuffer();
+        for (YaziBirimi birim : analizDizisi) {
+            if (birim.tip == YaziBirimiTipi.KELIME) {
+                String[] cozumler = zemberek.oner(birim.icerik);
+                if (cozumler.length == 0)
+                    birim.icerik = "#" + birim.icerik;
+                else if (cozumler.length == 1)
+                    birim.icerik = cozumler[0];
+                else {
+                    StringBuffer bfr = new StringBuffer("[ ");
+                    for (int j = 0; j < cozumler.length; j++) {
+                        bfr.append(cozumler[j]);
+                        if (j < cozumler.length - 1)
+                            bfr.append(", ");
+                    }
+                    bfr.append("]");
+                    birim.icerik = bfr.toString();
+                }
+            }
+            sonuc.append(birim.icerik);
+        }
+        return sonuc.toString();
+    }
+
+    public String turkceTest(String giris) {
+        int sonuc = zemberek.dilTesti(giris);
+        if (sonuc == TurkceYaziTesti.HIC)
+            return "Turkce degil";
+        if (sonuc == TurkceYaziTesti.AZ)
+            return "Yazi Turkce degil ama turkce olabilecek kelimeler iceriyor";
+        if (sonuc == TurkceYaziTesti.ORTA)
+            return "Turkce. Cok miktarda yanlis yazilmis ya da yabanci kelime iceriyor ";
+        if (sonuc == TurkceYaziTesti.YUKSEK)
+            return "Turkce. Yanlis yazilmis ya da yabanci kelimeler iceriyor";
+        return "Turkce";
+    }
+}
