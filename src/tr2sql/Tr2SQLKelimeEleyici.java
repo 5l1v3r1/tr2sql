@@ -12,16 +12,15 @@ import softekpr.helpers.Strings;
 import softekpr.helpers.collections.Lists;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 
 public class Tr2SQLKelimeEleyici implements KelimeEleyici {
 
-    private Logger logger = Logger.getAnonymousLogger();
-
     private DilBilgisi dilBilgisi;
 
-    private Set<Kok> kokler = new HashSet<Kok>();
+    // kabul eidlen kabulEdilenKokler
+    private Set<Kok> kabulEdilenKokler = new HashSet<Kok>();
+
     private Set<Ek> kisitlananEkler;
 
     public Tr2SQLKelimeEleyici(DilBilgisi dilBilgisi) {
@@ -46,6 +45,7 @@ public class Tr2SQLKelimeEleyici implements KelimeEleyici {
                 ekler.ek(TurkceEkAdlari.ISIM_KISI_ONLAR_LER),
                 ekler.ek(TurkceEkAdlari.FIIL_SURERLIK_EKAL));
 
+        // bu liste kullanilarak  kisitlananEkler Set'i olusturuluyor.
         kisitlananEkler = new HashSet<Ek>(kisitliEkListesi);
 
     }
@@ -54,13 +54,13 @@ public class Tr2SQLKelimeEleyici implements KelimeEleyici {
         List<Kelime> sonuc = new ArrayList<Kelime>();
         for (Kelime kelime : kelimeler) {
             // eger kelime koku bizim listede yoksa hic kasma, donguye devam et.
-            if (!this.kokler.contains(kelime.kok()))
+            if (!kabulEdilenKokler.contains(kelime.kok()))
                 continue;
 
             // eger eklerden her hangi birisi uygunsuz ise
             boolean kisitliEkBulundu = false;
             for (Ek ek : kelime.ekler()) {
-                if (this.kisitlananEkler.contains(ek)) {
+                if (kisitlananEkler.contains(ek)) {
                     kisitliEkBulundu = true;
                     break;
                 }
@@ -73,10 +73,10 @@ public class Tr2SQLKelimeEleyici implements KelimeEleyici {
 
     private void kokleriOku() {
 
-        // bin/temel-kokler.txt dosyasindan kokleri okuyalim. Files helper sinifindan yararlaniliyor.
+        // bin/temel-kabulEdilenKokler.txt dosyasindan kokleri okuyalim. Files helper sinifindan yararlaniliyor.
         // her bir satir listenin bir elemani oluyor.
         List<String> konuOzelStringler =
-                Files.readAsTrimmedStringList(Files.getReader("bilgi/temel-kokler.txt", "utf-8"));
+                Files.readAsTrimmedStringList(Files.getReader("bilgi/temel-kabulEdilenKokler.txt", "utf-8"));
 
         // eger satir bos ise ya da # karakteri ile basliyorsa bunlari dikkate ala.
         konuOzelStringler = gecersizSatrilariEle(konuOzelStringler);
@@ -85,11 +85,11 @@ public class Tr2SQLKelimeEleyici implements KelimeEleyici {
             // elimizden geldigince kok Stringininn yazilisina gore gercekte hangi koke karsilik dustugunu buluyoruz.
             Kok k = kokTahminEt(s);
             if (k != null)
-                this.kokler.add(k);
+                this.kabulEdilenKokler.add(k);
             else {
                 Kok kok = yeniKok(s);
                 dilBilgisi.kokler().ekle(kok);
-                logger.info(s + " icin kok bulunamadi. yeni kok eklenecek:" + kok);
+                System.out.println(s + " icin kok bulunamadi. yeni kok eklenecek:" + kok);
                 // burada kok zemberek icinde bulunamazsa dilbilgisi icerisindeki koklere eklenebilir.
             }
 
