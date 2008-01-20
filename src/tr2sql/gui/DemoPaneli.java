@@ -59,6 +59,7 @@ public class DemoPaneli {
 
         JPanel centerPanel = new JPanel(new FlowLayout());
 
+        //dosyadan yazi yukleme dugmesi ve yukleme islemi.
         JButton btnLoad = GuiUretici.getRegularButton("Y\u00fckle");
         btnLoad.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -96,15 +97,6 @@ public class DemoPaneli {
 
         pt.add(topPanel, BorderLayout.NORTH);
 
-        JButton btnDenetle;
-        btnDenetle = GuiUretici.getRegularButton("Denetle");
-        btnDenetle.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                cikisAlani.setYazi(dy.yaziDenetle(girisAlani.getYazi()));
-            }
-        });
-        centerPanel.add(btnDenetle);
-
         JButton btnCozumle;
         btnCozumle = GuiUretici.getRegularButton("\u00c7\u00f6z\u00fcmle");
         btnCozumle.addActionListener(new ActionListener() {
@@ -122,42 +114,6 @@ public class DemoPaneli {
             }
         });
         centerPanel.add(kisitliCozumleBtn);
-
-        JButton btnDeascii;
-        btnDeascii = GuiUretici.getRegularButton("Ascii->Tr");
-        btnDeascii.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                cikisAlani.setYazi(dy.asciiToTurkce(girisAlani.getYazi()));
-            }
-        });
-        centerPanel.add(btnDeascii);
-
-        JButton btnascii;
-        btnascii = GuiUretici.getRegularButton("Tr->Ascii");
-        btnascii.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                cikisAlani.setYazi(dy.turkceToAscii(girisAlani.getYazi()));
-            }
-        });
-        centerPanel.add(btnascii);
-
-        JButton btnHecele;
-        btnHecele = GuiUretici.getRegularButton("Hecele");
-        btnHecele.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                cikisAlani.setYazi(dy.hecele(girisAlani.getYazi()));
-            }
-        });
-        centerPanel.add(btnHecele);
-
-        JButton btnOner;
-        btnOner = GuiUretici.getRegularButton("\u00d6ner");
-        btnOner.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                cikisAlani.setYazi(dy.oner(girisAlani.getYazi()));
-            }
-        });
-        centerPanel.add(btnOner);
 
         pt.add(centerPanel, BorderLayout.CENTER);
 

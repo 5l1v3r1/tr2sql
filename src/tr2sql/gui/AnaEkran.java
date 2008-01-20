@@ -16,7 +16,7 @@ public class AnaEkran extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container cp = getContentPane();
         cp.setLayout(new BoxLayout(cp, BoxLayout.Y_AXIS));
-        setTitle("Zemberek Demo");
+        setTitle("Tr2SQL");
     }
 
     public void icerikAta(JPanel panel) {

@@ -36,7 +36,7 @@ public class Tr2SQLKelimeEleyici implements KelimeEleyici {
         kisitlananEkler = Sets.newHashSet(
                 ekler.ek(TurkceEkAdlari.ISIM_ANDIRMA_IMSI),
                 ekler.ek(TurkceEkAdlari.ISIM_ANDIRMA_SI),
-                ekler.ek(TurkceEkAdlari.ISIM_DONUSUM_LES),
+                ekler.ek(TurkceEkAdlari.ISIM_KISI_ONLAR_LER),
                 ekler.ek(TurkceEkAdlari.ISIM_ILISKILI_SEL),
                 ekler.ek(TurkceEkAdlari.ISIM_DONUSUM_LE),
                 ekler.ek(TurkceEkAdlari.ISIM_KUCULTME_CEGIZ),
