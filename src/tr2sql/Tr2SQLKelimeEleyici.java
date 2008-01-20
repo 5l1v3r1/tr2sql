@@ -43,6 +43,7 @@ public class Tr2SQLKelimeEleyici implements KelimeEleyici {
                 ekler.ek(TurkceEkAdlari.ISIM_KUCULTME_CIK),
                 ekler.ek(TurkceEkAdlari.FIIL_SURERLIK_EGOR),
                 ekler.ek(TurkceEkAdlari.FIIL_DONUSUM_ESICE),
+                ekler.ek(TurkceEkAdlari.ISIM_KISI_ONLAR_LER),
                 ekler.ek(TurkceEkAdlari.FIIL_SURERLIK_EKAL)
         );
 
