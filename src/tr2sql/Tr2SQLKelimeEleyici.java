@@ -14,7 +14,12 @@ import softekpr.helpers.collections.Lists;
 import java.util.*;
 
 
-public class Tr2SQLKelimeEleyici implements KelimeEleyici {
+/**
+ * Kisitli dilbilgisine sahip bir sistemde kelime cozumleme sonrasinda ortaya cikan cozumlerin cogu
+ * asil istedigimiz kok ve eklere sahip degildir. Bu nedenle ozellikle cozumleme sonucunda ortaya cikan
+ * sonuclarin elenmesi gerekir. Bu sinif eleme islemini yapacak "ele" metodunu kullanir 
+ */
+public class Tr2SQLKelimeEleyici {
 
     private DilBilgisi dilBilgisi;
 
@@ -50,6 +55,13 @@ public class Tr2SQLKelimeEleyici implements KelimeEleyici {
 
     }
 
+    /**
+     * bir ya da daha cok kelimeyi kisitlama kriterlerine gore sinar.
+     * sadece kisitlama kriterleirni gecebilenleri bir liste iicnde dondurur.
+     *
+     * @param kelimeler: kelime dizisi
+     * @return kisitlama kriterlerine uyan kelimler. eger hic bir kelime uymazsa bos liste doner.
+     */
     public List<Kelime> ele(Kelime... kelimeler) {
         List<Kelime> sonuc = new ArrayList<Kelime>();
         for (Kelime kelime : kelimeler) {

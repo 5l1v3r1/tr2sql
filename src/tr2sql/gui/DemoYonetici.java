@@ -1,19 +1,15 @@
 package tr2sql.gui;
 
-import net.zemberek.araclar.Kayitci;
 import net.zemberek.araclar.turkce.YaziBirimi;
 import net.zemberek.araclar.turkce.YaziBirimiTipi;
 import net.zemberek.araclar.turkce.YaziIsleyici;
 import net.zemberek.erisim.Zemberek;
-import net.zemberek.islemler.TurkceYaziTesti;
 import net.zemberek.yapi.DilBilgisi;
 import net.zemberek.yapi.Kelime;
 import net.zemberek.tr.yapi.TurkiyeTurkcesi;
 
 import java.util.*;
-import java.util.logging.Logger;
 
-import tr2sql.KelimeEleyici;
 import tr2sql.Tr2SQLKelimeEleyici;
 
 /**
@@ -23,7 +19,7 @@ public class DemoYonetici {
     
     private Zemberek zemberek = new Zemberek(new TurkiyeTurkcesi());
     private DilBilgisi dilBilgisi = zemberek.dilBilgisi();
-    private KelimeEleyici eleyici = new Tr2SQLKelimeEleyici(dilBilgisi);
+    private Tr2SQLKelimeEleyici eleyici = new Tr2SQLKelimeEleyici(dilBilgisi);
 
   
     /**
