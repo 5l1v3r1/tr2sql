@@ -10,10 +10,8 @@ import net.zemberek.yapi.ek.EkYonetici;
 import softekpr.helpers.Files;
 import softekpr.helpers.Strings;
 import softekpr.helpers.collections.Lists;
-import softekpr.helpers.collections.Sets;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 
@@ -23,7 +21,7 @@ public class Tr2SQLKelimeEleyici implements KelimeEleyici {
 
     private DilBilgisi dilBilgisi;
 
-    private Set<Kok> kokler = Sets.newHashSet();
+    private Set<Kok> kokler = new HashSet<Kok>();
     private Set<Ek> kisitlananEkler;
 
     public Tr2SQLKelimeEleyici(DilBilgisi dilBilgisi) {
@@ -33,7 +31,9 @@ public class Tr2SQLKelimeEleyici implements KelimeEleyici {
         kokleriOku();
 
         EkYonetici ekler = dilBilgisi.ekler();
-        kisitlananEkler = Sets.newHashSet(
+
+        //Arrays.asList(Ek...) ile bir ya da daha fazla ek ile bir ArrayList olusturulur.
+        List<Ek> kisitliEkListesi = Arrays.asList(
                 ekler.ek(TurkceEkAdlari.ISIM_ANDIRMA_IMSI),
                 ekler.ek(TurkceEkAdlari.ISIM_ANDIRMA_SI),
                 ekler.ek(TurkceEkAdlari.ISIM_KISI_ONLAR_LER),
@@ -44,13 +44,14 @@ public class Tr2SQLKelimeEleyici implements KelimeEleyici {
                 ekler.ek(TurkceEkAdlari.FIIL_SURERLIK_EGOR),
                 ekler.ek(TurkceEkAdlari.FIIL_DONUSUM_ESICE),
                 ekler.ek(TurkceEkAdlari.ISIM_KISI_ONLAR_LER),
-                ekler.ek(TurkceEkAdlari.FIIL_SURERLIK_EKAL)
-        );
+                ekler.ek(TurkceEkAdlari.FIIL_SURERLIK_EKAL));
+
+        kisitlananEkler = new HashSet<Ek>(kisitliEkListesi);
 
     }
 
     public List<Kelime> ele(Kelime... kelimeler) {
-        List<Kelime> sonuc = Lists.newArrayList();
+        List<Kelime> sonuc = new ArrayList<Kelime>();
         for (Kelime kelime : kelimeler) {
             // eger kelime koku bizim listede yoksa hic kasma, donguye devam et.
             if (!this.kokler.contains(kelime.kok()))
@@ -73,24 +74,25 @@ public class Tr2SQLKelimeEleyici implements KelimeEleyici {
     private void kokleriOku() {
 
         // bin/temel-kokler.txt dosyasindan kokleri okuyalim. Files helper sinifindan yararlaniliyor.
+        // her bir satir listenin bir elemani oluyor.
         List<String> konuOzelStringler =
                 Files.readAsTrimmedStringList(Files.getReader("bilgi/temel-kokler.txt", "utf-8"));
 
+        // eger satir bos ise ya da # karakteri ile basliyorsa bunlari dikkate ala.
         konuOzelStringler = gecersizSatrilariEle(konuOzelStringler);
-        //
+
         for (String s : konuOzelStringler) {
-            if (Strings.hasText(s)) {
-                // elimizden geldigince kok Stringininn yazilisina gore gercekte hangi koke karsilik dustugunu buluyoruz.
-                Kok k = kokTahminEt(s);
-                if (k != null)
-                    this.kokler.add(k);
-                else {
-                    Kok kok = yeniKok(s);
-                    dilBilgisi.kokler().ekle(kok);
-                    logger.info(s + " icin kok bulunamadi. yeni kok eklenecek:" + kok);
-                    // burada kok zemberek icinde bulunamazsa dilbilgisi icerisindeki koklere eklenebilir.
-                }
+            // elimizden geldigince kok Stringininn yazilisina gore gercekte hangi koke karsilik dustugunu buluyoruz.
+            Kok k = kokTahminEt(s);
+            if (k != null)
+                this.kokler.add(k);
+            else {
+                Kok kok = yeniKok(s);
+                dilBilgisi.kokler().ekle(kok);
+                logger.info(s + " icin kok bulunamadi. yeni kok eklenecek:" + kok);
+                // burada kok zemberek icinde bulunamazsa dilbilgisi icerisindeki koklere eklenebilir.
             }
+
         }
     }
 
