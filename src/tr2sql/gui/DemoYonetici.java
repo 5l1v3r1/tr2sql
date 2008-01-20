@@ -20,14 +20,12 @@ import tr2sql.Tr2SQLKelimeEleyici;
  */
 public class DemoYonetici {
 
-    private static Logger logger = Kayitci.kayitciUret(DemoYonetici.class);
+    
     private Zemberek zemberek = new Zemberek(new TurkiyeTurkcesi());
     private DilBilgisi dilBilgisi = zemberek.dilBilgisi();
     private KelimeEleyici eleyici = new Tr2SQLKelimeEleyici(dilBilgisi);
 
-    public DemoYonetici() {
-    }
-
+  
     /**
      * turkceyeozel karakterlerin dizisini dondurur
      * @return char dizisi. turkceye ozel karakterler yer alir.
