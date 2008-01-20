@@ -23,7 +23,6 @@ public class Tr2SQLKelimeEleyici {
 
     private DilBilgisi dilBilgisi;
 
-    // kabul eidlen kabulEdilenKokler
     private Set<Kok> kabulEdilenKokler = new HashSet<Kok>();
 
     private Set<Ek> kisitlananEkler;
@@ -99,10 +98,10 @@ public class Tr2SQLKelimeEleyici {
             if (k != null)
                 this.kabulEdilenKokler.add(k);
             else {
+                // kok bulunamadigindan zemberege yeni kok olarak ekliyoruz.  
                 Kok kok = yeniKok(s);
                 dilBilgisi.kokler().ekle(kok);
                 System.out.println(s + " icin kok bulunamadi. yeni kok eklenecek:" + kok);
-                // burada kok zemberek icinde bulunamazsa dilbilgisi icerisindeki koklere eklenebilir.
             }
 
         }
