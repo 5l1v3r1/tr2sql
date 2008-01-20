@@ -36,29 +36,6 @@ public class DemoYonetici {
         return dilBilgisi.alfabe().asciiDisiHarfler();
     }
 
-    public String islemUygula(String islemTipi, String giris) {
-
-        IslemTipi islem;
-        try {
-            islem = IslemTipi.valueOf(islemTipi);
-            return islemUygula(islem, giris);
-        } catch (IllegalArgumentException e) {
-            logger.severe("istenilen islem:" + islemTipi + " mevcut degil");
-            return "";
-        }
-    }
-
-    public String islemUygula(IslemTipi islemTipi, String giris) {
-        switch (islemTipi) {
-            case YAZI_COZUMLE:
-                return yaziCozumle(giris);
-            case KISITLI_COZUMLE:
-                return kisitliCozumle(giris);
-            default:
-                return "";
-        }
-    }
-
     public String kisitliCozumle(String giris) {
         List<YaziBirimi> analizDizisi = YaziIsleyici.analizDizisiOlustur(giris);
         StringBuffer sonuc = new StringBuffer();
