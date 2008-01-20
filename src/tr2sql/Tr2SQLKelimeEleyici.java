@@ -73,7 +73,7 @@ public class Tr2SQLKelimeEleyici implements KelimeEleyici {
 
         // bin/temel-kokler.txt dosyasindan kokleri okuyalim. Files helper sinifindan yararlaniliyor.
         List<String> konuOzelStringler =
-                Files.readAsTrimmedStringList(Files.getBufferedReader("bilgi/temel-kokler.txt", "utf-8"));
+                Files.readAsTrimmedStringList(Files.getReader("bilgi/temel-kokler.txt", "utf-8"));
 
         konuOzelStringler = gecersizSatrilariEle(konuOzelStringler);
         //

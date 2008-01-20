@@ -1,30 +1,3 @@
-/*
- *  ***** BEGIN LICENSE BLOCK *****
- *
- *  Version: MPL 1.1
- *
- *  The contents of this file are subject to the Mozilla Public License Version
- *  1.1 (the "License"); you may not use this file except in compliance with
- *  the License. You may obtain a copy of the License at
- *  http://www.mozilla.org/MPL/
- *
- *  Software distributed under the License is distributed on an "AS IS" basis,
- *  WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
- *  for the specific language governing rights and limitations under the
- *  License.
- *
- *  The Original Code is "Zemberek Dogal Dil Isleme Kutuphanesi"
- *
- *  The Initial Developer of the Original Code is
- *  Ahmet A. Akin, Mehmet D. Akin.
- *  Portions created by the Initial Developer are Copyright (C) 2006
- *  the Initial Developer. All Rights Reserved.
- *
- *  Contributor(s):
- *
- *  ***** END LICENSE BLOCK *****
- */
-
 package tr2sql.gui;
 
 import net.zemberek.araclar.turkce.YaziIsleyici;
@@ -40,7 +13,7 @@ import java.io.IOException;
  */
 public class DemoPaneli {
 
-    private JPanel mainPanel;
+    private JPanel anaPanel;
     private GirisAlani girisAlani;
     private tr2sql.gui.CikisAlani cikisAlani = new tr2sql.gui.CikisAlani();
     private DemoYonetici dy;
@@ -57,17 +30,17 @@ public class DemoPaneli {
         girisAlani.setYazi(text);
     }
 
-    public JPanel getMainPanel() {
-        return mainPanel;
+    public JPanel getAnaPanel() {
+        return anaPanel;
     }
 
     public void configure() {
         // ana paneli ve islem dugmelerinin yer alacagi paneli olustur
-        mainPanel = new JPanel();
+        anaPanel = new JPanel();
         JPanel buttonPanel = makeButtonPanel();
         // Islem dugmelerini kuzeye yerlestir
-        mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(buttonPanel, BorderLayout.NORTH);
+        anaPanel.setLayout(new BorderLayout());
+        anaPanel.add(buttonPanel, BorderLayout.NORTH);
 
         //giris ve cikisin pencere buyudugunde ayni ende kalmasi icin onlari ayrica Grid Layout'a
         //sahip bir panele yerlestir. sonucta her ikisinide ana panelin merkezine koy.
@@ -75,7 +48,7 @@ public class DemoPaneli {
         girisAlani = new GirisAlani(dy.ozelKarakterDizisiGetir());
         ioPanel.add(girisAlani.getMainPanel());
         ioPanel.add(cikisAlani.getMainPanel());
-        mainPanel.add(ioPanel, BorderLayout.CENTER);
+        anaPanel.add(ioPanel, BorderLayout.CENTER);
     }
 
 
@@ -86,7 +59,7 @@ public class DemoPaneli {
 
         JPanel centerPanel = new JPanel(new FlowLayout());
 
-        JButton btnLoad = SwingFactory.getRegularButton("Y\u00fckle");
+        JButton btnLoad = GuiUretici.getRegularButton("Y\u00fckle");
         btnLoad.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 JFileChooser c;
@@ -95,7 +68,7 @@ public class DemoPaneli {
                 else
                     c = new JFileChooser(currentDir);
 
-                int rVal = c.showOpenDialog(mainPanel);
+                int rVal = c.showOpenDialog(anaPanel);
                 if (rVal == JFileChooser.APPROVE_OPTION) {
                     try {
                         File f = c.getSelectedFile();
@@ -112,7 +85,7 @@ public class DemoPaneli {
         topPanel.add(btnLoad);
 
         JButton btnClear;
-        btnClear = SwingFactory.getRegularButton("Sil");
+        btnClear = GuiUretici.getRegularButton("Sil");
         btnClear.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 girisAlani.setYazi("");
@@ -124,7 +97,7 @@ public class DemoPaneli {
         pt.add(topPanel, BorderLayout.NORTH);
 
         JButton btnDenetle;
-        btnDenetle = SwingFactory.getRegularButton("Denetle");
+        btnDenetle = GuiUretici.getRegularButton("Denetle");
         btnDenetle.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cikisAlani.setYazi(dy.yaziDenetle(girisAlani.getYazi()));
@@ -133,7 +106,7 @@ public class DemoPaneli {
         centerPanel.add(btnDenetle);
 
         JButton btnCozumle;
-        btnCozumle = SwingFactory.getRegularButton("\u00c7\u00f6z\u00fcmle");
+        btnCozumle = GuiUretici.getRegularButton("\u00c7\u00f6z\u00fcmle");
         btnCozumle.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cikisAlani.setYazi(dy.yaziCozumle(girisAlani.getYazi()));
@@ -142,7 +115,7 @@ public class DemoPaneli {
         centerPanel.add(btnCozumle);
 
         JButton kisitliCozumleBtn;
-        kisitliCozumleBtn = SwingFactory.getRegularButton("Kisitli \u00c7\u00f6z\u00fcmle");
+        kisitliCozumleBtn = GuiUretici.getRegularButton("Kisitli \u00c7\u00f6z\u00fcmle");
         kisitliCozumleBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cikisAlani.setYazi(dy.kisitliCozumle(girisAlani.getYazi()));
@@ -151,7 +124,7 @@ public class DemoPaneli {
         centerPanel.add(kisitliCozumleBtn);
 
         JButton btnDeascii;
-        btnDeascii = SwingFactory.getRegularButton("Ascii->Tr");
+        btnDeascii = GuiUretici.getRegularButton("Ascii->Tr");
         btnDeascii.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cikisAlani.setYazi(dy.asciiToTurkce(girisAlani.getYazi()));
@@ -160,7 +133,7 @@ public class DemoPaneli {
         centerPanel.add(btnDeascii);
 
         JButton btnascii;
-        btnascii = SwingFactory.getRegularButton("Tr->Ascii");
+        btnascii = GuiUretici.getRegularButton("Tr->Ascii");
         btnascii.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cikisAlani.setYazi(dy.turkceToAscii(girisAlani.getYazi()));
@@ -169,7 +142,7 @@ public class DemoPaneli {
         centerPanel.add(btnascii);
 
         JButton btnHecele;
-        btnHecele = SwingFactory.getRegularButton("Hecele");
+        btnHecele = GuiUretici.getRegularButton("Hecele");
         btnHecele.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cikisAlani.setYazi(dy.hecele(girisAlani.getYazi()));
@@ -178,7 +151,7 @@ public class DemoPaneli {
         centerPanel.add(btnHecele);
 
         JButton btnOner;
-        btnOner = SwingFactory.getRegularButton("\u00d6ner");
+        btnOner = GuiUretici.getRegularButton("\u00d6ner");
         btnOner.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cikisAlani.setYazi(dy.oner(girisAlani.getYazi()));
