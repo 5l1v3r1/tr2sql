@@ -1,21 +1,15 @@
 package tr2sql.db;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * veri tabani tablosunu ifade eder.
  */
-@XStreamAlias(value = "tablo")
 public class Tablo {
 
-    @XStreamAsAttribute
-    private String ad;
 
-    @XStreamAsAttribute
+    private String ad;
     private String kavram;
 
     private List<Kolon> kolonlar = new ArrayList<Kolon>();

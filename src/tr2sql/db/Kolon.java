@@ -1,29 +1,20 @@
 package tr2sql.db;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-
 /**
  * veri tabani kolonunu ifade eder.
  */
-@XStreamAlias(value = "kolon")
+
 public class Kolon {
 
-    @XStreamAsAttribute
+
     private String ad;
-
-    @XStreamAsAttribute
     private String kavram;
-
-    @XStreamAsAttribute
-    private String tip;
-
-    @XStreamAsAttribute    
+    private KolonTipi tip;
     private boolean anahtar = false;
 
 // ---- constructor ----
 
-    public Kolon(String ad, String kavram, String tip, boolean anahtar) {
+    public Kolon(String ad, String kavram, KolonTipi tip, boolean anahtar) {
         this.ad = ad;
         this.kavram = kavram;
         this.tip = tip;
@@ -40,7 +31,7 @@ public class Kolon {
         return kavram;
     }
 
-    public String getTip() {
+    public KolonTipi getTip() {
         return tip;
     }
 
