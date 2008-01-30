@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<veri-tabani ad="maden">
+    <tablolar>
+        <tablo ad="CALISANLAR" kavram="calisan">
+            <kolonlar>
+                <kolon ad="C_ID" kavram="numara" tip="SAYI" anahtar="true"/>
+                <kolon ad="C_AD" kavram="ad" tip="YAZI"/>
+                <kolon ad="C_SOYAD" kavram="soyad" tip="YAZI"/>
+            </kolonlar>
+        </tablo>
+        <tablo ad="URUNLER" kavram="urun">
+            <kolonlar>
+                <kolon ad="U_ID" kavram="numara" tip="SAYI" anahtar="true"/>
+                <kolon ad="U_AD" kavram="ad" tip="YAZI"/>
+                <kolon ad="U_FIYAT" kavram="fiyat" tip="PARA"/>
+                <kolon ad="U_MIKTAR" kavram="miktar" tip="SAYI"/>
+            </kolonlar>
+        </tablo>
+    </tablolar>
+</veri-tabani>

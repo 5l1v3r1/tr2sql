@@ -7,17 +7,21 @@ import net.zemberek.yapi.KelimeTipi;
 import net.zemberek.yapi.Kok;
 import net.zemberek.yapi.ek.Ek;
 import net.zemberek.yapi.ek.EkYonetici;
-import softekpr.helpers.Files;
-import softekpr.helpers.Strings;
-import softekpr.helpers.collections.Lists;
 
 import java.util.*;
+import java.io.IOException;
+
+import org.jmate.Files;
+import org.jmate.Strings;
+import org.jmate.collections.Lists;
 
 
 /**
  * Kisitli dilbilgisine sahip bir sistemde kelime cozumleme sonrasinda ortaya cikan cozumlerin cogu
  * asil istedigimiz kok ve eklere sahip degildir. Bu nedenle ozellikle cozumleme sonucunda ortaya cikan
- * sonuclarin elenmesi gerekir. Bu sinif eleme islemini yapacak "ele" metodunu kullanir 
+ * sonuclarin elenmesi gerekir. Bu sinif eleme islemini yapacak "ele" metodunu kullanir
+ *
+ * yaridmci islemler icin http://code.google.com/p/jmate/ kutuphanesinden yararlanilmistir.
  */
 public class Tr2SQLKelimeEleyici {
 
@@ -31,7 +35,11 @@ public class Tr2SQLKelimeEleyici {
 
         this.dilBilgisi = dilBilgisi;
 
-        kokleriOku();
+        try {
+            kokleriOku();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         EkYonetici ekler = dilBilgisi.ekler();
 
@@ -82,12 +90,13 @@ public class Tr2SQLKelimeEleyici {
         return sonuc;
     }
 
-    private void kokleriOku() {
+    private void kokleriOku() throws IOException {
 
-        // bin/temel-kabulEdilenKokler.txt dosyasindan kokleri okuyalim. Files helper sinifindan yararlaniliyor.
+        // bin/temel-kabulEdilenKokler.txt dosyasindan kokleri okuyalim. jmate kutuphanesinin
+        // Files helper sinifindan yararlaniliyor.
         // her bir satir listenin bir elemani oluyor.
         List<String> konuOzelStringler =
-                Files.readAsTrimmedStringList(Files.getReader("bilgi/temel-kabulEdilenKokler.txt", "utf-8"));
+                Files.readAsStringList("bilgi/temel-kabulEdilenKokler.txt", "utf-8", true);
 
         // eger satir bos ise ya da # karakteri ile basliyorsa bunlari dikkate ala.
         konuOzelStringler = gecersizSatrilariEle(konuOzelStringler);
