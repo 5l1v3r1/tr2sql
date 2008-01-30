@@ -49,7 +49,8 @@ public class XmlVeriTabaniBilgisiOkuyucu {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(XmlVeriTabaniBilgisiOkuyucu.oku("bilgi/basit-veri-tabani.xml"));
+        VeriTabani vt = XmlVeriTabaniBilgisiOkuyucu.oku("bilgi/basit-veri-tabani.xml");
+        System.out.println(vt);
 
     }
 }
