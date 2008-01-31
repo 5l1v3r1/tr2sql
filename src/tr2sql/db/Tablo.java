@@ -38,9 +38,9 @@ public class Tablo {
 
     @Override
     public String toString() {
-        StringBuilder b = new StringBuilder("Tablo:" + ad + '\n' + "Kolonlar:\n");
+        StringBuilder b = new StringBuilder("Tablo:" + ad + ", kavram:" + kavram + '\n' + "Kolonlar:\n");
         for (Kolon kolon : kolonlar)
-           b.append('\t').append(kolon.toString()).append('\n');
+            b.append('\t').append(kolon.toString()).append('\n');
         return b.toString();
 
     }
