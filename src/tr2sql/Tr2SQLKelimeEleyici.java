@@ -96,7 +96,7 @@ public class Tr2SQLKelimeEleyici {
         // Files helper sinifindan yararlaniliyor.
         // her bir satir listenin bir elemani oluyor.
         List<String> konuOzelStringler =
-                Files.readAsStringList("bilgi/temel-kabulEdilenKokler.txt", "utf-8", true);
+                Files.readAsStringList("bilgi/temel-kokler.txt", "utf-8", true);
 
         // eger satir bos ise ya da # karakteri ile basliyorsa bunlari dikkate ala.
         konuOzelStringler = gecersizSatrilariEle(konuOzelStringler);
