@@ -4,15 +4,17 @@
  */
 
 package tr2sql.db;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import net.zemberek.yapi.Kok;
+
 /**
  *
  * @author dilek
  */
 public class Kavram {    
     
-    private List<Kok> KokListesi=new ArrayList<Kok>();
+    private List<Kok>KokListesi=new ArrayList();
     private String kavram;
            
     public Kavram (String kavram,List<Kok> KokListesi)

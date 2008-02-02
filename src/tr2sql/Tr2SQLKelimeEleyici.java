@@ -121,6 +121,7 @@ public class Tr2SQLKelimeEleyici {
         for (String s : list) {
             if (Strings.hasText(s) && !s.startsWith("#")) {
                 yeni.add(s);
+                
             }
         }
         return yeni;
