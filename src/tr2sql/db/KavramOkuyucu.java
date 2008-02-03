@@ -41,13 +41,15 @@ public class KavramOkuyucu {
         {
             if(Strings.hasText(s))
             {
+                //split ile kavram.txt ten okutulan stringleri ayırmaya çalışıyor. bir diziye atıyor.
+                //direk listeye atasın diye çok istedim fakat hata verdi.
               dizi= s.split(",|\n|:");
             }
         }
         yeni=dizidenListeye(dizi);
         return yeni;        
     }
-  
+    //burada da diziden listeye atıyor. string listesi halinde döndürüyor.
     private  List <String> dizidenListeye(String [] s)
     {      
         List <String> y=Lists.newArrayList();       
@@ -56,8 +58,7 @@ public class KavramOkuyucu {
            y.add(s[i]);
         }
         return y;
-    }    
-              
+    }                      
 }
     
     
