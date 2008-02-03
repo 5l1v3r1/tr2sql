@@ -24,10 +24,45 @@ import org.jmate.collections.Lists;
  */
 public class KavramOkuyucu {
     
-   // public static List <Kavram>  KavramOku (String KavramDosyaAdi)
+    private Set<Kavram> kavramlar= new HashSet <Kavram>();
+           
+    public List<String> oku (String KavramDosyaAdi) throws IOException
     {
-        
-        
+        List<String> kavramKarsiliklari=Files.readAsStringList(KavramDosyaAdi,"utf-8",true);
+        kavramKarsiliklari=getir(kavramKarsiliklari); 
+        return kavramKarsiliklari;        
     }
-
+         
+    private  List <String> getir(List<String> list)
+    {
+        List <String> yeni=Lists.newArrayList(); 
+        String [] dizi=null;
+        for(String s : list)
+        {
+            if(Strings.hasText(s))
+            {
+              dizi= s.split(",|\n|:");
+            }
+        }
+        yeni=dizidenListeye(dizi);
+        return yeni;        
+    }
+  
+    private  List <String> dizidenListeye(String [] s)
+    {      
+        List <String> y=Lists.newArrayList();       
+        for(int i=0;i<s.length;i++)
+        {
+           y.add(s[i]);
+        }
+        return y;
+    }    
+              
 }
+    
+    
+    
+    
+      
+    
+
