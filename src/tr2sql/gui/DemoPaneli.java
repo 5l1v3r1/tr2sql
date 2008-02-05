@@ -128,7 +128,7 @@ public class DemoPaneli {
         tabloKolonTahminBtn = GuiUretici.getRegularButton("Tablo ve kolon tahmin");
         tabloKolonTahminBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                cikisAlani.setYazi(dy.tabloVeKolonTahminGoster());
+                cikisAlani.setYazi(dy.tabloVeKolonTahminGoster(girisAlani.getYazi()));
             }
         });
         centerPanel.add(tabloKolonTahminBtn);

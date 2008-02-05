@@ -38,8 +38,10 @@ public class KavramOkuyucu {
 
             String[] dizi = s.split(",|\n|:");
 
-            if (dizi.length < 2)
-                System.out.println("Bir kavram icin en az bir kok karsiligi yazilmali.");
+            if (dizi.length < 2) {
+                System.out.println("Bir kavram icin en az bir kok karsiligi yazilmali:" + s);
+                continue;
+            }
 
             String kavramKelimesi = dizi[0].trim();
             List<Kok> kavramKokleri = Lists.newArrayList();

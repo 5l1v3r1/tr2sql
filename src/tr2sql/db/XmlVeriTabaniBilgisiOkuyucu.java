@@ -1,16 +1,13 @@
 package tr2sql.db;
 
+import net.zemberek.araclar.XmlYardimcisi;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import net.zemberek.araclar.XmlYardimcisi;
-import net.zemberek.yapi.DilBilgisi;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-
-import tr2sql.SozlukIslemleri;
 
 public class XmlVeriTabaniBilgisiOkuyucu {
 

@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import tr2sql.Tr2SQLKelimeEleyici;
 import tr2sql.db.TurkceSQLCozumleyici;
+import tr2sql.db.Tablo;
 
 /**
  */
@@ -86,7 +87,8 @@ public class DemoYonetici {
         return tr2SQLCozumleyici.getVeriTabani().toString();
     }
 
-    public String tabloVeKolonTahminGoster() {
+    public String tabloVeKolonTahminGoster(String giris) {
+        //Tablo tablo = tr2SQLCozumleyici.tabloTahminEt(giris);
         return "Henuz tamamlanmadi.....";
     }
 }
