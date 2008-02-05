@@ -59,29 +59,6 @@ public class KavramOkuyucu {
         return kavramlar;
     }
 
-    private List<String> getir(List<String> list) {
-        List<String> yeni = Lists.newArrayList();
-        String[] dizi = null;
-        for (String s : list) {
-            if (Strings.hasText(s)) {
-                //split ile kavram.txt ten okutulan stringleri ayırmaya çalışıyor. bir diziye atıyor.
-                //direk listeye atasın diye çok istedim fakat hata verdi.
-                dizi = s.split(",|\n|:");
-            }
-        }
-        yeni = dizidenListeye(dizi);
-        return yeni;
-    }
-
-    //burada da diziden listeye atıyor. string listesi halinde döndürüyor.
-    private List<String> dizidenListeye(String[] s) {
-        List<String> y = Lists.newArrayList();
-        for (int i = 0; i < s.length; i++) {
-            y.add(s[i]);
-        }
-        return y;
-    }
-
     public static void main(String[] args) throws IOException {
         DilBilgisi db = new TurkceDilBilgisi(new TurkiyeTurkcesi());
         KavramOkuyucu ko = new KavramOkuyucu(new SozlukIslemleri(db.kokler()));
