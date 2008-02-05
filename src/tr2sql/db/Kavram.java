@@ -4,34 +4,35 @@
  */
 
 package tr2sql.db;
+
 import java.util.*;
 
 import net.zemberek.yapi.Kok;
 
 /**
- *
  * @author dilek
  */
-public class Kavram {    
-    
-    private List<Kok>KokListesi=new ArrayList();
-    private String kavram;
-           
-    public Kavram (String kavram,List<Kok> KokListesi)
-    {
-        this.kavram=kavram;
-        this.KokListesi=KokListesi;        
+public class Kavram {
+
+    private List<Kok> benzerKokler = new ArrayList<Kok>();
+    private String ad;
+
+    public Kavram(String kavram, List<Kok> kokListesi) {
+        this.ad = kavram;
+        this.benzerKokler = kokListesi;
     }
-    
-    public String getKavram()
-    {
-        return kavram;
+
+    public String getAd() {
+        return ad;
     }
-            
-    public List<Kok> getKok ()
-    {
-        return KokListesi;      
-    }    
-}  
+
+    public List<Kok> getBenzerKokler() {
+        return benzerKokler;
+    }
+
+    public String toString() {
+         return ad;
+    }
+}
  
 

@@ -9,21 +9,37 @@ import net.zemberek.yapi.Kelime;
 import net.zemberek.tr.yapi.TurkiyeTurkcesi;
 
 import java.util.*;
+import java.io.IOException;
 
 import tr2sql.Tr2SQLKelimeEleyici;
+import tr2sql.db.TurkceSQLCozumleyici;
 
 /**
  */
 public class DemoYonetici {
 
-    
+
     private Zemberek zemberek = new Zemberek(new TurkiyeTurkcesi());
     private DilBilgisi dilBilgisi = zemberek.dilBilgisi();
     private Tr2SQLKelimeEleyici eleyici = new Tr2SQLKelimeEleyici(dilBilgisi);
+    private TurkceSQLCozumleyici tr2SQLCozumleyici;
 
-  
+
+    public DemoYonetici() {
+        try {
+            tr2SQLCozumleyici = new TurkceSQLCozumleyici(
+                    zemberek,
+                    "bilgi/basit-veri-tabani.xml",
+                    "bilgi/kavramlar.txt");
+        } catch (IOException e) {
+            System.err.println("Muhtemelen dosya okuma sirasinda bir hata oldu..");
+            e.printStackTrace();
+        }
+    }
+
     /**
      * turkceyeozel karakterlerin dizisini dondurur
+     *
      * @return char dizisi. turkceye ozel karakterler yer alir.
      */
     public char[] ozelKarakterDizisiGetir() {
@@ -64,5 +80,13 @@ public class DemoYonetici {
             }
         }
         return sonuc.toString();
+    }
+
+    public String veriTabaniBilgileriniYaz() {
+        return tr2SQLCozumleyici.getVeriTabani().toString();
+    }
+
+    public String tabloVeKolonTahminGoster() {
+        return "Henuz tamamlanmadi.....";
     }
 }

@@ -3,7 +3,6 @@ package tr2sql;
 import net.zemberek.tr.yapi.ek.TurkceEkAdlari;
 import net.zemberek.yapi.DilBilgisi;
 import net.zemberek.yapi.Kelime;
-import net.zemberek.yapi.KelimeTipi;
 import net.zemberek.yapi.Kok;
 import net.zemberek.yapi.ek.Ek;
 import net.zemberek.yapi.ek.EkYonetici;
@@ -20,7 +19,7 @@ import org.jmate.collections.Lists;
  * Kisitli dilbilgisine sahip bir sistemde kelime cozumleme sonrasinda ortaya cikan cozumlerin cogu
  * asil istedigimiz kok ve eklere sahip degildir. Bu nedenle ozellikle cozumleme sonucunda ortaya cikan
  * sonuclarin elenmesi gerekir. Bu sinif eleme islemini yapacak "ele" metodunu kullanir
- *
+ * <p/>
  * yaridmci islemler icin http://code.google.com/p/jmate/ kutuphanesinden yararlanilmistir.
  */
 public class Tr2SQLKelimeEleyici {
@@ -100,65 +99,30 @@ public class Tr2SQLKelimeEleyici {
 
         // eger satir bos ise ya da # karakteri ile basliyorsa bunlari dikkate ala.
         konuOzelStringler = gecersizSatrilariEle(konuOzelStringler);
+        SozlukIslemleri sozlukIslemleri = new SozlukIslemleri(dilBilgisi.kokler());
 
         for (String s : konuOzelStringler) {
             // elimizden geldigince kok Stringininn yazilisina gore gercekte hangi koke karsilik dustugunu buluyoruz.
-            Kok k = kokTahminEt(s);
+            Kok k = sozlukIslemleri.kokTahminEt(s);
             if (k != null)
                 this.kabulEdilenKokler.add(k);
             else {
                 // kok bulunamadigindan zemberege yeni kok olarak ekliyoruz.  
-                Kok kok = yeniKok(s);
-                dilBilgisi.kokler().ekle(kok);
+                Kok kok = sozlukIslemleri.tahminEtVeEkle(s);
                 System.out.println(s + " icin kok bulunamadi. yeni kok eklenecek:" + kok);
             }
-
         }
     }
+
 
     private List<String> gecersizSatrilariEle(List<String> list) {
         List<String> yeni = Lists.newArrayList();
         for (String s : list) {
             if (Strings.hasText(s) && !s.startsWith("#")) {
                 yeni.add(s);
-                
             }
         }
         return yeni;
     }
 
-    private Kok kokTahminEt(String s) {
-        Kok adayKok = null;
-        // eger kelime "mek" ya da "mak" ile bitiyorsa ve depoda fiil olan kok varsa bunu dondur.
-        if (fiilOlabilirMi(s))
-            adayKok = dilBilgisi.kokler().kokBul(s.substring(0, s.length() - 3), KelimeTipi.FIIL);
-        if (adayKok != null)
-            return adayKok;
-
-        // tek ko varsa depoda bu kelimeye karsilik dusen, dondur.
-        List<Kok> kokler = dilBilgisi.kokler().kokBul(s);
-        if (kokler.size() == 1)
-            return kokler.get(0);
-
-        //birden ock kok varsa ilk koku dondur.
-        for (Kok kok : kokler) {
-            if (kok.tip() != KelimeTipi.FIIL)
-                return kok;
-        }
-
-        return null;
-
-    }
-
-    private Kok yeniKok(String s) {
-        // fiil gibi ise "mek" "mak" mastarini silip ekle. yoksa isim olarak ekle.
-        if (fiilOlabilirMi(s))
-            return new Kok(s.substring(0, s.length() - 3), KelimeTipi.FIIL);
-        else
-            return new Kok(s, KelimeTipi.ISIM);
-    }
-
-    private boolean fiilOlabilirMi(String s) {
-        return s.endsWith("mek") || s.endsWith("mak");
-    }
 }

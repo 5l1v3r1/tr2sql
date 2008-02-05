@@ -10,13 +10,13 @@ public class Tablo {
 
 
     private String ad;
-    private String kavram;
+    private Kavram kavram;
 
     private List<Kolon> kolonlar = new ArrayList<Kolon>();
 
 // ---- constructor ----
 
-    public Tablo(String ad, String kavram, List<Kolon> kolonlar) {
+    public Tablo(String ad, Kavram kavram, List<Kolon> kolonlar) {
         this.ad = ad;
         this.kavram = kavram;
         this.kolonlar = kolonlar;
@@ -28,7 +28,7 @@ public class Tablo {
         return ad;
     }
 
-    public String getKavram() {
+    public Kavram getKavram() {
         return kavram;
     }
 

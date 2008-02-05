@@ -4,13 +4,9 @@
  */
 
 package tr2sql.db;
-import net.zemberek.tr.yapi.ek.TurkceEkAdlari;
-import net.zemberek.yapi.DilBilgisi;
-import net.zemberek.yapi.Kelime;
-import net.zemberek.yapi.KelimeTipi;
-import net.zemberek.yapi.Kok;
-import net.zemberek.yapi.ek.Ek;
-import net.zemberek.yapi.ek.EkYonetici;
+
+import net.zemberek.tr.yapi.TurkiyeTurkcesi;
+import net.zemberek.yapi.*;
 
 import java.util.*;
 import java.io.IOException;
@@ -18,47 +14,80 @@ import java.io.IOException;
 import org.jmate.Files;
 import org.jmate.Strings;
 import org.jmate.collections.Lists;
+import org.jmate.collections.Sets;
+import tr2sql.SozlukIslemleri;
+
 /**
- *
  * @author dilek
  */
 public class KavramOkuyucu {
-    
-    private Set<Kavram> kavramlar= new HashSet <Kavram>();
-           
-    public List<String> oku (String KavramDosyaAdi) throws IOException
-    {
-        List<String> kavramKarsiliklari=Files.readAsStringList(KavramDosyaAdi,"utf-8",true);
-        kavramKarsiliklari=getir(kavramKarsiliklari); 
-        return kavramKarsiliklari;        
+
+    private SozlukIslemleri sozlukIslemleri;
+
+    public KavramOkuyucu(SozlukIslemleri sozlukIslemleri) {
+        this.sozlukIslemleri = sozlukIslemleri;
     }
-         
-    private  List <String> getir(List<String> list)
-    {
-        List <String> yeni=Lists.newArrayList(); 
-        String [] dizi=null;
-        for(String s : list)
-        {
-            if(Strings.hasText(s))
-            {
+
+    public Set<Kavram> oku(String KavramDosyaAdi) throws IOException {
+        Set<Kavram> kavramlar = Sets.newHashSet();
+        List<String> kavramKarsiliklari = Files.readAsStringList(KavramDosyaAdi, "utf-8", true);
+        for (String s : kavramKarsiliklari) {
+            //bos satirlari islemeden atla..
+            if (!Strings.hasText(s))
+                continue;
+
+            String[] dizi = s.split(",|\n|:");
+
+            if (dizi.length < 2)
+                System.out.println("Bir kavram icin en az bir kok karsiligi yazilmali.");
+
+            String kavramKelimesi = dizi[0].trim();
+            List<Kok> kavramKokleri = Lists.newArrayList();
+
+            for (int i = 1; i < dizi.length; i++) {
+                String kokStr = dizi[i].trim();
+                Kok kok = sozlukIslemleri.kokTahminEt(kokStr);
+                if (kok == null) {
+                    kok = sozlukIslemleri.tahminEtVeEkle(kokStr);
+                    System.out.println(kokStr + " koku Zemberek icinde bulunamadi ve yeni kok olarak eklendi:" + kok.toString());
+                }
+                kavramKokleri.add(kok);
+            }
+            Kavram kavram = new Kavram(kavramKelimesi, kavramKokleri);
+            kavramlar.add(kavram);
+        }
+        return kavramlar;
+    }
+
+    private List<String> getir(List<String> list) {
+        List<String> yeni = Lists.newArrayList();
+        String[] dizi = null;
+        for (String s : list) {
+            if (Strings.hasText(s)) {
                 //split ile kavram.txt ten okutulan stringleri ayırmaya çalışıyor. bir diziye atıyor.
                 //direk listeye atasın diye çok istedim fakat hata verdi.
-              dizi= s.split(",|\n|:");
+                dizi = s.split(",|\n|:");
             }
         }
-        yeni=dizidenListeye(dizi);
-        return yeni;        
+        yeni = dizidenListeye(dizi);
+        return yeni;
     }
+
     //burada da diziden listeye atıyor. string listesi halinde döndürüyor.
-    private  List <String> dizidenListeye(String [] s)
-    {      
-        List <String> y=Lists.newArrayList();       
-        for(int i=0;i<s.length;i++)
-        {
-           y.add(s[i]);
+    private List<String> dizidenListeye(String[] s) {
+        List<String> y = Lists.newArrayList();
+        for (int i = 0; i < s.length; i++) {
+            y.add(s[i]);
         }
         return y;
-    }                      
+    }
+
+    public static void main(String[] args) throws IOException {
+        DilBilgisi db = new TurkceDilBilgisi(new TurkiyeTurkcesi());
+        KavramOkuyucu ko = new KavramOkuyucu(new SozlukIslemleri(db.kokler()));
+        Set<Kavram> kavramlar = ko.oku("bilgi/kavramlar.txt");
+        System.out.println("kavramlar = " + kavramlar);
+    }
 }
     
     

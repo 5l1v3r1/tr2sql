@@ -115,6 +115,24 @@ public class DemoPaneli {
         });
         centerPanel.add(kisitliCozumleBtn);
 
+        JButton veriTabaniBilgileriBtn;
+        veriTabaniBilgileriBtn = GuiUretici.getRegularButton("Veri tabani");
+        veriTabaniBilgileriBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                cikisAlani.setYazi(dy.veriTabaniBilgileriniYaz());
+            }
+        });
+        centerPanel.add(veriTabaniBilgileriBtn);
+
+        JButton tabloKolonTahminBtn;
+        tabloKolonTahminBtn = GuiUretici.getRegularButton("Tablo ve kolon tahmin");
+        tabloKolonTahminBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                cikisAlani.setYazi(dy.tabloVeKolonTahminGoster());
+            }
+        });
+        centerPanel.add(tabloKolonTahminBtn);
+
         pt.add(centerPanel, BorderLayout.CENTER);
 
         return pt;

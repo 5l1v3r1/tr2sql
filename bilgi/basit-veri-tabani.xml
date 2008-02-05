@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <veri-tabani ad="maden">
     <tablolar>
-        <tablo ad="CALISANLAR" kavram="calışan">
+        <tablo ad="CALISANLAR" kavram="çalışan">
             <kolonlar>
                 <kolon ad="C_ID" kavram="numara" tip="SAYI" anahtar="true"/>
                 <kolon ad="C_AD" kavram="ad" tip="YAZI"/>
                 <kolon ad="C_SOYAD" kavram="soyad" tip="YAZI"/>
-                <kolon ad="C_MAAS" kavram="maas" tip="PARA"/>
-                <kolon ad="C_BOLUM" kavram="bolum" tip="YAZI"/>
+                <kolon ad="C_MAAS" kavram="maaş" tip="PARA"/>
+                <kolon ad="C_BOLUM" kavram="bölüm" tip="YAZI"/>
             </kolonlar>
         </tablo>
         <tablo ad="URUNLER" kavram="ürün">

@@ -6,15 +6,14 @@ package tr2sql.db;
 
 public class Kolon {
 
-
     private String ad;
-    private String kavram;
+    private Kavram kavram;
     private KolonTipi tip;
     private boolean anahtar = false;
 
 // ---- constructor ----
 
-    public Kolon(String ad, String kavram, KolonTipi tip, boolean anahtar) {
+    public Kolon(String ad, Kavram kavram, KolonTipi tip, boolean anahtar) {
         this.ad = ad;
         this.kavram = kavram;
         this.tip = tip;
@@ -27,7 +26,7 @@ public class Kolon {
         return ad;
     }
 
-    public String getKavram() {
+    public Kavram getKavram() {
         return kavram;
     }
 

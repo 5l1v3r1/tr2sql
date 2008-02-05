@@ -3,15 +3,25 @@ package tr2sql.db;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import net.zemberek.araclar.XmlYardimcisi;
+import net.zemberek.yapi.DilBilgisi;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+
+import tr2sql.SozlukIslemleri;
 
 public class XmlVeriTabaniBilgisiOkuyucu {
 
-    public static VeriTabani oku(String dosya) throws IOException {
-        Document document = XmlYardimcisi.xmlDosyaCozumle(dosya);
+    private Map<String, Kavram> kavramTablosu;
+
+    public XmlVeriTabaniBilgisiOkuyucu(Map<String, Kavram> kavramTablosu) {
+        this.kavramTablosu = kavramTablosu;
+    }
+
+    public VeriTabani oku(String xmlVeriTabaniBilgiDosyasi) throws IOException {
+        Document document = XmlYardimcisi.xmlDosyaCozumle(xmlVeriTabaniBilgiDosyasi);
         // kok elemente ulas.
         Element kokElement = document.getDocumentElement();
         String veriTabaniAdi = kokElement.getAttribute("ad");
@@ -19,38 +29,34 @@ public class XmlVeriTabaniBilgisiOkuyucu {
         return new VeriTabani(veriTabaniAdi, tablolar);
     }
 
-    private static List<Tablo> tablolariOku(Element tabloElementi) {
+    private List<Tablo> tablolariOku(Element tabloElementi) {
         List<Element> tabloElemanlari = XmlYardimcisi.elemanlar(tabloElementi, "tablo");
         List<Tablo> tablolar = new ArrayList<Tablo>();
         for (Element element : tabloElemanlari) {
+            Kavram kavram = kavramTablosu.get(element.getAttribute("kavram"));
             tablolar.add(new Tablo(
                     element.getAttribute("ad"),
-                    element.getAttribute("kavram"),
+                    kavram,
                     kolonlariOku(XmlYardimcisi.ilkEleman(element, "kolonlar"))
             ));
         }
         return tablolar;
     }
 
-    private static List<Kolon> kolonlariOku(Element kolonElementi) {
+    private List<Kolon> kolonlariOku(Element kolonElementi) {
         List<Element> kolonElemanlari = XmlYardimcisi.elemanlar(kolonElementi, "kolon");
         List<Kolon> kolonlar = new ArrayList<Kolon>();
         for (Element element : kolonElemanlari) {
             String anahtarStr = element.getAttribute("anahtar").toLowerCase();
+            Kavram kavram = kavramTablosu.get(element.getAttribute("kavram"));
             boolean anahtar = anahtarStr.equals("true");
             kolonlar.add(new Kolon(
                     element.getAttribute("ad"),
-                    element.getAttribute("kavram"),
+                    kavram,
                     KolonTipi.valueOf(element.getAttribute("tip").toUpperCase()),
                     anahtar
             ));
         }
         return kolonlar;
-    }
-
-    public static void main(String[] args) throws IOException {
-        VeriTabani vt = XmlVeriTabaniBilgisiOkuyucu.oku("bilgi/basit-veri-tabani.xml");
-        System.out.println(vt);
-
     }
 }

@@ -1,4 +1,4 @@
-çalışan: çalışan,işçi,emekçi,memur,kişi,insan,adam,amele,eleman
+﻿çalışan: çalışan,işçi,emekçi,memur,kişi,insan,adam,amele,eleman
 numara: numara,kod,sayı,rakam,no
 ad: ad,isim,soyad
 maaş: maaş,ücret,aylık,yevmiye
