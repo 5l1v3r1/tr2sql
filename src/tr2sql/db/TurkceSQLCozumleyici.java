@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import tr2sql.SozlukIslemleri;
 import org.jmate.collections.Maps;
+import org.jmate.collections.Lists;
 
 
 public class TurkceSQLCozumleyici {
@@ -59,18 +60,16 @@ public class TurkceSQLCozumleyici {
      * @return bulunursa Tablo. yoksa null.
      */
     public Tablo tabloTahminEt(String giris) {
-        List<YaziBirimi> analizDizisi = YaziIsleyici.analizDizisiOlustur(giris);
-        for (YaziBirimi birim : analizDizisi) {
-            if (birim.tip == YaziBirimiTipi.KELIME) {
-                Kelime[] sonuclar = zemberek.kelimeCozumle(birim.icerik, CozumlemeSeviyesi.TUM_KOKLER);
-                // simdilik sadece ilk rasgelen tabloyu donduruyoruz.
-                for (Kelime kelime : sonuclar) {
-                    Tablo t = veriTabani.kokeGoreTabloBul(kelime.kok());
-                    if (t != null)
-                        return t;
-                }
+        List<Kelime[]> cozumler = new BasitCumleCozumleyici(zemberek, giris).olasiKelimeDizisi;
+        for (Kelime[] kelimeDizisi : cozumler) {
+            for (Kelime kelime : kelimeDizisi) {
+                Tablo t = veriTabani.kokeGoreTabloBul(kelime.kok());
+                if (t != null)
+                    return t;
             }
         }
         return null;
     }
+
+
 }
