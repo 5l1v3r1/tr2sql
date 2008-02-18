@@ -75,6 +75,30 @@ toplam
 ara
 ve
 
+# sayilar.
+
+bir
+iki
+üç
+dört
+beş
+altı
+yedi
+sekiz
+dokuz
+on
+yirmi
+otuz
+kırk
+elli
+atmış
+yetmiş
+seksen
+doksan
+yüz
+bin
+milyon
+
 # eylemler
 sorgulamak
 getirmek

@@ -31,7 +31,11 @@ public class Kavram {
     }
 
     public String toString() {
-         return ad;
+        return ad;
+    }
+
+    public boolean kokMevcutMu(Kok kok) {
+        return benzerKokler.contains(kok);
     }
 }
  

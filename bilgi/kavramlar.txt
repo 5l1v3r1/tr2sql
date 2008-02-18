@@ -1,10 +1,14 @@
 ﻿çalışan: çalışan,işçi,emekçi,memur,kişi,insan,adam,amele,eleman
 numara: numara,kod,sayı,rakam,no
-ad: ad,isim,soyad
+ad: ad,isim
+soyad: soyad
 maaş: maaş,ücret,aylık,yevmiye
 bölüm: bölüm,kısım,departman,birim,döküm,dağıtım,muhasebe,onarım,çıkarım
 ürün: ürün,mal,maden,demir,çinko,bakır,kalay,altın,gümüş,alüminyum,bor
 fiyat: fiyat,ücret,paha,değer,eder
 miktar: miktar,üretim
-sorgu: sorgulamak,getirmek,görüntülemek, listelemek, okumak, saymak, sorgulamak, gitmek, dizmek, göstermek,eklemek,sıralamak,yüklemek,güncellemek,yapmak,silmek
+sorgu: sorgulamak,getirmek,görüntülemek, listelemek, okumak, saymak, sorgulamak, gitmek, dizmek, göstermek,sıralamak,yüklemek,yapmak
+sil: silmek
+ekle:eklemek
+güncelle:güncellemek
 
