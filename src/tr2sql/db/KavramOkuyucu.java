@@ -6,16 +6,18 @@
 package tr2sql.db;
 
 import net.zemberek.tr.yapi.TurkiyeTurkcesi;
-import net.zemberek.yapi.*;
-
-import java.util.*;
-import java.io.IOException;
-
+import net.zemberek.yapi.DilBilgisi;
+import net.zemberek.yapi.Kok;
+import net.zemberek.yapi.TurkceDilBilgisi;
 import org.jmate.Files;
 import org.jmate.Strings;
 import org.jmate.collections.Lists;
 import org.jmate.collections.Sets;
 import tr2sql.SozlukIslemleri;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author dilek

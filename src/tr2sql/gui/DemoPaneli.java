@@ -44,7 +44,7 @@ public class DemoPaneli {
 
         //giris ve cikisin pencere buyudugunde ayni ende kalmasi icin onlari ayrica Grid Layout'a
         //sahip bir panele yerlestir. sonucta her ikisinide ana panelin merkezine koy.
-        JPanel ioPanel = new JPanel(new GridLayout(2,1));
+        JPanel ioPanel = new JPanel(new GridLayout(2, 1));
         girisAlani = new GirisAlani(dy.ozelKarakterDizisiGetir());
         ioPanel.add(girisAlani.getMainPanel());
         ioPanel.add(cikisAlani.getMainPanel());
@@ -125,10 +125,14 @@ public class DemoPaneli {
         centerPanel.add(veriTabaniBilgileriBtn);
 
         JButton tabloKolonTahminBtn;
-        tabloKolonTahminBtn = GuiUretici.getRegularButton("Tablo ve kolon tahmin");
+        tabloKolonTahminBtn = GuiUretici.getRegularButton("Cozum bilgileri:");
         tabloKolonTahminBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                cikisAlani.setYazi(dy.tabloVeKolonTahminGoster(girisAlani.getYazi()));
+                StringBuilder builder= new StringBuilder();
+                String giris = girisAlani.getYazi();
+                builder.append("Islem: "+dy.islemTahminEt(giris)).append('\n');
+                builder.append("Tablo: "+dy.tabloVeKolonTahminGoster(giris)).append('\n');
+                cikisAlani.setYazi(builder.toString());
             }
         });
         centerPanel.add(tabloKolonTahminBtn);

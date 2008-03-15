@@ -1,14 +1,8 @@
 package tr2sql.db;
 
-import org.jmate.Files;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import java.io.IOException;
-import java.util.List;
-
-import net.zemberek.araclar.XmlYardimcisi;
 import net.zemberek.yapi.Kok;
+
+import java.util.List;
 
 /**
  * Bu sinifta veri tabanina iliskin bilgiler yer alir.

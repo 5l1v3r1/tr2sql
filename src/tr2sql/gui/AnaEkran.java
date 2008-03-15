@@ -27,7 +27,7 @@ public class AnaEkran extends JFrame {
         cp.add(panel);
         cp.validate();
         setPreferredSize(new Dimension(640, 480));
-        setLocation(100,100);
+        setLocation(100, 100);
         pack();
         setVisible(true);
         gosterilenIcerik = panel;

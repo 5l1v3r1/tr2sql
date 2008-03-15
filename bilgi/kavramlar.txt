@@ -3,11 +3,11 @@ numara: numara,kod,sayı,rakam,no
 ad: ad,isim
 soyad: soyad
 maaş: maaş,ücret,aylık,yevmiye
-bölüm: bölüm,kısım,departman,birim,döküm,dağıtım,muhasebe,onarım,çıkarım
-ürün: ürün,mal,maden,demir,çinko,bakır,kalay,altın,gümüş,alüminyum,bor
+bölüm: bölüm,kısım,departman,birim
+ürün: ürün,mal,maden
 fiyat: fiyat,ücret,paha,değer,eder
 miktar: miktar,üretim
-sorgu: sorgulamak,getirmek,görüntülemek, listelemek, okumak, saymak, sorgulamak, gitmek, dizmek, göstermek,sıralamak,yüklemek,yapmak
+sorgu: sorgulamak,getirmek,görüntülemek,listelemek,göstermek,yüklemek,yapmak
 sil: silmek
 ekle:eklemek
 güncelle:güncellemek

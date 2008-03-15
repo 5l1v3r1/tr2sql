@@ -1,41 +1,34 @@
 package tr2sql.db;
 
-import net.zemberek.erisim.Zemberek;
-import net.zemberek.yapi.DilBilgisi;
-import net.zemberek.yapi.Kelime;
-import net.zemberek.yapi.Kok;
 import net.zemberek.araclar.turkce.YaziBirimi;
-import net.zemberek.araclar.turkce.YaziIsleyici;
 import net.zemberek.araclar.turkce.YaziBirimiTipi;
+import net.zemberek.araclar.turkce.YaziIsleyici;
+import net.zemberek.erisim.Zemberek;
 import net.zemberek.islemler.cozumleme.CozumlemeSeviyesi;
+import net.zemberek.yapi.Kelime;
+import org.jmate.collections.Lists;
+import org.jmate.collections.Maps;
+import tr2sql.SozlukIslemleri;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.List;
-import java.io.IOException;
-
-import tr2sql.SozlukIslemleri;
-import org.jmate.collections.Maps;
-import org.jmate.collections.Lists;
 
 
 public class TurkceSQLCozumleyici {
 
     private VeriTabani veriTabani;
     private Map<String, Kavram> kavramTablosu = Maps.newHashMap();
-    private Map<Kok, Kavram> kokKavramTablosu = Maps.newHashMap();
 
     private Zemberek zemberek;
-    private DilBilgisi dilBilgisi;
-    private SozlukIslemleri sozlukIslemleri;
 
     public TurkceSQLCozumleyici(Zemberek zemberek,
                                 String veriTabaniDosyasi,
                                 String kavramDosyasi) throws IOException {
         this.zemberek = zemberek;
-        this.dilBilgisi = zemberek.dilBilgisi();
-        this.sozlukIslemleri = new SozlukIslemleri(dilBilgisi.kokler());
-        KavramOkuyucu kavramOkuyucu = new KavramOkuyucu(this.sozlukIslemleri);
+        SozlukIslemleri sozlukIslemleri = new SozlukIslemleri(zemberek.dilBilgisi().kokler());
+        KavramOkuyucu kavramOkuyucu = new KavramOkuyucu(sozlukIslemleri);
 
         // kavramlari okuyup tabloya at.
         Set<Kavram> kavramlar = kavramOkuyucu.oku(kavramDosyasi);
@@ -53,23 +46,66 @@ public class TurkceSQLCozumleyici {
         return kavramTablosu;
     }
 
-    /**
-     * simdilik tek tablo buluyor.
-     *
-     * @param giris giris cumlesi.
-     * @return bulunursa Tablo. yoksa null.
-     */
     public Tablo tabloTahminEt(String giris) {
-        List<Kelime[]> cozumler = new BasitCumleCozumleyici(zemberek, giris).olasiKelimeDizisi;
-        for (Kelime[] kelimeDizisi : cozumler) {
-            for (Kelime kelime : kelimeDizisi) {
+        return new BasitCumleCozumleyici_(giris).tabloTahminEt();
+    }
+
+
+    public IslemTipi islemTipiTahminEt(String giris) {
+        return new BasitCumleCozumleyici_(giris).islemBul();
+    }
+
+    class BasitCumleCozumleyici_ {
+
+        private List<Kelime> olasiKelimeDizisi = Lists.newArrayList();
+
+        public BasitCumleCozumleyici_(String giris) {
+
+            // burada bir cumleden olasi kelime dizisi ortaya cikariliyor. normalde birden fazla cozum olabilir
+            // biz ilk geleni seciyoruz.
+            List<YaziBirimi> analizDizisi = YaziIsleyici.analizDizisiOlustur(giris);
+            for (YaziBirimi birim : analizDizisi) {
+                if (birim.tip == YaziBirimiTipi.KELIME) {
+                    Kelime[] sonuclar = zemberek.kelimeCozumle(birim.icerik, CozumlemeSeviyesi.TUM_KOKLER);
+                    if (sonuclar.length > 0)
+                        olasiKelimeDizisi.add(sonuclar[0]);
+                }
+            }
+        }
+
+        /**
+         * simdilik tek tablo buluyor.
+         *
+         * @return bulunursa Tablo. yoksa Exception firlatir..
+         */
+        public Tablo tabloTahminEt() {
+
+            for (Kelime kelime : olasiKelimeDizisi) {
                 Tablo t = veriTabani.kokeGoreTabloBul(kelime.kok());
                 if (t != null)
                     return t;
             }
+            return null;
         }
-        return null;
-    }
 
+        /**
+         * ilgili islemi bulur. simdilik sadece sorgulama kavrami ile calisiyor.
+         * ve soru cumleleri ihmal ediliyor.
+         *
+         * @return bulunan islem tipi.
+         */
+        public IslemTipi islemBul() {
+            Kavram sorguKavrami = kavramTablosu.get("sorgu");
+            for (Kelime kelime : olasiKelimeDizisi) {
+                if (sorguKavrami.kokMevcutMu(kelime.kok()))
+                    return IslemTipi.SORGULAMA;
+            }
+            return IslemTipi.BELIRSIZ;
+        }
+
+        public List<Kelime> getOlasiKelimeDizisi() {
+            return olasiKelimeDizisi;
+        }
+    }
 
 }

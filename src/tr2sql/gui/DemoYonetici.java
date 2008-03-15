@@ -4,16 +4,15 @@ import net.zemberek.araclar.turkce.YaziBirimi;
 import net.zemberek.araclar.turkce.YaziBirimiTipi;
 import net.zemberek.araclar.turkce.YaziIsleyici;
 import net.zemberek.erisim.Zemberek;
+import net.zemberek.tr.yapi.TurkiyeTurkcesi;
 import net.zemberek.yapi.DilBilgisi;
 import net.zemberek.yapi.Kelime;
-import net.zemberek.tr.yapi.TurkiyeTurkcesi;
-
-import java.util.*;
-import java.io.IOException;
-
 import tr2sql.Tr2SQLKelimeEleyici;
-import tr2sql.db.TurkceSQLCozumleyici;
 import tr2sql.db.Tablo;
+import tr2sql.db.TurkceSQLCozumleyici;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  */
@@ -87,10 +86,15 @@ public class DemoYonetici {
         return tr2SQLCozumleyici.getVeriTabani().toString();
     }
 
-    public String tabloVeKolonTahminGoster(String giris) {
+    public String tabloVeKolonTahminGoster(String giris) {        
         Tablo tablo = tr2SQLCozumleyici.tabloTahminEt(giris);
-        if(tablo==null)
-          return "Cumlenin hangi tablo ile iliskili oldugu bulunamadi..";
-        return tablo.toString();
+        if (tablo == null)
+            return "Cumlenin hangi tablo ile iliskili oldugu bulunamadi..";
+        return tablo.getAd();
     }
+
+    public String islemTahminEt(String giris) {
+        return tr2SQLCozumleyici.islemTipiTahminEt(giris).name();
+    }
+
 }

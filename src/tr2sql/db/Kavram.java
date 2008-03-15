@@ -5,9 +5,10 @@
 
 package tr2sql.db;
 
-import java.util.*;
-
 import net.zemberek.yapi.Kok;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author dilek

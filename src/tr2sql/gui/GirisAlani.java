@@ -4,8 +4,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 /**
@@ -36,7 +36,7 @@ public class GirisAlani {
     private void configure() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.setBorder(new TitledBorder(new EmptyBorder(2,2,2,2), "Giri\u015f alan\u0131"));
+        mainPanel.setBorder(new TitledBorder(new EmptyBorder(2, 2, 2, 2), "Giri\u015f alan\u0131"));
         ozelKarakterDugmeAlaniOlustur(ozelKarakterler);
         mainPanel.add(makeInputPanel(), BorderLayout.CENTER);
     }
@@ -52,17 +52,17 @@ public class GirisAlani {
         JScrollPane ps = new JScrollPane();
         ps.getViewport().add(inputArea);
 
-        pq.add(ps,BorderLayout.CENTER);
+        pq.add(ps, BorderLayout.CENTER);
         return pq;
     }
 
     public void ozelKarakterDugmeAlaniOlustur(char[] ozelKarakterler) {
 
-        if(buttonPanel!=null)
-          mainPanel.remove(buttonPanel);
+        if (buttonPanel != null)
+            mainPanel.remove(buttonPanel);
 
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT,5,5));
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
         //makechars
         for (char ozelKarakter : ozelKarakterler) {
             JButton button = GuiUretici.getRegularButton(String.valueOf(ozelKarakter));

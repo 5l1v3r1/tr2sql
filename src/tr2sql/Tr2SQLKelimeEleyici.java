@@ -6,13 +6,12 @@ import net.zemberek.yapi.Kelime;
 import net.zemberek.yapi.Kok;
 import net.zemberek.yapi.ek.Ek;
 import net.zemberek.yapi.ek.EkYonetici;
-
-import java.util.*;
-import java.io.IOException;
-
 import org.jmate.Files;
 import org.jmate.Strings;
 import org.jmate.collections.Lists;
+
+import java.io.IOException;
+import java.util.*;
 
 
 /**

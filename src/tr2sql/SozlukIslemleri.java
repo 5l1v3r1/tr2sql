@@ -1,8 +1,8 @@
 package tr2sql;
 
 import net.zemberek.bilgi.kokler.Sozluk;
-import net.zemberek.yapi.Kok;
 import net.zemberek.yapi.KelimeTipi;
+import net.zemberek.yapi.Kok;
 
 import java.util.List;
 
@@ -23,6 +23,7 @@ public class SozlukIslemleri {
      * herhangi bir Stringin hangi koke karsilik dustugunu tahmin etmeye calisir.
      * eger kelime -mek, -mak ile bitiyorsa fiil olarak sozlukte arama yapar.
      * eger bulunmazsa ya da -mastar ile bitmiyorsa gelen sonuclardan fiil olmayan ilk elemani dondurur.
+     *
      * @param s kok'u ifade eden String.
      * @return tahmin edilen koku dondurur.
      */
@@ -51,6 +52,7 @@ public class SozlukIslemleri {
 
     /**
      * Bir stringin tipini tahmin etmeye calisir ve Kok nesnesi olarak kok agacina ekler.
+     *
      * @param s koku ifade eden String.
      * @return olusturulan ve agaca eklenen yeni kok.
      */
