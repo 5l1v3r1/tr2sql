@@ -11,9 +11,7 @@
 
     <target name="temizle">
         <delete dir="build"/>
-        <delete dir="dagitim/">
-            <exclude name="**/run*"/>
-        </delete>
+        <delete dir="dagitim"/>
         <delete file="${ad-surum}.jar"/>
     </target>
 
@@ -47,9 +45,15 @@
 
     <!-- dagitim dizininde dagitim olusturur -->
     <target name="dagitim" depends="temizle, jar">
+
+        <delete dir="dagitim"/>
+        <mkdir dir="dagitim"/>
+
         <copy todir="dagitim">
             <fileset dir="lib-dagitim"/>
             <fileset file="${ad-surum}.jar"/>
+            <fileset file="run.sh"/>
+            <fileset file="run.bat"/>
         </copy>
         <!-- bilgi dizinini kopyala -->
         <mkdir dir="dagitim/bilgi"/>
@@ -57,7 +61,7 @@
             <fileset dir="bilgi"/>
         </copy>
         <!-- unix-linux ozel-->
-        <chmod file="dagitim/run.sh" perm="700"/>
+        <chmod dir="dagitim" perm="777"/>
 
         <zip basedir="dagitim" file="dagitim/${ad-surum}.zip"/>
 
