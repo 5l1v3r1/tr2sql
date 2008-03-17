@@ -17,7 +17,9 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         StringBuilder sonuc = new StringBuilder();
 
         switch(sorgu.islemTipi) {
-            case SORGULAMA: sonuc. append("select ");
+            case SORGULAMA: sonuc.append("select ");
+                break;
+            case GUNCELLEME: sonuc.append("update "); // bunu kullanmayacagiz ama ornek olsun.
                 break;
         }
 
@@ -64,8 +66,7 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
 
         // TODO: Asagidaki islemin "select top 10 * from TEST_TABLOSU where NUMARA>5 and ISIM='Ali'" uretmesi gerekir..
 
-        String sonuc = sqlDonusturucu.donustur(sorgu);
-        System.out.println("sonuc:"+sonuc);
+        System.out.println("sonuc:"+sqlDonusturucu.donustur(sorgu));
 
     }
 
