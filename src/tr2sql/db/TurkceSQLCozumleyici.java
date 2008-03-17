@@ -47,19 +47,19 @@ public class TurkceSQLCozumleyici {
     }
 
     public Tablo tabloTahminEt(String giris) {
-        return new BasitCumleCozumleyici_(giris).tabloTahminEt();
+        return new BasitCumleCozumleyici(giris).tabloTahminEt();
     }
 
 
     public IslemTipi islemTipiTahminEt(String giris) {
-        return new BasitCumleCozumleyici_(giris).islemBul();
+        return new BasitCumleCozumleyici(giris).islemBul();
     }
 
-    class BasitCumleCozumleyici_ {
+    class BasitCumleCozumleyici {
 
         private List<Kelime> olasiKelimeDizisi = Lists.newArrayList();
 
-        public BasitCumleCozumleyici_(String giris) {
+        public BasitCumleCozumleyici(String giris) {
 
             // burada bir cumleden olasi kelime dizisi ortaya cikariliyor. normalde birden fazla cozum olabilir
             // biz ilk geleni seciyoruz.

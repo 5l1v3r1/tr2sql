@@ -1,5 +1,5 @@
 package tr2sql.db;
 
 public enum KosulTipi {
-    VE, VEYA
+    VE, VEYA, YOK
 }

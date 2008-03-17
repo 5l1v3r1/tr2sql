@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="tr2sql" default="jar" basedir=".">
+<project name="tr2sql" default="dagitim" basedir=".">
 
     <property name="ad-surum" value="tr2sql-0.1"/>
 
@@ -16,7 +16,7 @@
     </target>
 
     <!--  uygulamayi derler. -->
-    <target name="compile">
+    <target name="derle">
         <!-- derlemenin yapilacasi dizini silip bastan olustur.-->
         <delete dir="build"/>
         <mkdir dir="build"/>
@@ -37,7 +37,7 @@
     </target>
 
     <!-- derleme sonucunda olusan class dosyalarini paketleyip jar dosyasina donusturur -->
-    <target name="jar" depends="compile">
+    <target name="jar" depends="derle">
         <jar jarfile="${ad-surum}.jar"
              basedir="build">
         </jar>

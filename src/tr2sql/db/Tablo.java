@@ -8,7 +8,6 @@ import java.util.List;
  */
 public class Tablo {
 
-
     private String ad;
     private Kavram kavram;
 

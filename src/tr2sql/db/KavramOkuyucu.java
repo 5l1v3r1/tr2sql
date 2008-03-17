@@ -57,8 +57,7 @@ public class KavramOkuyucu {
                 }
                 kavramKokleri.add(kok);
             }
-            Kavram kavram = new Kavram(kavramKelimesi, kavramKokleri);
-            kavramlar.add(kavram);
+            kavramlar.add(new Kavram(kavramKelimesi, kavramKokleri));
         }
         return kavramlar;
     }
