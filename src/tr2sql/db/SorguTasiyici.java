@@ -13,5 +13,4 @@ public class SorguTasiyici {
     // -1 ise miktar kisitlamasi yok demektir.
     public int sonucMiktarKisitlamaDegeri = -1;
     public List<Kolon> sonucKolonlari = Lists.newArrayList();
-
 }

@@ -8,6 +8,7 @@ import net.zemberek.islemler.cozumleme.CozumlemeSeviyesi;
 import net.zemberek.yapi.Kelime;
 import org.jmate.collections.Lists;
 import org.jmate.collections.Maps;
+import org.jmate.collections.Sets;
 import tr2sql.SozlukIslemleri;
 
 import java.io.IOException;
@@ -106,6 +107,28 @@ public class TurkceSQLCozumleyici {
         public List<Kelime> getOlasiKelimeDizisi() {
             return olasiKelimeDizisi;
         }
+
+        public List<KolonKisitlamaBileseni> kisitlamaBilesenListesi(Tablo tablo) {
+
+            List<KolonKisitlamaBileseni> bilesenler = Lists.newArrayList();
+            Set<Integer> islenenKolonlar = Sets.newHashSet();
+            for (Kelime kelime : olasiKelimeDizisi) {
+                // once bu kelimenin koku bir kolona denk dusuyormu bakalim.
+                Kolon kolon = tablo.kokeGoreKolonBul(kelime.kok());
+                // denk dusmuyorsa donguye devam et.
+                if(kolon==null)
+                  continue;
+                //burasi biraz dandik. kolon son eki "i" belirtme ya da "li" eki ise
+                // farkli seklide deger aramamiz gerekecek..
+                // TODO: devami gelecek.
+
+
+
+
+            }
+           return bilesenler;
+        }
+
     }
 
 }

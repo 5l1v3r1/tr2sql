@@ -1,5 +1,7 @@
 package tr2sql.db;
 
+import net.zemberek.yapi.Kok;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,24 @@ public class Tablo {
     public List<Kolon> getKolonlar() {
         return kolonlar;
     }
+
+    // ---- diger metodlar -----
+
+    /**
+     * kok'e uygun kolon bulursa dondurur.
+     *
+     * @param kok : kelime koku
+     * @return : eger kok kolon kavrami dahilinde ise ilk bulunan kolon doner. hicbir kolon kavrami ile
+     *         uyusmazsa null doner.
+     */
+    public Kolon kokeGoreKolonBul(Kok kok) {
+        for (Kolon kolon : kolonlar) {
+            if (kolon.getKavram().kokMevcutMu(kok))
+                return kolon;
+        }
+        return null;
+    }
+
 
     @Override
     public String toString() {
