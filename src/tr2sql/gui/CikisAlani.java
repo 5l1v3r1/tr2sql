@@ -6,6 +6,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 /**
+ * Sonuclarin yazildigi alan.
  */
 public class CikisAlani {
     private JPanel mainPanel;

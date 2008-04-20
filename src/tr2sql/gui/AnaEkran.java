@@ -20,12 +20,11 @@ public class AnaEkran extends JFrame {
     }
 
     public void icerikAta(JPanel panel) {
-        Container cp = getContentPane();
         if (gosterilenIcerik != null) {
-            cp.remove(gosterilenIcerik);
+            this.remove(gosterilenIcerik);
         }
-        cp.add(panel);
-        cp.validate();
+        add(panel);
+        validate();
         setPreferredSize(new Dimension(640, 480));
         setLocation(100, 100);
         pack();

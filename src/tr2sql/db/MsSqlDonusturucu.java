@@ -16,16 +16,43 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
 
         StringBuilder sonuc = new StringBuilder();
 
-        switch(sorgu.islemTipi) {
-            case SORGULAMA: sonuc.append("select ");
+        switch (sorgu.islemTipi) {
+            case SORGULAMA:
+                sonuc.append("select ");
                 break;
-            case GUNCELLEME: sonuc.append("update "); // bunu kullanmayacagiz ama ornek olsun.
+            case GUNCELLEME:
+                sonuc.append("update "); // bunu kullanmayacagiz ama ornek olsun.
                 break;
         }
 
-        // TODO: Devamini yaz.
+        // eger belirtilmisse sonuc miktar kisitlama bilgisini ekleyelim.
+        if(sorgu.sonucMiktarKisitlamaDegeri>-1)
+              sonuc.append(" top ").append(sorgu.sonucMiktarKisitlamaDegeri).append(" ");
 
-        return sonuc.toString();
+        // sadece belirtilen kolonlarin donmesi istenmisse bunlari ekleyelim
+        int i = 0;
+        for (Kolon kolon : sorgu.sonucKolonlari) {
+            sonuc.append(kolon.getAd());
+            if (i++ < sorgu.sonucKolonlari.size())
+                sonuc.append(",");
+        }
+
+        // eger donus kolonlari belirtilmemisse herseyi dondurelim.
+        if (sorgu.sonucKolonlari.isEmpty())
+            sonuc.append(" * ");
+
+        // tabloyu ekleyelim
+        sonuc.append(" from ").append(sorgu.tablo.getAd()).append(" ");
+
+        if(!sorgu.kolonKisitlamaZinciri.isEmpty())
+              sonuc.append(" where ");
+
+        //eger kisitlama bileseni mevcutsa ekleyelim.
+        for(KolonKisitlamaZincirBileseni bilesen: sorgu.kolonKisitlamaZinciri) {
+         sonuc.append(bilesen.sqlDonusumu());
+        }
+
+        return sonuc.toString().replaceAll("[ ]+"," ").trim();
     }
 
     public static void main(String[] args) {
@@ -37,12 +64,12 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         sorgu.islemTipi = IslemTipi.SORGULAMA;
 
         // tablo ve kolon uretiminde gerekli oldugundan ornek bir kavram uretelim. yoksa SQL uretiminde gerekli degil.
-        Kavram testKavrami =  new Kavram("testkavrami", Lists.newArrayList(new Kok("testkok", KelimeTipi.ISIM)));
+        Kavram testKavrami = new Kavram("testkavrami", Lists.newArrayList(new Kok("testkok", KelimeTipi.ISIM)));
 
         // iki test kolonu
         Kolon kolon1 = new Kolon("NUMARA", testKavrami, KolonTipi.SAYI, true);
         Kolon kolon2 = new Kolon("ISIM", testKavrami, KolonTipi.YAZI, false);
-        List<Kolon> kolonlar= Lists.newArrayList(kolon1, kolon2);
+        List<Kolon> kolonlar = Lists.newArrayList(kolon1, kolon2);
 
         // test tablosu.
         sorgu.tablo = new Tablo("TEST_TABLOSU", testKavrami, kolonlar);
@@ -66,7 +93,7 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
 
         // TODO: Asagidaki islemin "select top 10 * from TEST_TABLOSU where NUMARA>5 and ISIM='Ali'" uretmesi gerekir..
 
-        System.out.println("sonuc:"+sqlDonusturucu.donustur(sorgu));
+        System.out.println("sonuc:" + sqlDonusturucu.donustur(sorgu));
 
     }
 

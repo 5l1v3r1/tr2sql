@@ -6,10 +6,24 @@ package tr2sql.db;
  */
 public class KolonKisitlamaZincirBileseni {
     public KolonKisitlamaBileseni kisitlamaBileseni;
-    public KosulTipi sonrakiBilsenIliskisi;
+    public KosulTipi sonrakiBilsenIliskisi = KosulTipi.YOK;
 
-    public KolonKisitlamaZincirBileseni(KolonKisitlamaBileseni kisitlamaBileseni, KosulTipi sonrakiBilsenIliskisi) {
+    public KolonKisitlamaZincirBileseni(KolonKisitlamaBileseni kisitlamaBileseni,
+                                        KosulTipi sonrakiBilsenIliskisi) {
         this.kisitlamaBileseni = kisitlamaBileseni;
         this.sonrakiBilsenIliskisi = sonrakiBilsenIliskisi;
+    }
+
+    public String sqlDonusumu() {
+        if (kisitlamaBileseni == null)
+            throw new SQLUretimHatasi("Kisitlama bileseni null olamaz.");
+        String kisitlamaSql = kisitlamaBileseni.sqlDonusumu();
+        switch (sonrakiBilsenIliskisi) {
+            case VE:
+                return kisitlamaSql + " and ";
+            case VEYA:
+                return kisitlamaSql + " or ";
+        }
+        return kisitlamaSql + " ";
     }
 }

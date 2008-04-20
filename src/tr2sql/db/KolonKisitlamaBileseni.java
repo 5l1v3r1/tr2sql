@@ -14,4 +14,79 @@ public class KolonKisitlamaBileseni {
         this.kisitlamaDegeri = kisitlamaDegeri;
         this.kiyasTipi = kiyasTipi;
     }
+
+    public String sqlDonusumu() {
+        if (kolon == null)
+            throw new SQLUretimHatasi("Kisitlama bileseni icin kolon degeri null olamaz.");
+        if (kiyasTipi == null)
+            throw new SQLUretimHatasi("Kisitlama bileseni icin kiyasTipi null olamaz.");
+
+        // kiyas tipine gore sonucu tamamlayalim.
+        boolean matematikselKiyas = true;
+        String deger = "";
+        switch (kiyasTipi) {
+            case BUYUK:
+                deger = ">";
+                break;
+            case KUCUK:
+                deger = "<";
+                break;
+            case BUYUK_ESIT:
+                deger = ">=";
+                break;
+            case KUCUK_ESIT:
+                deger = "<=";
+                break;
+            case ESIT:
+                deger = "=";
+                break;
+            case ESIT_DEGIL:
+                deger = "<>";
+                break;
+            default:
+                matematikselKiyas = false;
+                break;
+        }
+        if (matematikselKiyas)
+            return kolon.getAd() + " " + deger + " " + kisitlamaDegeriniBicimlendir() + " ";
+
+        boolean benzerlikKiyaslama = true;
+        switch (kiyasTipi) {
+            case BASI_BENZER:
+                deger = "like '%" + kisitlamaDegeri + "'";
+                break;
+            case SONU_BENZER:
+                deger = "like '" + kisitlamaDegeri + "%'";
+                break;
+            case ARA_BENZER:
+                deger = "like '%" + kisitlamaDegeri + "%'";
+                break;
+            default:
+                benzerlikKiyaslama = false;
+                break;
+        }
+        if (benzerlikKiyaslama)
+            return kolon.getAd() + " " + deger + " ";
+
+        if (kiyasTipi == KiyasTipi.NULL)
+            return kolon.getAd() + " is null ";
+
+        if (kiyasTipi == KiyasTipi.NULL_DEGIL)
+            return kolon.getAd() + " is not null ";
+
+        throw new SQLUretimHatasi("Kisitlama bileseni icin sql kelimeleri uretilemedi:" + toString());
+
+    }
+
+    private String kisitlamaDegeriniBicimlendir() {
+        if (kolon.getTip() == KolonTipi.YAZI)
+            return "'" + kisitlamaDegeri + "'";
+        else return kisitlamaDegeri;
+    }
+
+    @Override
+    public String toString() {
+        return " Kolon : " + kolon.toString() + " , kisitlamaDegeri:" + kisitlamaDegeri + ", " +
+                " Kiyas Tipi:" + kiyasTipi.name();
+    }
 }

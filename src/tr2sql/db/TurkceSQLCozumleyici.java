@@ -128,7 +128,7 @@ public class TurkceSQLCozumleyici {
             }
            return bilesenler;
         }
-
+ 
     }
 
 }

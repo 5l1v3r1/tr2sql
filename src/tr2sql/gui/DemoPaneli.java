@@ -15,7 +15,7 @@ public class DemoPaneli {
 
     private JPanel anaPanel;
     private GirisAlani girisAlani;
-    private tr2sql.gui.CikisAlani cikisAlani = new tr2sql.gui.CikisAlani();
+    private CikisAlani cikisAlani = new CikisAlani();
     private DemoYonetici dy;
     private File currentDir = null;
     public static final int MAX_LOAD_STRING_BOY = 32000;

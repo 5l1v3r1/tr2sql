@@ -10,7 +10,7 @@ public enum KiyasTipi {
     BUYUK,
     KUCUK_ESIT,
     BUYUK_ESIT,
-    BOS,
-    BOS_DEGIL,
-    DAHIL
+    NULL,
+    NULL_DEGIL,
+    DAHIL;
 }
