@@ -52,6 +52,7 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
          sonuc.append(bilesen.sqlDonusumu());
         }
 
+        // sonuctaki birden fazla bosluklari bir bosluga indir.
         return sonuc.toString().replaceAll("[ ]+"," ").trim();
     }
 

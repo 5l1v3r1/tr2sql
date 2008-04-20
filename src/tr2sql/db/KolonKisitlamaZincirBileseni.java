@@ -17,7 +17,9 @@ public class KolonKisitlamaZincirBileseni {
     public String sqlDonusumu() {
         if (kisitlamaBileseni == null)
             throw new SQLUretimHatasi("Kisitlama bileseni null olamaz.");
+
         String kisitlamaSql = kisitlamaBileseni.sqlDonusumu();
+
         switch (sonrakiBilsenIliskisi) {
             case VE:
                 return kisitlamaSql + " and ";
