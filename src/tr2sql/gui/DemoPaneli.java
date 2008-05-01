@@ -60,7 +60,7 @@ public class DemoPaneli {
         JPanel centerPanel = new JPanel(new FlowLayout());
 
         //dosyadan yazi yukleme dugmesi ve yukleme islemi.
-        JButton btnLoad = GuiUretici.getRegularButton("Y\u00fckle");
+        JButton btnLoad = new JButton("Y\u00fckle");
         btnLoad.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 JFileChooser c;
@@ -86,7 +86,7 @@ public class DemoPaneli {
         topPanel.add(btnLoad);
 
         JButton btnClear;
-        btnClear = GuiUretici.getRegularButton("Sil");
+        btnClear = new JButton("Sil");
         btnClear.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 girisAlani.setYazi("");
@@ -98,7 +98,7 @@ public class DemoPaneli {
         pt.add(topPanel, BorderLayout.NORTH);
 
         JButton btnCozumle;
-        btnCozumle = GuiUretici.getRegularButton("\u00c7\u00f6z\u00fcmle");
+        btnCozumle = new JButton("\u00c7\u00f6z\u00fcmle");
         btnCozumle.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cikisAlani.setYazi(dy.yaziCozumle(girisAlani.getYazi()));
@@ -107,7 +107,7 @@ public class DemoPaneli {
         centerPanel.add(btnCozumle);
 
         JButton kisitliCozumleBtn;
-        kisitliCozumleBtn = GuiUretici.getRegularButton("Kisitli \u00c7\u00f6z\u00fcmle");
+        kisitliCozumleBtn = new JButton("Kisitli \u00c7\u00f6z\u00fcmle");
         kisitliCozumleBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cikisAlani.setYazi(dy.kisitliCozumle(girisAlani.getYazi()));
@@ -116,7 +116,7 @@ public class DemoPaneli {
         centerPanel.add(kisitliCozumleBtn);
 
         JButton veriTabaniBilgileriBtn;
-        veriTabaniBilgileriBtn = GuiUretici.getRegularButton("Veri tabani");
+        veriTabaniBilgileriBtn = new JButton("Veri tabani");
         veriTabaniBilgileriBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 cikisAlani.setYazi(dy.veriTabaniBilgileriniYaz());
@@ -125,7 +125,7 @@ public class DemoPaneli {
         centerPanel.add(veriTabaniBilgileriBtn);
 
         JButton tabloKolonTahminBtn;
-        tabloKolonTahminBtn = GuiUretici.getRegularButton("Cozum bilgileri:");
+        tabloKolonTahminBtn = new JButton("Cozum bilgileri:");
         tabloKolonTahminBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 StringBuilder builder= new StringBuilder();

@@ -16,19 +16,19 @@ public class AnaEkran extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container cp = getContentPane();
         cp.setLayout(new BoxLayout(cp, BoxLayout.Y_AXIS));
-        setTitle("Tr2SQL");
+        setTitle("tr2sql");
     }
 
     public void icerikAta(JPanel panel) {
         if (gosterilenIcerik != null) {
             this.remove(gosterilenIcerik);
         }
+        gosterilenIcerik = panel;
         add(panel);
         validate();
         setPreferredSize(new Dimension(640, 480));
         setLocation(100, 100);
         pack();
         setVisible(true);
-        gosterilenIcerik = panel;
     }
 }

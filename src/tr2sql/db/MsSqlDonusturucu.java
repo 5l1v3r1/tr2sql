@@ -8,7 +8,7 @@ import java.util.List;
 import org.jmate.collections.Lists;
 
 /**
- * Microsoft SQL Server icin Sorgu degerlerinden SQL donusum uretici.
+ * Microsoft SQL Server icin Sorgu degerlerinden SQL cumlesi uretici.
  */
 public class MsSqlDonusturucu implements SqlDonusturucu {
 
@@ -26,8 +26,8 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         }
 
         // eger belirtilmisse sonuc miktar kisitlama bilgisini ekleyelim.
-        if(sorgu.sonucMiktarKisitlamaDegeri>-1)
-              sonuc.append(" top ").append(sorgu.sonucMiktarKisitlamaDegeri).append(" ");
+        if (sorgu.sonucMiktarKisitlamaDegeri > -1)
+            sonuc.append(" top ").append(sorgu.sonucMiktarKisitlamaDegeri).append(" ");
 
         // sadece belirtilen kolonlarin donmesi istenmisse bunlari ekleyelim
         int i = 0;
@@ -44,16 +44,17 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         // tabloyu ekleyelim
         sonuc.append(" from ").append(sorgu.tablo.getAd()).append(" ");
 
-        if(!sorgu.kolonKisitlamaZinciri.isEmpty())
-              sonuc.append(" where ");
+        // kisitlama zincir bileseni varsa "where" kelimesini ekleyelim.
+        if (!sorgu.kolonKisitlamaZinciri.isEmpty())
+            sonuc.append(" where ");
 
         //eger kisitlama bileseni mevcutsa ekleyelim.
-        for(KolonKisitlamaZincirBileseni bilesen: sorgu.kolonKisitlamaZinciri) {
-         sonuc.append(bilesen.sqlDonusumu());
+        for (KolonKisitlamaZincirBileseni bilesen : sorgu.kolonKisitlamaZinciri) {
+            sonuc.append(bilesen.sqlDonusumu());
         }
 
-        // sonuctaki birden fazla bosluklari bir bosluga indir.
-        return sonuc.toString().replaceAll("[ ]+"," ").trim();
+        // sonuctaki birden fazla bosluklari bir bosluga indir ve sondaki boslugu kirp.
+        return sonuc.toString().replaceAll("[ ]+", " ").trim();
     }
 
     public static void main(String[] args) {

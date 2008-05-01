@@ -56,6 +56,10 @@ public class GirisAlani {
         return pq;
     }
 
+    /**
+     * Turkceye ozel karakterler icin dinamik olarak dugme uretir.
+     * @param ozelKarakterler : turkce ozel karakterler.
+     */
     public void ozelKarakterDugmeAlaniOlustur(char[] ozelKarakterler) {
 
         if (buttonPanel != null)
@@ -63,9 +67,9 @@ public class GirisAlani {
 
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-        //makechars
+
         for (char ozelKarakter : ozelKarakterler) {
-            JButton button = GuiUretici.getRegularButton(String.valueOf(ozelKarakter));
+            JButton button = new JButton(String.valueOf(ozelKarakter));
             button.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent evt) {
                     String turkceChar = ((JButton) evt.getSource()).getText();
