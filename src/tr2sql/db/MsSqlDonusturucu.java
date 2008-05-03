@@ -4,8 +4,7 @@ import net.zemberek.yapi.Kok;
 import net.zemberek.yapi.KelimeTipi;
 
 import java.util.List;
-
-import org.jmate.collections.Lists;
+import java.util.Arrays;
 
 /**
  * Microsoft SQL Server icin Sorgu degerlerinden SQL cumlesi uretici.
@@ -27,7 +26,7 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         for (Kolon kolon : sorgu.sonucKolonlari) {
             sonuc.append(kolon.getAd());
             if (i++ < sorgu.sonucKolonlari.size())
-                sonuc.append(",");
+                sonuc.append(", ");
         }
 
         // eger donus kolonlari belirtilmemisse herseyi dondurelim.
@@ -59,12 +58,12 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         sorgu.islemTipi = IslemTipi.SORGULAMA;
 
         // tablo ve kolon uretiminde gerekli oldugundan ornek bir kavram uretelim. yoksa SQL uretiminde gerekli degil.
-        Kavram testKavrami = new Kavram("testkavrami", Lists.newArrayList(new Kok("testkok", KelimeTipi.ISIM)));
+        Kavram testKavrami = new Kavram("testkavrami", Arrays.asList(new Kok("testkok", KelimeTipi.ISIM)));
 
         // iki test kolonu
         Kolon kolon1 = new Kolon("NUMARA", testKavrami, KolonTipi.SAYI, true);
         Kolon kolon2 = new Kolon("ISIM", testKavrami, KolonTipi.YAZI, false);
-        List<Kolon> kolonlar = Lists.newArrayList(kolon1, kolon2);
+        List<Kolon> kolonlar = Arrays.asList(kolon1, kolon2);
 
         // test tablosu.
         sorgu.tablo = new Tablo("TEST_TABLOSU", testKavrami, kolonlar);
@@ -82,7 +81,7 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         KolonKisitlamaZincirBileseni halka2 = new KolonKisitlamaZincirBileseni(isimKisitlama, KosulTipi.YOK);
 
         //bilesenleri bir Linkli liste seklinde sorgu tasiyiciya koyalim
-        sorgu.kolonKisitlamaZinciri = Lists.newLinkedList(halka1, halka2);
+        sorgu.kolonKisitlamaZinciri = Arrays.asList(halka1, halka2);
 
         SqlDonusturucu sqlDonusturucu = new MsSqlDonusturucu();
 

@@ -12,7 +12,7 @@
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib-dagitim/zemberek-tr-2.0.1.jar!/" />
           <root url="jar://$MODULE_DIR$/lib-dagitim/zemberek-cekirdek-2.0.1.jar!/" />
-          <root url="jar://$MODULE_DIR$/lib-dagitim/jmate-0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib-dagitim/jmate-0.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

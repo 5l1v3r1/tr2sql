@@ -1,8 +1,8 @@
 package tr2sql.db;
 
-import org.jmate.collections.Lists;
-
 import java.util.List;
+import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  * Sorgu Tasiyici, Dogal dil cumleden elde edilen sorgu bilesenlerini tasiyan bir tasitici yapidir.
@@ -16,11 +16,12 @@ public class SorguTasiyici {
     public Tablo tablo;
 
     // sorguyu kisitlayan kolon bilgileri
-    public List<KolonKisitlamaZincirBileseni> kolonKisitlamaZinciri = Lists.newLinkedList();
+    public List<KolonKisitlamaZincirBileseni> kolonKisitlamaZinciri =
+            new LinkedList<KolonKisitlamaZincirBileseni>();
 
     // sonuc miktari. -1 ise miktar kisitlamasi yok demektir.
     public int sonucMiktarKisitlamaDegeri = -1;
 
     // sonucta listelenmesi gereken kolonlar.
-    public List<Kolon> sonucKolonlari = Lists.newArrayList();
+    public List<Kolon> sonucKolonlari = new ArrayList<Kolon>();
 }

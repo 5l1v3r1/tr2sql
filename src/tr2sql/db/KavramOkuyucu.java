@@ -11,11 +11,12 @@ import net.zemberek.yapi.Kok;
 import net.zemberek.yapi.TurkceDilBilgisi;
 import org.jmate.Files;
 import org.jmate.Strings;
-import org.jmate.collections.Lists;
-import org.jmate.collections.Sets;
+import org.jmate.FileReader;
 import tr2sql.SozlukIslemleri;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,14 +32,14 @@ public class KavramOkuyucu {
     }
 
     public Set<Kavram> oku(String KavramDosyaAdi) throws IOException {
-        Set<Kavram> kavramlar = Sets.newHashSet();
-        List<String> kavramKarsiliklari = Files.readAsStringList(KavramDosyaAdi, "utf-8", true);
+        Set<Kavram> kavramlar = new HashSet<Kavram>();
+        List<String> kavramKarsiliklari = new FileReader(KavramDosyaAdi, "utf-8").asStringList();
         for (String s : kavramKarsiliklari) {
             //bos satirlari islemeden atla..
             if (!Strings.hasText(s))
                 continue;
 
-            String[] dizi = s.split(",|\n|:");
+            String[] dizi = s.trim().split(",|\n|:");
 
             if (dizi.length < 2) {
                 System.out.println("Bir kavram icin en az bir kok karsiligi yazilmali:" + s);
@@ -46,7 +47,7 @@ public class KavramOkuyucu {
             }
 
             String kavramKelimesi = dizi[0].trim();
-            List<Kok> kavramKokleri = Lists.newArrayList();
+            List<Kok> kavramKokleri = new ArrayList<Kok>();
 
             for (int i = 1; i < dizi.length; i++) {
                 String kokStr = dizi[i].trim();

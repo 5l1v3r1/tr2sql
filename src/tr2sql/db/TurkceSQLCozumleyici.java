@@ -6,21 +6,16 @@ import net.zemberek.araclar.turkce.YaziIsleyici;
 import net.zemberek.erisim.Zemberek;
 import net.zemberek.islemler.cozumleme.CozumlemeSeviyesi;
 import net.zemberek.yapi.Kelime;
-import org.jmate.collections.Lists;
-import org.jmate.collections.Maps;
-import org.jmate.collections.Sets;
 import tr2sql.SozlukIslemleri;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 public class TurkceSQLCozumleyici {
 
     private VeriTabani veriTabani;
-    private Map<String, Kavram> kavramTablosu = Maps.newHashMap();
+    private Map<String, Kavram> kavramTablosu = new HashMap<String, Kavram>();
 
     private Zemberek zemberek;
 
@@ -58,7 +53,7 @@ public class TurkceSQLCozumleyici {
 
     class BasitCumleCozumleyici {
 
-        private List<Kelime> olasiKelimeDizisi = Lists.newArrayList();
+        private List<Kelime> olasiKelimeDizisi = new ArrayList<Kelime>();
 
         public BasitCumleCozumleyici(String giris) {
 
@@ -110,8 +105,8 @@ public class TurkceSQLCozumleyici {
 
         public List<KolonKisitlamaBileseni> kisitlamaBilesenListesi(Tablo tablo) {
 
-            List<KolonKisitlamaBileseni> bilesenler = Lists.newArrayList();
-            Set<Integer> islenenKolonlar = Sets.newHashSet();
+            List<KolonKisitlamaBileseni> bilesenler = new ArrayList<KolonKisitlamaBileseni>();
+            Set<Integer> islenenKolonlar = new HashSet<Integer>();
             for (Kelime kelime : olasiKelimeDizisi) {
                 // once bu kelimenin koku bir kolona denk dusuyormu bakalim.
                 Kolon kolon = tablo.kokeGoreKolonBul(kelime.kok());

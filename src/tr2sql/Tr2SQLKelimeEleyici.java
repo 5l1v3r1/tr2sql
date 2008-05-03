@@ -8,7 +8,7 @@ import net.zemberek.yapi.ek.Ek;
 import net.zemberek.yapi.ek.EkYonetici;
 import org.jmate.Files;
 import org.jmate.Strings;
-import org.jmate.collections.Lists;
+import org.jmate.FileReader;
 
 import java.io.IOException;
 import java.util.*;
@@ -94,10 +94,10 @@ public class Tr2SQLKelimeEleyici {
     private void kokleriOku() throws IOException {
 
         // bin/temel-kabulEdilenKokler.txt dosyasindan kokleri okuyalim. jmate kutuphanesinin
-        // Files helper sinifindan yararlaniliyor.
+        // FileReader sinifindan yararlaniliyor.
         // her bir satir listenin bir elemani oluyor.
         List<String> konuOzelStringler =
-                Files.readAsStringList("bilgi/temel-kokler.txt", "utf-8", true);
+                new FileReader("bilgi/temel-kokler.txt", "utf-8").asStringList(true);
 
         // eger satir bos ise ya da # karakteri ile basliyorsa bunlari dikkate ala.
         konuOzelStringler = gecersizSatrilariEle(konuOzelStringler);
@@ -118,7 +118,7 @@ public class Tr2SQLKelimeEleyici {
 
 
     private List<String> gecersizSatrilariEle(List<String> list) {
-        List<String> yeni = Lists.newArrayList();
+        List<String> yeni = new ArrayList<String>();
         for (String s : list) {
             if (Strings.hasText(s) && !s.startsWith("#")) {
                 yeni.add(s);
