@@ -6,6 +6,7 @@ package tr2sql.db;
 public interface SqlDonusturucu {
     /**
      * verilen bir SorguTasiyici nesnesindeki degerleri kullanarak ilgili gercek SQL cumlesini uretir.
+     *
      * @param sorgu Sorgu bilgilerinin tasindigi veri yapisi
      * @return olusturulan SQL cumlesi. Eger donusum yapilamazsa bos String "" doner.
      */

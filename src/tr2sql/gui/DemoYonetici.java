@@ -86,7 +86,7 @@ public class DemoYonetici {
         return tr2SQLCozumleyici.getVeriTabani().toString();
     }
 
-    public String tabloVeKolonTahminGoster(String giris) {        
+    public String tabloVeKolonTahminGoster(String giris) {
         Tablo tablo = tr2SQLCozumleyici.tabloTahminEt(giris);
         if (tablo == null)
             return "Cumlenin hangi tablo ile iliskili oldugu bulunamadi..";

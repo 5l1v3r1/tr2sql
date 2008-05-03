@@ -16,14 +16,7 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
 
         StringBuilder sonuc = new StringBuilder();
 
-        switch (sorgu.islemTipi) {
-            case SORGULAMA:
-                sonuc.append("select ");
-                break;
-            case GUNCELLEME:
-                sonuc.append("update "); // bunu kullanmayacagiz ama ornek olsun.
-                break;
-        }
+        sonuc.append(sorgu.islemTipi.sqlDonusumu());
 
         // eger belirtilmisse sonuc miktar kisitlama bilgisini ekleyelim.
         if (sorgu.sonucMiktarKisitlamaDegeri > -1)

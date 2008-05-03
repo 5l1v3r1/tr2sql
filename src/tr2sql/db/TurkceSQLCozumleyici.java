@@ -101,7 +101,7 @@ public class TurkceSQLCozumleyici {
                 if (sorguKavrami.kokMevcutMu(kelime.kok()))
                     return IslemTipi.SORGULAMA;
             }
-            return IslemTipi.BELIRSIZ;
+            return IslemTipi.SORGULAMA;
         }
 
         public List<Kelime> getOlasiKelimeDizisi() {
@@ -116,19 +116,17 @@ public class TurkceSQLCozumleyici {
                 // once bu kelimenin koku bir kolona denk dusuyormu bakalim.
                 Kolon kolon = tablo.kokeGoreKolonBul(kelime.kok());
                 // denk dusmuyorsa donguye devam et.
-                if(kolon==null)
-                  continue;
+                if (kolon == null)
+                    continue;
                 //burasi biraz dandik. kolon son eki "i" belirtme ya da "li" eki ise
                 // farkli seklide deger aramamiz gerekecek..
                 // TODO: devami gelecek.
 
 
-
-
             }
-           return bilesenler;
+            return bilesenler;
         }
- 
+
     }
 
 }
