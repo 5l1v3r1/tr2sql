@@ -9,9 +9,8 @@ import net.zemberek.tr.yapi.TurkiyeTurkcesi;
 import net.zemberek.yapi.DilBilgisi;
 import net.zemberek.yapi.Kok;
 import net.zemberek.yapi.TurkceDilBilgisi;
-import org.jmate.Files;
-import org.jmate.Strings;
 import org.jmate.FileReader;
+import org.jmate.Strings;
 import tr2sql.SozlukIslemleri;
 
 import java.io.IOException;

@@ -6,9 +6,8 @@ import net.zemberek.yapi.Kelime;
 import net.zemberek.yapi.Kok;
 import net.zemberek.yapi.ek.Ek;
 import net.zemberek.yapi.ek.EkYonetici;
-import org.jmate.Files;
-import org.jmate.Strings;
 import org.jmate.FileReader;
+import org.jmate.Strings;
 
 import java.io.IOException;
 import java.util.*;

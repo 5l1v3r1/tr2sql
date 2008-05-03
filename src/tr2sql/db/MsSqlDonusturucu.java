@@ -1,10 +1,10 @@
 package tr2sql.db;
 
-import net.zemberek.yapi.Kok;
 import net.zemberek.yapi.KelimeTipi;
+import net.zemberek.yapi.Kok;
 
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Microsoft SQL Server icin Sorgu degerlerinden SQL cumlesi uretici.
