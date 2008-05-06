@@ -19,7 +19,8 @@ public class BasitCumleAyristirici {
         List<String> parcalar = new ArrayList<String>();
         String c = cumle.replaceAll("[ ]+", " ").trim();
 
-        Pattern parcalayici = Pattern.compile("[a-zA-ZçğıöşüÇİĞÖŞÜ']+[^\\s.,]|[,]");
+        // bu regular expression ile 
+        Pattern parcalayici = Pattern.compile("('[^']*')|[^ \\t\\n,.]+|,");
         Matcher m = parcalayici.matcher(c);
 
         while (m.find())
@@ -29,6 +30,7 @@ public class BasitCumleAyristirici {
     }
 
     public static void main(String[] args) {
-        new BasitCumleAyristirici("Mini mini bir 'kuş' donmuştu, pencereme konmuştu...").ayristir();
+       List<String> parcalar = new BasitCumleAyristirici("Mini mini bir 'kuş lar' donmuştu, pencereme konmuştu...").ayristir();
+        System.out.println("parcalar = " + parcalar); 
     }
 }
