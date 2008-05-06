@@ -9,10 +9,6 @@ public class AnaEkran extends JFrame {
     private JPanel gosterilenIcerik = null;
 
     public AnaEkran() {
-        duzenle();
-    }
-
-    private void duzenle() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Container cp = getContentPane();
         cp.setLayout(new BoxLayout(cp, BoxLayout.Y_AXIS));

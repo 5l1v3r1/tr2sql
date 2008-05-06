@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package tr2sql.db;
 
 import net.zemberek.tr.yapi.TurkiyeTurkcesi;
