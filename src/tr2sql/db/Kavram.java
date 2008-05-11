@@ -15,20 +15,20 @@ import java.util.List;
  */
 public class Kavram {
 
-    private List<Kok> benzerKokler = new ArrayList<Kok>();
+    private List<Kok> esKokler = new ArrayList<Kok>();
     private String ad;
 
     public Kavram(String kavram, List<Kok> kokListesi) {
         this.ad = kavram;
-        this.benzerKokler = kokListesi;
+        this.esKokler = kokListesi;
     }
 
     public String getAd() {
         return ad;
     }
 
-    public List<Kok> getBenzerKokler() {
-        return benzerKokler;
+    public List<Kok> getEsKokler() {
+        return esKokler;
     }
 
     public String toString() {
@@ -36,7 +36,7 @@ public class Kavram {
     }
 
     public boolean kokMevcutMu(Kok kok) {
-        return benzerKokler.contains(kok);
+        return esKokler.contains(kok);
     }
 }
  

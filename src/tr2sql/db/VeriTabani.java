@@ -38,6 +38,14 @@ public class VeriTabani {
         return null;
     }
 
+    public Tablo kavramaGoreTabloBul(Kavram kavram) {
+        for (Tablo tablo : tablolar) {
+            if (kavram.equals(tablo.getKavram()))
+                return tablo;
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder("VeriTabani:" + ad + '\n' + "Tablolar:\n");

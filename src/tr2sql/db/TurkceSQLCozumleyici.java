@@ -1,21 +1,26 @@
 package tr2sql.db;
 
-import net.zemberek.araclar.turkce.YaziBirimi;
-import net.zemberek.araclar.turkce.YaziBirimiTipi;
-import net.zemberek.araclar.turkce.YaziIsleyici;
 import net.zemberek.erisim.Zemberek;
 import net.zemberek.islemler.cozumleme.CozumlemeSeviyesi;
 import net.zemberek.yapi.Kelime;
+import net.zemberek.yapi.Kok;
 import tr2sql.SozlukIslemleri;
+import tr2sql.cozumleyici.KisitlamaBileseni;
+import tr2sql.cozumleyici.SorguCumleBileseni;
+import tr2sql.cozumleyici.TanimsizBilesen;
+import tr2sql.cozumleyici.TabloBileseni;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 
 public class TurkceSQLCozumleyici {
 
     private VeriTabani veriTabani;
-    private Map<String, Kavram> kavramTablosu = new HashMap<String, Kavram>();
+    private Map<String, Kavram> stringKavramTablosu = new HashMap<String, Kavram>();
+    private Map<Kok, Kavram> kokKavramTablosu = new HashMap<Kok, Kavram>();
 
     private Zemberek zemberek;
 
@@ -26,20 +31,23 @@ public class TurkceSQLCozumleyici {
         SozlukIslemleri sozlukIslemleri = new SozlukIslemleri(zemberek.dilBilgisi().kokler());
         KavramOkuyucu kavramOkuyucu = new KavramOkuyucu(sozlukIslemleri);
 
-        // kavramlari okuyup tabloya at.
+        // kavramlari okuyup tablolara at.
         Set<Kavram> kavramlar = kavramOkuyucu.oku(kavramDosyasi);
         for (Kavram kavram : kavramlar) {
-            kavramTablosu.put(kavram.getAd(), kavram);
+            stringKavramTablosu.put(kavram.getAd(), kavram);
+            for (Kok kok : kavram.getEsKokler()) {
+                kokKavramTablosu.put(kok, kavram);
+            }
         }
-        veriTabani = new XmlVeriTabaniBilgisiOkuyucu(kavramTablosu).oku(veriTabaniDosyasi);
+        veriTabani = new XmlVeriTabaniBilgisiOkuyucu(stringKavramTablosu).oku(veriTabaniDosyasi);
     }
 
     public VeriTabani getVeriTabani() {
         return veriTabani;
     }
 
-    public Map<String, Kavram> getKavramTablosu() {
-        return kavramTablosu;
+    public Map<String, Kavram> getStringKavramTablosu() {
+        return stringKavramTablosu;
     }
 
     public Tablo tabloTahminEt(String giris) {
@@ -54,19 +62,53 @@ public class TurkceSQLCozumleyici {
     class BasitCumleCozumleyici {
 
         private List<Kelime> olasiKelimeDizisi = new ArrayList<Kelime>();
+        private List<String> cumleParcalari = new ArrayList<String>();
 
         public BasitCumleCozumleyici(String giris) {
 
-            // burada bir cumleden olasi kelime dizisi ortaya cikariliyor. normalde birden fazla cozum olabilir
-            // biz ilk geleni seciyoruz.
-            List<YaziBirimi> analizDizisi = YaziIsleyici.analizDizisiOlustur(giris);
-            for (YaziBirimi birim : analizDizisi) {
-                if (birim.tip == YaziBirimiTipi.KELIME) {
-                    Kelime[] sonuclar = zemberek.kelimeCozumle(birim.icerik, CozumlemeSeviyesi.TUM_KOKLER);
+            String c = giris.replaceAll("[ ]+", " ").trim();
+
+            // bu regular expression ile cumledeki kelimeleri parcaliyoruz.
+            // eger kelime '' isareti icinde ise parcalanmiyor, butun olarak aliniyor.
+            // virgul sembolu de ayrica listede yer aliyor. mesela
+            // "adi 'ayse','ali can' olan ogrencileri goster." cumlesinden
+            // [adi]['ayse'][,]['ali can'][olan][ogrencileri][goster]
+            // parcalari elde edilir..
+            Pattern parcalayici = Pattern.compile("('[^']*')|[^ \\t\\n,.]+|,");
+            Matcher m = parcalayici.matcher(c);
+
+            while (m.find())
+                cumleParcalari.add(m.group());
+
+
+            List<SorguCumleBileseni> bilesenler = new ArrayList<SorguCumleBileseni>();
+
+            for (String s : cumleParcalari) {
+
+                if (s.startsWith("'") && s.length() > 2) {
+                    SorguCumleBileseni bilesen = new KisitlamaBileseni(s.substring(1, s.length() - 2));
+                    bilesenler.add(bilesen);
+                } else {
+                    Kelime[] sonuclar = zemberek.kelimeCozumle(s, CozumlemeSeviyesi.TUM_KOKLER);
+                    Kavram kavram;
                     if (sonuclar.length > 0)
-                        olasiKelimeDizisi.add(sonuclar[0]);
+                        kavram = kokKavramTablosu.get(sonuclar[0].kok());
+                    else {
+                        bilesenler.add(new TanimsizBilesen(s));
+                        continue;
+                    }
+                    bilesenler.add(bilesenBul(kavram, s));
                 }
             }
+        }
+
+        // kavrama gore sorgu cumle bilesenini bulur.
+        private SorguCumleBileseni bilesenBul(Kavram kavram, String s) {
+            Tablo t = veriTabani.kavramaGoreTabloBul(kavram);
+            if (t != null)
+                return new TabloBileseni();
+            return new TanimsizBilesen(s);
+
         }
 
         /**
@@ -91,7 +133,7 @@ public class TurkceSQLCozumleyici {
          * @return bulunan islem tipi.
          */
         public IslemTipi islemBul() {
-            Kavram sorguKavrami = kavramTablosu.get("sorgu");
+            Kavram sorguKavrami = stringKavramTablosu.get("sorgu");
             for (Kelime kelime : olasiKelimeDizisi) {
                 if (sorguKavrami.kokMevcutMu(kelime.kok()))
                     return IslemTipi.SORGULAMA;
