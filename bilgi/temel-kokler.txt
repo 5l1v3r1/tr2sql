@@ -132,12 +132,3 @@ sonlanmak
 ulamak
 yapmak
 yüklemek
-
-
-
-
-
-
-
-
-

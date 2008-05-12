@@ -7,13 +7,13 @@ bölüm: bölüm,kısım,departman,birim
 ürün: ürün,mal,maden
 fiyat: fiyat,ücret,paha,değer,eder
 miktar: miktar,üretim
-sorgu: sorgulamak,getirmek,görüntülemek,listelemek,göstermek,yüklemek,yapmak
-sil: silmek
-ekle:eklemek
-güncelle:güncellemek
-ol: olmak
-büyük:büyük,fazla,çok
-küçük:küçük,az,ufak
-eşit: eşit, aynı
-eşit_değil:farklı
+SORGULA: sorgulamak,getirmek,görüntülemek,listelemek,göstermek,yüklemek,yapmak
+SIL: silmek
+EKLE:eklemek
+GUNCELLE:güncellemek
+OL: olmak
+BUYUK:büyük,fazla,çok
+KUCUK:küçük,az,ufak
+ESIT: eşit, aynı
+ESIT_DEGIL:farklı
 
