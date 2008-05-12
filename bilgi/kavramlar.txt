@@ -11,4 +11,9 @@ sorgu: sorgulamak,getirmek,görüntülemek,listelemek,göstermek,yüklemek,yapma
 sil: silmek
 ekle:eklemek
 güncelle:güncellemek
+ol: olmak
+büyük:büyük,fazla,çok
+küçük:küçük,az,ufak
+eşit: eşit, aynı
+eşit_değil:farklı
 

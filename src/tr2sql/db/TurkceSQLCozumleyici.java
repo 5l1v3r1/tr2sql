@@ -78,7 +78,7 @@ public class TurkceSQLCozumleyici {
             for (String s : cumleParcalari) {
 
                 if (s.startsWith("'") && s.length() > 2) {
-                    SorguCumleBileseni bilesen = new KisitlamaBileseni(s.substring(1, s.length() - 2));
+                    SorguCumleBileseni bilesen = new KisitlamaBileseni(s.substring(1, s.length() - 1));
                     bilesenler.add(bilesen);
                 } else {
                     Kelime[] sonuclar = zemberek.kelimeCozumle(s, CozumlemeSeviyesi.TUM_KOKLER);
@@ -97,20 +97,29 @@ public class TurkceSQLCozumleyici {
 
         // kavrama gore sorgu cumle bilesenini bulur.
         private SorguCumleBileseni bilesenBul(Kavram kavram, String s) {
+
+            if (kavram == null)
+                return new TanimsizBilesen(s);
+
             Tablo t = veriTabani.kavramaGoreTabloBul(kavram);
             if (t != null)
                 return new TabloBileseni(t, s);
+
             IslemTipi tip = IslemTipi.kavramaGoreIslem(kavram);
             if (tip != IslemTipi.TANIMSIZ)
                 return new IslemBileseni(tip, s);
+
             List<Kolon> tumKolonlar = veriTabani.tumKolonlar();
             for (Kolon kolon : tumKolonlar) {
                 if (kolon.getKavram().equals(kavram))
                     return new KolonBileseni(kolon, s);
             }
+
+            if (kavram.getAd().equals("ol"))
+                return new TemelKavramBileseni(CumleBilesenTipi.KISITLAMA_TANIMLAYICI, s);
+
             return new TanimsizBilesen(s);
         }
 
     }
-
 }

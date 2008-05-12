@@ -74,6 +74,9 @@ o
 toplam
 ara
 ve
+aynı
+farklı
+boş
 
 # sayilar.
 
