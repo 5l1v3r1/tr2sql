@@ -1,11 +1,7 @@
 package tr2sql.cozumleyici;
 
 /**
- * Created by IntelliJ IDEA.
- * User: ahmetaa
- * Date: May 11, 2008
- * Time: 9:15:32 PM
- * To change this template use File | Settings | File Templates.
+ * Bu bilesen genel olarak fazladan bilgi tasimayan bilesenler icin kullanilir.
  */
 public class TemelKavramBileseni implements SorguCumleBileseni{
 

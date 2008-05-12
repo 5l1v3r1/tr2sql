@@ -115,7 +115,7 @@ public class TurkceSQLCozumleyici {
                     return new KolonBileseni(kolon, s);
             }
 
-            if (kavram.getAd().equals("ol"))
+            if (kavram.getAd().equals("OL"))
                 return new TemelKavramBileseni(CumleBilesenTipi.KISITLAMA_TANIMLAYICI, s);
 
             return new TanimsizBilesen(s);

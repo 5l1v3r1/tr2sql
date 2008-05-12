@@ -18,13 +18,13 @@ public enum IslemTipi {
     }
 
     public static IslemTipi kavramaGoreIslem(Kavram kavram) {
-        if (kavram.getAd().equals("sorgu"))
+        if (kavram.getAd().equals("SORGULA"))
             return SORGULAMA;
-        else if (kavram.getAd().equals("sil"))
+        else if (kavram.getAd().equals("SIL"))
             return SILME;
-        else if (kavram.getAd().equals("guncelle"))
+        else if (kavram.getAd().equals("GUNCELLE"))
             return GUNCELLEME;
-        else if (kavram.getAd().equals("ekle"))
+        else if (kavram.getAd().equals("EKLE"))
             return EKLEME;
         else return TANIMSIZ;
     }
