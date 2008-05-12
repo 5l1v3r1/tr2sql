@@ -5,10 +5,7 @@ import net.zemberek.islemler.cozumleme.CozumlemeSeviyesi;
 import net.zemberek.yapi.Kelime;
 import net.zemberek.yapi.Kok;
 import tr2sql.SozlukIslemleri;
-import tr2sql.cozumleyici.KisitlamaBileseni;
-import tr2sql.cozumleyici.SorguCumleBileseni;
-import tr2sql.cozumleyici.TanimsizBilesen;
-import tr2sql.cozumleyici.TabloBileseni;
+import tr2sql.cozumleyici.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -50,18 +47,12 @@ public class TurkceSQLCozumleyici {
         return stringKavramTablosu;
     }
 
-    public Tablo tabloTahminEt(String giris) {
-        return new BasitCumleCozumleyici(giris).tabloTahminEt();
-    }
-
-
-    public IslemTipi islemTipiTahminEt(String giris) {
-        return new BasitCumleCozumleyici(giris).islemBul();
+    public List<SorguCumleBileseni> sorguCumleBilesenleriniAyir(String giris) {
+        return new BasitCumleCozumleyici(giris).bilesenler();
     }
 
     class BasitCumleCozumleyici {
 
-        private List<Kelime> olasiKelimeDizisi = new ArrayList<Kelime>();
         private List<String> cumleParcalari = new ArrayList<String>();
 
         public BasitCumleCozumleyici(String giris) {
@@ -79,8 +70,9 @@ public class TurkceSQLCozumleyici {
 
             while (m.find())
                 cumleParcalari.add(m.group());
+        }
 
-
+        private List<SorguCumleBileseni> bilesenler() {
             List<SorguCumleBileseni> bilesenler = new ArrayList<SorguCumleBileseni>();
 
             for (String s : cumleParcalari) {
@@ -100,68 +92,23 @@ public class TurkceSQLCozumleyici {
                     bilesenler.add(bilesenBul(kavram, s));
                 }
             }
+            return bilesenler;
         }
 
         // kavrama gore sorgu cumle bilesenini bulur.
         private SorguCumleBileseni bilesenBul(Kavram kavram, String s) {
             Tablo t = veriTabani.kavramaGoreTabloBul(kavram);
             if (t != null)
-                return new TabloBileseni();
+                return new TabloBileseni(t, s);
+            IslemTipi tip = IslemTipi.kavramaGoreIslem(kavram);
+            if (tip != IslemTipi.TANIMSIZ)
+                return new IslemBileseni(tip, s);
+            List<Kolon> tumKolonlar = veriTabani.tumKolonlar();
+            for (Kolon kolon : tumKolonlar) {
+                if (kolon.getKavram().equals(kavram))
+                    return new KolonBileseni(kolon, s);
+            }
             return new TanimsizBilesen(s);
-
-        }
-
-        /**
-         * simdilik tek tablo buluyor.
-         *
-         * @return bulunursa Tablo. yoksa Exception firlatir..
-         */
-        public Tablo tabloTahminEt() {
-
-            for (Kelime kelime : olasiKelimeDizisi) {
-                Tablo t = veriTabani.kokeGoreTabloBul(kelime.kok());
-                if (t != null)
-                    return t;
-            }
-            return null;
-        }
-
-        /**
-         * ilgili islemi bulur. simdilik sadece sorgulama kavrami ile calisiyor.
-         * ve soru cumleleri ihmal ediliyor.
-         *
-         * @return bulunan islem tipi.
-         */
-        public IslemTipi islemBul() {
-            Kavram sorguKavrami = stringKavramTablosu.get("sorgu");
-            for (Kelime kelime : olasiKelimeDizisi) {
-                if (sorguKavrami.kokMevcutMu(kelime.kok()))
-                    return IslemTipi.SORGULAMA;
-            }
-            return IslemTipi.SORGULAMA;
-        }
-
-        public List<Kelime> getOlasiKelimeDizisi() {
-            return olasiKelimeDizisi;
-        }
-
-        public List<KolonKisitlamaBileseni> kisitlamaBilesenListesi(Tablo tablo) {
-
-            List<KolonKisitlamaBileseni> bilesenler = new ArrayList<KolonKisitlamaBileseni>();
-            Set<Integer> islenenKolonlar = new HashSet<Integer>();
-            for (Kelime kelime : olasiKelimeDizisi) {
-                // once bu kelimenin koku bir kolona denk dusuyormu bakalim.
-                Kolon kolon = tablo.kokeGoreKolonBul(kelime.kok());
-                // denk dusmuyorsa donguye devam et.
-                if (kolon == null)
-                    continue;
-                //burasi biraz dandik. kolon son eki "i" belirtme ya da "li" eki ise
-                // farkli seklide deger aramamiz gerekecek..
-                // TODO: devami gelecek.
-
-
-            }
-            return bilesenler;
         }
 
     }

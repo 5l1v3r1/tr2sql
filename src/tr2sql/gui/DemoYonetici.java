@@ -8,6 +8,7 @@ import net.zemberek.tr.yapi.TurkiyeTurkcesi;
 import net.zemberek.yapi.DilBilgisi;
 import net.zemberek.yapi.Kelime;
 import tr2sql.Tr2SQLKelimeEleyici;
+import tr2sql.cozumleyici.SorguCumleBileseni;
 import tr2sql.db.Tablo;
 import tr2sql.db.TurkceSQLCozumleyici;
 
@@ -86,15 +87,16 @@ public class DemoYonetici {
         return tr2SQLCozumleyici.getVeriTabani().toString();
     }
 
-    public String tabloVeKolonTahminGoster(String giris) {
-        Tablo tablo = tr2SQLCozumleyici.tabloTahminEt(giris);
-        if (tablo == null)
-            return "Cumlenin hangi tablo ile iliskili oldugu bulunamadi..";
-        return tablo.getAd();
-    }
+    public String sorguCumlesiBilesenleri(String giris) {
+        List<SorguCumleBileseni> bilesenler =
+                tr2SQLCozumleyici.sorguCumleBilesenleriniAyir(giris);
+        StringBuilder builder = new StringBuilder();
+        for (SorguCumleBileseni bilesen : bilesenler) {
+            String s = "[" + bilesen.icerik() + " : " + bilesen.tip() + "] ";
+            builder.append(s);
+        }
+        return builder.toString();
 
-    public String islemTahminEt(String giris) {
-        return tr2SQLCozumleyici.islemTipiTahminEt(giris).name();
     }
 
 }

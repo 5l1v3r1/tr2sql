@@ -125,13 +125,12 @@ public class DemoPaneli {
         centerPanel.add(veriTabaniBilgileriBtn);
 
         JButton tabloKolonTahminBtn;
-        tabloKolonTahminBtn = new JButton("Cozum bilgileri:");
+        tabloKolonTahminBtn = new JButton("Cozum bilgileri");
         tabloKolonTahminBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 StringBuilder builder = new StringBuilder();
                 String giris = girisAlani.getYazi();
-                builder.append("Islem: " + dy.islemTahminEt(giris)).append('\n');
-                builder.append("Tablo: " + dy.tabloVeKolonTahminGoster(giris)).append('\n');
+                builder.append(dy.sorguCumlesiBilesenleri(giris)).append('\n');
                 cikisAlani.setYazi(builder.toString());
             }
         });

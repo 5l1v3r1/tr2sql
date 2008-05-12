@@ -4,20 +4,22 @@ import tr2sql.db.Kolon;
 
 public class KisitlamaBileseni implements SorguCumleBileseni {
 
-    private String deger;
+    private String icerik;
     private Kolon kolon;
 
-    public KisitlamaBileseni(String deger) {
-        this.deger = deger;
+    public KisitlamaBileseni(String icerik) {
+        this.icerik = icerik;
     }
 
-    
-
-    public String getDeger() {
-        return deger;
+    public String getIcerik() {
+        return icerik;
     }
 
     public CumleBilesenTipi tip() {
         return CumleBilesenTipi.KISITLAMA_BILGISI;
+    }
+
+    public String icerik() {
+        return icerik;
     }
 }

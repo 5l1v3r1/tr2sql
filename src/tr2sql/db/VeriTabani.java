@@ -3,6 +3,7 @@ package tr2sql.db;
 import net.zemberek.yapi.Kok;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Bu sinifta veri tabanina iliskin bilgiler yer alir.
@@ -28,6 +29,14 @@ public class VeriTabani {
 
     public List<Tablo> getTablolar() {
         return tablolar;
+    }
+
+    public List<Kolon> tumKolonlar() {
+        List<Kolon> kolonlar = new ArrayList<Kolon>();
+        for (Tablo tablo : tablolar) {
+            kolonlar.addAll(tablo.getKolonlar());
+        }
+        return kolonlar;
     }
 
     public Tablo kokeGoreTabloBul(Kok kok) {

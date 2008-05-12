@@ -11,4 +11,8 @@ public class TanimsizBilesen implements SorguCumleBileseni {
     public CumleBilesenTipi tip() {
         return CumleBilesenTipi.TANIMSIZ;
     }
+
+    public String icerik() {
+        return icerik;
+    }
 }
