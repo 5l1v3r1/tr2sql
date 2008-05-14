@@ -1,6 +1,5 @@
 ﻿# ad, sifat, edat, zamir ve baglaclar
 işçi
-emekçi
 memur
 kişi
 insan
@@ -26,7 +25,6 @@ birim
 döküm
 dağıtım
 muhasebe
-onarım
 çıkarım
 ürün
 mal

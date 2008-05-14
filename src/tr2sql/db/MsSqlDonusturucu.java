@@ -85,8 +85,6 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
 
         SqlDonusturucu sqlDonusturucu = new MsSqlDonusturucu();
 
-        // TODO: Asagidaki islemin "select top 10 * from TEST_TABLOSU where NUMARA>5 and ISIM='Ali'" uretmesi gerekir..
-
         System.out.println("sonuc:" + sqlDonusturucu.donustur(sorgu));
 
     }
