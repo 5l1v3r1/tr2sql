@@ -51,6 +51,11 @@ public class TurkceSQLCozumleyici {
         return new BasitCumleCozumleyici(giris).bilesenler();
     }
 
+    public String sqlDonusum(String giris) {
+        SorguTasiyici st = new BasitCozumleyici(sorguCumleBilesenleriniAyir(giris)).cozumle();
+        return new MsSqlDonusturucu().donustur(st);
+    }
+
     class BasitCumleCozumleyici {
 
         private List<String> cumleParcalari = new ArrayList<String>();

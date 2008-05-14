@@ -96,7 +96,9 @@ public class DemoYonetici {
             builder.append(s);
         }
         return builder.toString();
-
     }
 
+    public String sqlDonusum(String giris) {
+        return tr2SQLCozumleyici.sqlDonusum(giris);
+    }
 }
