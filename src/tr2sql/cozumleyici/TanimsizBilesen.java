@@ -1,18 +1,11 @@
 package tr2sql.cozumleyici;
 
-public class TanimsizBilesen implements SorguCumleBileseni {
+import net.zemberek.yapi.Kelime;
 
-    public String icerik;
+public class TanimsizBilesen extends TemelCumleBileseni {
 
     public TanimsizBilesen(String icerik) {
         this.icerik = icerik;
-    }
-
-    public CumleBilesenTipi tip() {
-        return CumleBilesenTipi.TANIMSIZ;
-    }
-
-    public String icerik() {
-        return icerik;
+        this.tip = CumleBilesenTipi.TANIMSIZ;
     }
 }

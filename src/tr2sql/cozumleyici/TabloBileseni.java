@@ -2,22 +2,20 @@ package tr2sql.cozumleyici;
 
 import net.zemberek.yapi.Kelime;
 import tr2sql.db.Tablo;
+import tr2sql.db.Kolon;
 
-public class TabloBileseni implements SorguCumleBileseni {
+public class TabloBileseni extends TemelCumleBileseni {
 
     Tablo tablo;
-    String icerik;
 
-    public TabloBileseni(Tablo tablo, String icerik) {
+    public TabloBileseni(Tablo tablo, Kelime kelime) {
         this.tablo = tablo;
-        this.icerik = icerik;
+        this.tip = CumleBilesenTipi.KOLON;
+        this.icerik = kelime.icerikStr();
+        this.kelime = kelime;
     }
 
-    public CumleBilesenTipi tip() {
-        return CumleBilesenTipi.TABLO;
-    }
-
-    public String icerik() {
-        return icerik;
+    public Tablo getTablo() {
+        return tablo;
     }
 }

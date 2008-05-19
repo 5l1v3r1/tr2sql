@@ -88,40 +88,42 @@ public class TurkceSQLCozumleyici {
                 } else {
                     Kelime[] sonuclar = zemberek.kelimeCozumle(s, CozumlemeSeviyesi.TUM_KOKLER);
                     Kavram kavram;
-                    if (sonuclar.length > 0)
-                        kavram = kokKavramTablosu.get(sonuclar[0].kok());
-                    else {
+                    Kelime kelime;
+                    if (sonuclar.length > 0) {
+                        kelime = sonuclar[0];
+                        kavram = kokKavramTablosu.get(kelime.kok());
+                    } else {
                         bilesenler.add(new TanimsizBilesen(s));
                         continue;
                     }
-                    bilesenler.add(bilesenBul(kavram, s));
+                    bilesenler.add(bilesenBul(kavram, s, kelime));
                 }
             }
             return bilesenler;
         }
 
         // kavrama gore sorgu cumle bilesenini bulur.
-        private SorguCumleBileseni bilesenBul(Kavram kavram, String s) {
+        private SorguCumleBileseni bilesenBul(Kavram kavram, String s, Kelime kelime) {
 
             if (kavram == null)
                 return new TanimsizBilesen(s);
 
             Tablo t = veriTabani.kavramaGoreTabloBul(kavram);
             if (t != null)
-                return new TabloBileseni(t, s);
+                return new TabloBileseni(t, kelime);
 
             IslemTipi tip = IslemTipi.kavramaGoreIslem(kavram);
             if (tip != IslemTipi.TANIMSIZ)
-                return new IslemBileseni(tip, s);
+                return new IslemBileseni(tip, kelime);
 
             List<Kolon> tumKolonlar = veriTabani.tumKolonlar();
             for (Kolon kolon : tumKolonlar) {
                 if (kolon.getKavram().equals(kavram))
-                    return new KolonBileseni(kolon, s);
+                    return new KolonBileseni(kolon, kelime);
             }
 
             if (kavram.getAd().equals("OL"))
-                return new TemelKavramBileseni(CumleBilesenTipi.KISITLAMA_TANIMLAYICI, s);
+                return new BasitKavramBileseni(CumleBilesenTipi.KISITLAMA_TANIMLAYICI, s);
 
             return new TanimsizBilesen(s);
         }

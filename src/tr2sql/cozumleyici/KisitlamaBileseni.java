@@ -1,25 +1,9 @@
 package tr2sql.cozumleyici;
 
-import tr2sql.db.Kolon;
-
-public class KisitlamaBileseni implements SorguCumleBileseni {
-
-    private String icerik;
-    private Kolon kolon;
+public class KisitlamaBileseni extends TemelCumleBileseni {
 
     public KisitlamaBileseni(String icerik) {
+        this.tip = CumleBilesenTipi.KISITLAMA_BILGISI;
         this.icerik = icerik;
-    }
-
-    public String getIcerik() {
-        return icerik;
-    }
-
-    public CumleBilesenTipi tip() {
-        return CumleBilesenTipi.KISITLAMA_BILGISI;
-    }
-
-    public String icerik() {
-        return icerik;
     }
 }

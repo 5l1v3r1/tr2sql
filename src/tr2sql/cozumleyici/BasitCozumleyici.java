@@ -15,6 +15,7 @@ public class BasitCozumleyici {
 
     public SorguTasiyici cozumle() {
 
+
         SorguTasiyici st = new SorguTasiyici();
 
         // basit bicimde tablo ve islem verisini ekle.
@@ -30,6 +31,12 @@ public class BasitCozumleyici {
         }
 
         return st;
+    }
+
+
+
+    public enum Kalip {
+        
     }
 
 

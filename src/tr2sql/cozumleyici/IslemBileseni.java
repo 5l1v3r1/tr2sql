@@ -1,22 +1,16 @@
 package tr2sql.cozumleyici;
 
 import tr2sql.db.IslemTipi;
+import net.zemberek.yapi.Kelime;
 
-public class IslemBileseni implements SorguCumleBileseni{
+public class IslemBileseni extends TemelCumleBileseni {
 
     IslemTipi islem;
-    String icerik;
 
-    public IslemBileseni(IslemTipi islem, String icerik) {
+    public IslemBileseni(IslemTipi islem, Kelime kelime) {
         this.islem = islem;
-        this.icerik = icerik;
-    }
-
-    public CumleBilesenTipi tip() {
-        return CumleBilesenTipi.ISLEM;
-    }
-
-    public String icerik() {
-        return icerik;
+        this.tip = CumleBilesenTipi.ISLEM;
+        this.icerik = kelime.icerikStr();
+        this.kelime = kelime;
     }
 }
