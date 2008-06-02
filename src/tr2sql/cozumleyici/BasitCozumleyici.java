@@ -1,6 +1,7 @@
 package tr2sql.cozumleyici;
 
 import tr2sql.db.SorguTasiyici;
+import tr2sql.db.Kolon;
 
 import java.util.List;
 
@@ -30,14 +31,30 @@ public class BasitCozumleyici {
             }
         }
 
+        for (int i = 0; i < bilesenler.size(); i++) {
+            SorguCumleBileseni bilesen = bilesenler.get(i);
+
+            Kolon k = null;
+            if (bilesen.tip() == CumleBilesenTipi.KOLON) {
+                KolonBileseni kb = (KolonBileseni) bilesen;
+                k = kb.kolon;
+                continue;
+            }
+            if(bilesen.tip() == CumleBilesenTipi.KISITLAMA_BILGISI ) {
+               
+            }
+
+        }
+
         return st;
     }
 
 
-
     public enum Kalip {
-        
+
     }
+
+
 
 
 }

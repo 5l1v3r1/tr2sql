@@ -24,4 +24,9 @@ public class SorguTasiyici {
 
     // sonucta listelenmesi gereken kolonlar.
     public List<Kolon> sonucKolonlari = new ArrayList<Kolon>();
+
+    private List<Kolon> kolonlar = new ArrayList<Kolon>();
+
+    public void kolonKisitlamaBasla(Kolon kolon) {
+    }
 }

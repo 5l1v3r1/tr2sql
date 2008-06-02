@@ -6,6 +6,7 @@ package tr2sql.db;
  */
 public class KolonKisitlamaBileseni {
     public Kolon kolon;
+
     public String kisitlamaDegeri;
     public KiyasTipi kiyasTipi;
 
