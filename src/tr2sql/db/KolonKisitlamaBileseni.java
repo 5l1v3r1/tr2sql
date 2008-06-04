@@ -56,11 +56,20 @@ public class KolonKisitlamaBileseni {
             case BASI_BENZER:
                 deger = "like '%" + kisitlamaDegeri + "'";
                 break;
+            case BASI_BENZEMEZ:
+                deger = "not like '%" + kisitlamaDegeri + "'";
+                break;
             case SONU_BENZER:
                 deger = "like '" + kisitlamaDegeri + "%'";
                 break;
+            case SONU_BENZEMEZ:
+                deger = "not like '" + kisitlamaDegeri + "%'";
+                break;
             case ARA_BENZER:
                 deger = "like '%" + kisitlamaDegeri + "%'";
+                break;
+            case ARA_BENZEMEZ:
+                deger = "not like '%" + kisitlamaDegeri + "%'";
                 break;
             default:
                 benzerlikKiyaslama = false;
@@ -85,13 +94,14 @@ public class KolonKisitlamaBileseni {
         else return kisitlamaDegeri;
     }
 
+    public void kiyasTipiniTersineCevir() {
+        kiyasTipi = kiyasTipi.tersi();
+    }
+
     @Override
     public String toString() {
         return " Kolon : " + kolon.toString() + " , kisitlamaDegeri:" + kisitlamaDegeri + ", " +
                 " Kiyas Tipi:" + kiyasTipi.name();
     }
 
-    public void kiyasTipiniTersineCevir() {
-        kiyasTipi = kiyasTipi.tersi();
-    }
 }
