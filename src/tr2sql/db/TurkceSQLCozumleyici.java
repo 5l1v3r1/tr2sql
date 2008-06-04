@@ -80,11 +80,14 @@ public class TurkceSQLCozumleyici {
         private List<SorguCumleBileseni> bilesenler() {
             List<SorguCumleBileseni> bilesenler = new ArrayList<SorguCumleBileseni>();
 
-            for (String s : cumleParcalari) {
+            for (int i = 0; i < cumleParcalari.size(); i++) {
+                String s = cumleParcalari.get(i);
 
+                boolean bilgiBileseniBulundu = false;
                 if (s.startsWith("'") && s.length() > 2) {
                     SorguCumleBileseni bilesen = new KisitlamaBileseni(s.substring(1, s.length() - 1));
                     bilesenler.add(bilesen);
+                    bilgiBileseniBulundu = true;
                 } else {
                     Kelime[] sonuclar = zemberek.kelimeCozumle(s, CozumlemeSeviyesi.TUM_KOKLER);
                     Kavram kavram;
@@ -96,9 +99,18 @@ public class TurkceSQLCozumleyici {
                         bilesenler.add(new TanimsizBilesen(s));
                         continue;
                     }
+                    SorguCumleBileseni bilesen = bilesenBul(kavram, s, kelime);
+                    if (bilesen.tip() == CumleBilesenTipi.TANIMSIZ && bilgiBileseniBulundu) {
+// TODO: bitmedi
+                    }
                     bilesenler.add(bilesenBul(kavram, s, kelime));
                 }
             }
+
+            // kisitlama bilgilerinin tiplerinin ortaya cikarilmasi. mesela "numarasi '5'den buyuk"
+            // icin ['5'den buyuk] -> KisitlamaBileseni [icerik->'5', KiyasTipi-> BUYUK] uretilir.
+
+
             return bilesenler;
         }
 

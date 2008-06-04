@@ -9,5 +9,6 @@ public enum CumleBilesenTipi {
     ISLEM,
     KIYASLAYICI,
     KOSUL,
+    KAVRAM,
     TANIMSIZ;
 }

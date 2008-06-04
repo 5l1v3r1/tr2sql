@@ -16,4 +16,6 @@ BUYUK:büyük,fazla,çok
 KUCUK:küçük,az,ufak
 ESIT: eşit, aynı
 ESIT_DEGIL:farklı
-
+BASI_BENZER: başlamak
+SONU_BENZER: bitmek, sonlanmak
+NULL: boş

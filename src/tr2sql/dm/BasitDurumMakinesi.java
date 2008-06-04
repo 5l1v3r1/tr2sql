@@ -7,7 +7,6 @@ import tr2sql.db.Kolon;
 
 import java.util.List;
 
-//TODO Henuz islemiyor!
 public class BasitDurumMakinesi {
 
     private Durum suAnkiDurum = Durum.BASLA;

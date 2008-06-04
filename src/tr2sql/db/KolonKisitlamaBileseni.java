@@ -8,7 +8,7 @@ public class KolonKisitlamaBileseni {
     public Kolon kolon;
 
     public String kisitlamaDegeri;
-    public KiyasTipi kiyasTipi;
+    public KiyasTipi kiyasTipi = KiyasTipi.ESIT;
 
     public KolonKisitlamaBileseni(Kolon kolon, String kisitlamaDegeri, KiyasTipi kiyasTipi) {
         this.kolon = kolon;
@@ -89,5 +89,9 @@ public class KolonKisitlamaBileseni {
     public String toString() {
         return " Kolon : " + kolon.toString() + " , kisitlamaDegeri:" + kisitlamaDegeri + ", " +
                 " Kiyas Tipi:" + kiyasTipi.name();
+    }
+
+    public void kiyasTipiniTersineCevir() {
+        kiyasTipi = kiyasTipi.tersi();
     }
 }
