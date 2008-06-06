@@ -8,5 +8,7 @@ public enum Durum {
     OLMAK_ALINDI,
     TABLO_BULUNDU,
     SINIR_BELIRLENDI,
-    ISLEM_BELIRLENDI
+    ISLEM_BELIRLENDI,
+    SON
+
 }

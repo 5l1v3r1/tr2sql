@@ -1,8 +1,6 @@
 package tr2sql.dm;
 
-import tr2sql.cozumleyici.SorguCumleBileseni;
-import tr2sql.cozumleyici.KolonBileseni;
-import tr2sql.cozumleyici.BilgiBileseni;
+import tr2sql.cozumleyici.*;
 import tr2sql.db.SorguTasiyici;
 import tr2sql.db.Kolon;
 import tr2sql.db.KolonKisitlamaBileseni;
@@ -26,23 +24,33 @@ public class BasitDurumMakinesi {
 
     public BasitDurumMakinesi(List<SorguCumleBileseni> bilesenler) {
         this.bilesenler = bilesenler;
+    }
+
+    public SorguTasiyici islet() {
         for (int i = 0; i < bilesenler.size(); i++) {
             SorguCumleBileseni sorguCumleBileseni = bilesenler.get(i);
             switch (sorguCumleBileseni.tip()) {
                 case KOLON:
             }
-
         }
+        return sorguTasiyici;
     }
 
-    public Durum gecis(Gecis gecis, SorguCumleBileseni bilesen) {
+    
+
+    private Durum gecis(Gecis gecis, SorguCumleBileseni bilesen) {
         switch (suAnkiDurum) {
+
             case BASLA:
                 switch (gecis) {
                     case KOLON:
                         Kolon kolon = ((KolonBileseni) bilesen).getKolon();
                         kolonlar.add(kolon);
                         return Durum.KOLON_ALINDI;
+                    case TABLO:
+                        TabloBileseni tabloBil = (TabloBileseni) bilesen;
+                        sorguTasiyici.tablo = tabloBil.getTablo();
+                        return Durum.TABLO_BULUNDU;
                 }
                 break;
 
@@ -57,13 +65,14 @@ public class BasitDurumMakinesi {
 
             case BILGI_ALINDI:
                 switch (gecis) {
-                    case OLMAK:                        
+                    case OLMAK:
                         break;
-                    case KIYASLAMA: break;
-                    case BAGLAC_KOLON: break;
-                    case BAGLAC_BILGI: break;
-
-
+                    case KIYASLAMA:
+                        break;
+                    case BAGLAC_KOLON:
+                        break;
+                    case BAGLAC_BILGI:
+                        break;
                 }
                 break;
 
@@ -80,7 +89,14 @@ public class BasitDurumMakinesi {
                 }
                 break;
 
-
+            case TABLO_BULUNDU:
+                switch (gecis) {
+                    case ISLEM:
+                        IslemBileseni b = (IslemBileseni) bilesen;
+                        sorguTasiyici.islemTipi = b.getIslem();
+                        return Durum.ISLEM_BELIRLENDI;
+                }
+                break;
         }
         throw new IllegalStateException("Umulmayan durum!");
     }
@@ -95,7 +111,7 @@ public class BasitDurumMakinesi {
 
     private class BilgiKiyasIkilisi {
         String bilgi;
-        
+
     }
 
 }

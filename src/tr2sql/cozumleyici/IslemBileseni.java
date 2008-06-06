@@ -13,4 +13,8 @@ public class IslemBileseni extends TemelCumleBileseni {
         this.icerik = kelime.icerikStr();
         this.kelime = kelime;
     }
+
+    public IslemTipi getIslem() {
+        return islem;
+    }
 }

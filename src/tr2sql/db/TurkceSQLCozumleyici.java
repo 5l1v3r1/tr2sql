@@ -6,6 +6,7 @@ import net.zemberek.yapi.Kelime;
 import net.zemberek.yapi.Kok;
 import net.zemberek.tr.yapi.ek.TurkceEkAdlari;
 import tr2sql.SozlukIslemleri;
+import tr2sql.dm.BasitDurumMakinesi;
 import tr2sql.cozumleyici.*;
 
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class TurkceSQLCozumleyici {
     }
 
     public String sqlDonusum(String giris) {
-        SorguTasiyici st = new BasitCozumleyici(sorguCumleBilesenleriniAyir(giris)).cozumle();
+        SorguTasiyici st = new BasitDurumMakinesi(sorguCumleBilesenleriniAyir(giris)).islet();
         return new MsSqlDonusturucu().donustur(st);
     }
 
