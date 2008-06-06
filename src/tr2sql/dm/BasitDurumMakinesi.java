@@ -29,14 +29,28 @@ public class BasitDurumMakinesi {
     public SorguTasiyici islet() {
         for (int i = 0; i < bilesenler.size(); i++) {
             SorguCumleBileseni sorguCumleBileseni = bilesenler.get(i);
-            switch (sorguCumleBileseni.tip()) {
-                case KOLON:
-            }
+            suAnkiDurum = gecis(gecisBul(sorguCumleBileseni.tip()), sorguCumleBileseni);
         }
         return sorguTasiyici;
     }
 
-    
+    private Gecis gecisBul(CumleBilesenTipi cbi) {
+        switch (cbi) {
+            case ISLEM:
+                return Gecis.ISLEM;
+            case KISITLAMA_BILGISI:
+                return Gecis.BILGI;
+            case KIYASLAYICI:
+                return Gecis.KIYASLAMA;
+            case KOLON:
+                return Gecis.KOLON;
+            case TABLO:
+                return Gecis.TABLO;
+            case OLMAK:
+                return Gecis.OLMAK;
+        }
+        return null;
+    }
 
     private Durum gecis(Gecis gecis, SorguCumleBileseni bilesen) {
         switch (suAnkiDurum) {
