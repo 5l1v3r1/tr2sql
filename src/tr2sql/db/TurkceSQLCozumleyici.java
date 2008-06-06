@@ -159,6 +159,12 @@ public class TurkceSQLCozumleyici {
     }
 
     public static void main(String[] args) {
+        Map<Integer, String> ogrenciler = new HashMap<Integer, String>();
+        ogrenciler.put(2, "Mehmet");
+        ogrenciler.put(3, "Ahmet");
+        ogrenciler.put(4, "Zeki");
 
+        System.out.println(ogrenciler.get(4));
     }
+
 }
