@@ -57,7 +57,7 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         // tip belirle.
         sorgu.islemTipi = IslemTipi.SORGULAMA;
 
-        // tablo ve kolon uretiminde gerekli oldugundan ornek bir kavram uretelim. yoksa SQL uretiminde gerekli degil.
+        // tablo ve kolon uretiminde gerekli oldugundan ornek bir kavramdanTipBul uretelim. yoksa SQL uretiminde gerekli degil.
         Kavram testKavrami = new Kavram("testkavrami", Arrays.asList(new Kok("testkok", KelimeTipi.ISIM)));
 
         // iki test kolonu

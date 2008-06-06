@@ -52,6 +52,7 @@ tablo
 kaç
 büyük
 küçük
+fazla
 az
 çok
 önce
@@ -71,10 +72,14 @@ da
 o
 toplam
 ara
-ve
 aynı
 farklı
 boş
+eşit
+aynı
+denk
+ve
+veya
 
 # sayilar.
 

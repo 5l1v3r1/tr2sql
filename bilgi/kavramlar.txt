@@ -14,8 +14,10 @@ GUNCELLE:güncellemek
 OL: olmak
 BUYUK:büyük,fazla,çok
 KUCUK:küçük,az,ufak
-ESIT: eşit, aynı
+ESIT: eşit, aynı, denk
 ESIT_DEGIL:farklı
-BASI_BENZER: başlamak
-SONU_BENZER: bitmek, sonlanmak
+BASLAMAK: başlamak
+BITMEK: bitmek, sonlanmak
 NULL: boş
+VE:ve
+VEYA:veya

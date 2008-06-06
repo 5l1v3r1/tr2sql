@@ -3,11 +3,11 @@ package tr2sql.cozumleyici;
 import tr2sql.db.KiyasTipi;
 import tr2sql.db.Kavram;
 
-public class KisitlamaBileseni extends TemelCumleBileseni {
+public class BilgiBileseni extends TemelCumleBileseni {
 
     KiyasTipi kiyasTipi = KiyasTipi.ESIT;
 
-    public KisitlamaBileseni(String icerik) {
+    public BilgiBileseni(String icerik) {
         this.tip = CumleBilesenTipi.KISITLAMA_BILGISI;
         this.icerik = icerik;
     }

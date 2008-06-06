@@ -4,6 +4,7 @@ import net.zemberek.erisim.Zemberek;
 import net.zemberek.islemler.cozumleme.CozumlemeSeviyesi;
 import net.zemberek.yapi.Kelime;
 import net.zemberek.yapi.Kok;
+import net.zemberek.tr.yapi.ek.TurkceEkAdlari;
 import tr2sql.SozlukIslemleri;
 import tr2sql.cozumleyici.*;
 
@@ -62,7 +63,11 @@ public class TurkceSQLCozumleyici {
 
         public BasitCumleCozumleyici(String giris) {
 
+            // birden fazla bosluklari tek bosluga indir.
             String c = giris.replaceAll("[ ]+", " ").trim();
+
+            // "ya da" ikilisini "veya" ile degistirelim. coklu kelimelerle ugrasmamak icin.
+            c = c.replaceAll("ya da", "veya");
 
             // bu regular expression ile cumledeki kelimeleri parcaliyoruz.
             // eger kelime '' isareti icinde ise parcalanmiyor, butun olarak aliniyor.
@@ -83,35 +88,40 @@ public class TurkceSQLCozumleyici {
             for (int i = 0; i < cumleParcalari.size(); i++) {
                 String s = cumleParcalari.get(i);
 
-                boolean bilgiBileseniBulundu = false;
-                if (s.startsWith("'") && s.length() > 2) {
-                    SorguCumleBileseni bilesen = new KisitlamaBileseni(s.substring(1, s.length() - 1));
-                    bilesenler.add(bilesen);
-                    bilgiBileseniBulundu = true;
-                } else {
-                    Kelime[] sonuclar = zemberek.kelimeCozumle(s, CozumlemeSeviyesi.TUM_KOKLER);
-                    Kavram kavram;
-                    Kelime kelime;
-                    if (sonuclar.length > 0) {
-                        kelime = sonuclar[0];
-                        kavram = kokKavramTablosu.get(kelime.kok());
-                    } else {
-                        bilesenler.add(new TanimsizBilesen(s));
-                        continue;
-                    }
-                    SorguCumleBileseni bilesen = bilesenBul(kavram, s, kelime);
-                    if (bilesen.tip() == CumleBilesenTipi.TANIMSIZ && bilgiBileseniBulundu) {
-// TODO: bitmedi
-                    }
-                    bilesenler.add(bilesenBul(kavram, s, kelime));
+                // virgul, ve, veya
+                if (s.equals(",") || s.equals("ve") || s.equals("veya")) {
+                    bilesenler.add(new BaglacBileseni(s));
+                    continue;
                 }
+
+                // bilgi bileseni. '' isareti icinde olur.
+                if (s.startsWith("'") && s.length() > 2) {
+                    BilgiBileseni bilesen = new BilgiBileseni(s.substring(1, s.length() - 1));
+                    bilesenler.add(bilesen);
+                    continue;
+                }
+
+                // diger bilesenleri ortaya cikarmak icin kelime cozumlenip kokunden hangi kavrama
+                // karsilik dustugu belirleniyor.
+                Kelime[] sonuclar = zemberek.kelimeCozumle(s, CozumlemeSeviyesi.TUM_KOKLER);
+                Kavram kavram;
+                Kelime kelime;
+                if (sonuclar.length > 0) {
+                    kelime = sonuclar[0];
+                    kavram = kokKavramTablosu.get(kelime.kok());
+                } else {
+                    bilesenler.add(new TanimsizBilesen(s));
+                    continue;
+                }
+                SorguCumleBileseni bilesen = bilesenBul(kavram, s, kelime);
+                bilesenler.add(bilesen);
+
             }
-
-            // kisitlama bilgilerinin tiplerinin ortaya cikarilmasi. mesela "numarasi '5'den buyuk"
-            // icin ['5'den buyuk] -> KisitlamaBileseni [icerik->'5', KiyasTipi-> BUYUK] uretilir.
-
-
             return bilesenler;
+        }
+
+        private boolean olumsuzlukEkiVarmi(Kelime kel) {
+            return kel.ekler().contains(zemberek.dilBilgisi().ekler().ek(TurkceEkAdlari.FIIL_OLUMSUZLUK_ME));
         }
 
         // kavrama gore sorgu cumle bilesenini bulur.
@@ -134,11 +144,22 @@ public class TurkceSQLCozumleyici {
                     return new KolonBileseni(kolon, kelime);
             }
 
-            if (kavram.getAd().equals("OL"))
-                return new BasitKavramBileseni(CumleBilesenTipi.KISITLAMA_TANIMLAYICI, s);
+            KiyasTipi kiyasTipi = KiyasTipi.kavramdanTipBul(kavram);
+            boolean olumsuzlukEkiVar = olumsuzlukEkiVarmi(kelime);
+
+            if (kiyasTipi != null) {
+                return new KiyaslamaBileseni(kiyasTipi, olumsuzlukEkiVar);
+            }
+
+            if (kavram.getAd().equals("OL")) {
+                return new OlmakBIleseni(kelime, olumsuzlukEkiVar);
+            }
 
             return new TanimsizBilesen(s);
         }
+    }
+
+    public static void main(String[] args) {
 
     }
 }

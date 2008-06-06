@@ -53,4 +53,23 @@ public enum KiyasTipi {
         }
         throw new IllegalArgumentException("beklenmeyen deger!");
     }
+
+    public static KiyasTipi kavramdanTipBul(Kavram kavram) {
+        String ad = kavram.getAd();
+        if (ad.equals("BUYUK"))
+            return BUYUK;
+        else if (ad.equals("KUCUK"))
+            return KUCUK;
+        else if (ad.equals("ESIT"))
+            return ESIT;
+        else if (ad.equals("ESIT_DEGIL"))
+            return ESIT_DEGIL;
+        else if (ad.equals("BASI_BENZER"))
+            return BASI_BENZER;
+        else if (ad.equals("SONU_BENZER"))
+            return SONU_BENZER;
+        else if (ad.equals("NULL"))
+            return NULL;
+        else return null;
+    }
 }
