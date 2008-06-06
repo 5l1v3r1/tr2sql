@@ -85,9 +85,7 @@ public class TurkceSQLCozumleyici {
         private List<SorguCumleBileseni> bilesenler() {
             List<SorguCumleBileseni> bilesenler = new ArrayList<SorguCumleBileseni>();
 
-            for (int i = 0; i < cumleParcalari.size(); i++) {
-                String s = cumleParcalari.get(i);
-
+            for (String s : cumleParcalari) {
                 // virgul, ve, veya
                 if (s.equals(",") || s.equals("ve") || s.equals("veya")) {
                     bilesenler.add(new BaglacBileseni(s));
@@ -151,7 +149,7 @@ public class TurkceSQLCozumleyici {
                 return new KiyaslamaBileseni(kiyasTipi, olumsuzlukEkiVar);
             }
 
-            if (kavram.getAd().equals("OL")) {
+            if (kavram.getAd().equals("OLMAK")) {
                 return new OlmakBIleseni(kelime, olumsuzlukEkiVar);
             }
 

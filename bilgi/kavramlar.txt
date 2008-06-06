@@ -11,7 +11,7 @@ SORGULA: sorgulamak,getirmek,görüntülemek,listelemek,göstermek,yüklemek,yap
 SIL: silmek
 EKLE:eklemek
 GUNCELLE:güncellemek
-OL: olmak
+OLMAK: olmak
 BUYUK:büyük,fazla,çok
 KUCUK:küçük,az,ufak
 ESIT: eşit, aynı, denk
