@@ -4,7 +4,7 @@ import tr2sql.db.BaglacTipi;
 
 public class BilgiBileseni extends CumleBileseni {
 
-    BaglacTipi onBaglac;
+    BaglacTipi onBaglac = BaglacTipi.YOK;
 
     public BilgiBileseni(String icerik) {
         this.tip = CumleBilesenTipi.KISITLAMA_BILGISI;
@@ -17,5 +17,9 @@ public class BilgiBileseni extends CumleBileseni {
 
     public void setOnBaglac(BaglacTipi onBaglac) {
         this.onBaglac = onBaglac;
+    }
+
+    public boolean baglacVar() {
+        return onBaglac != BaglacTipi.YOK;
     }
 }

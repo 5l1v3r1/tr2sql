@@ -7,7 +7,7 @@ import net.zemberek.yapi.Kelime;
 import net.zemberek.yapi.Kok;
 import tr2sql.SozlukIslemleri;
 import tr2sql.cozumleyici.*;
-import tr2sql.dm.BasitDurumMakinesi;
+import tr2sql.cozumleyici.BasitDurumMakinesi;
 
 import java.io.IOException;
 import java.util.*;
@@ -138,7 +138,8 @@ public class TurkceSQLCozumleyici {
         }
 
         private boolean olumsuzlukEkiVarmi(Kelime kel) {
-            return kel.ekler().contains(zemberek.dilBilgisi().ekler().ek(TurkceEkAdlari.FIIL_OLUMSUZLUK_ME));
+            return kel.ekler().contains(
+                    zemberek.dilBilgisi().ekler().ek(TurkceEkAdlari.FIIL_OLUMSUZLUK_ME));
         }
 
         // kavrama gore sorgu cumle bilesenini bulur.

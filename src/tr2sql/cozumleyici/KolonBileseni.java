@@ -1,8 +1,8 @@
 package tr2sql.cozumleyici;
 
 import net.zemberek.yapi.Kelime;
-import tr2sql.db.Kolon;
 import tr2sql.db.BaglacTipi;
+import tr2sql.db.Kolon;
 
 /**
  * dilek
@@ -10,7 +10,7 @@ import tr2sql.db.BaglacTipi;
 public class KolonBileseni extends CumleBileseni {
 
     Kolon kolon;
-    BaglacTipi onBaglac;
+    BaglacTipi onBaglac =  BaglacTipi.YOK;
 
     public KolonBileseni(Kolon kolon, Kelime kelime) {
         this.kolon = kolon;
@@ -21,6 +21,10 @@ public class KolonBileseni extends CumleBileseni {
 
     public void setOnBaglac(BaglacTipi onBaglac) {
         this.onBaglac = onBaglac;
+    }
+
+    public boolean baglacVar() {
+        return onBaglac!= BaglacTipi.YOK;
     }
 
     public Kolon getKolon() {
