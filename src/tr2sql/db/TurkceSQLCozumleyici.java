@@ -2,18 +2,17 @@ package tr2sql.db;
 
 import net.zemberek.erisim.Zemberek;
 import net.zemberek.islemler.cozumleme.CozumlemeSeviyesi;
+import net.zemberek.tr.yapi.ek.TurkceEkAdlari;
 import net.zemberek.yapi.Kelime;
 import net.zemberek.yapi.Kok;
-import net.zemberek.yapi.KelimeTipi;
-import net.zemberek.tr.yapi.ek.TurkceEkAdlari;
 import tr2sql.SozlukIslemleri;
-import tr2sql.dm.BasitDurumMakinesi;
 import tr2sql.cozumleyici.*;
+import tr2sql.dm.BasitDurumMakinesi;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class TurkceSQLCozumleyici {
@@ -107,7 +106,7 @@ public class TurkceSQLCozumleyici {
                     //bir sey yapma..
                 }
 
-                // bilgi bileseni. '' isareti icinde olur.
+                // bilgi bileseni. "" isareti icinde olur.
                 if (s.startsWith("\"") && s.length() > 2) {
                     BilgiBileseni bilesen = new BilgiBileseni(s.substring(1, s.length() - 1));
                     bilesenler.add(bilesen);
@@ -153,23 +152,26 @@ public class TurkceSQLCozumleyici {
                 return new MiktarKisitlamaBileseni(s);
             }
 
+            // tablo bilesni mi?
             Tablo t = veriTabani.kavramaGoreTabloBul(kavram);
             if (t != null)
                 return new TabloBileseni(t, kelime);
 
+            // islem bileseni mi? goster, listele vs.
             IslemTipi tip = IslemTipi.kavramaGoreIslem(kavram);
             if (tip != IslemTipi.TANIMSIZ)
                 return new IslemBileseni(tip, kelime);
 
+            // kolon bileseni mi?
             List<Kolon> tumKolonlar = veriTabani.tumKolonlar();
             for (Kolon kolon : tumKolonlar) {
                 if (kolon.getKavram().equals(kavram))
                     return new KolonBileseni(kolon, kelime);
             }
 
+            // kiyaslama bileseni mi? buyuk, kucuk, esit vs.
             KiyasTipi kiyasTipi = KiyasTipi.kavramdanTipBul(kavram);
             boolean olumsuzlukEkiVar = olumsuzlukEkiVarmi(kelime);
-
             if (kiyasTipi != null) {
                 return new KiyaslamaBileseni(kiyasTipi, olumsuzlukEkiVar);
             }
