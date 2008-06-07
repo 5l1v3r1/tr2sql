@@ -1,9 +1,6 @@
 package tr2sql.cozumleyici;
 
-import tr2sql.db.Kolon;
-import tr2sql.db.KolonKisitlamaBileseni;
-import tr2sql.db.SQLUretimHatasi;
-import tr2sql.db.SorguTasiyici;
+import tr2sql.db.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +48,7 @@ public class BasitDurumMakinesi {
     public SorguTasiyici islet() {
         for (CumleBileseni bilesen : bilesenler) {
             if (bilesen.tip == CumleBilesenTipi.TANIMSIZ) {
-                raporla("Islenemyen bilesen:" + bilesen.icerik);
+                raporla("Uyari: Islenemeyen bilesen:" + bilesen.icerik);
                 continue;
             }
             suAnkiDurum = gecis(bilesen);
@@ -84,7 +81,11 @@ public class BasitDurumMakinesi {
                     case KISITLAMA_BILGISI:
                         return bilgiBileseniGecisi(bilesen);
                     case KOLON:
-                        break;
+                        KolonBileseni kb = (KolonBileseni) bilesen;
+                        if (!kb.baglacVar())
+                            kb.setOnBaglac(BaglacTipi.VE);
+                        islenenKolonBileenleri.add(kb);
+                        return Durum.COKLU_KOLON_ALINDI;
                 }
                 break;
 
@@ -93,11 +94,29 @@ public class BasitDurumMakinesi {
                     case KISITLAMA_BILGISI:
                         return bilgiBileseniGecisi(bilesen);
                     case KOLON:
-                        break;
+                        KolonBileseni kb = (KolonBileseni) bilesen;
+                        if (!kb.baglacVar())
+                            kb.setOnBaglac(BaglacTipi.VE);
+                        islenenKolonBileenleri.add(kb);
+                        return Durum.COKLU_KOLON_ALINDI;
                 }
                 break;
 
             case COKLU_BILGI_ALINDI:
+                switch (gecis) {
+                    case OLMAK:
+                        break;
+                    case KIYASLAYICI:
+                        break;
+                    case KOLON:
+                        break;
+                    case KISITLAMA_BILGISI:
+                        BilgiBileseni kb = (BilgiBileseni) bilesen;
+                        if (!kb.baglacVar())
+                            kb.setOnBaglac(BaglacTipi.VEYA);
+                        islenenilgiBilesenleri.add(kb);
+                        return Durum.COKLU_BILGI_ALINDI;
+                }
                 break;
 
             case BILGI_ALINDI:
@@ -109,7 +128,11 @@ public class BasitDurumMakinesi {
                     case KOLON:
                         break;
                     case KISITLAMA_BILGISI:
-                        break;
+                        BilgiBileseni kb = (BilgiBileseni) bilesen;
+                        if (!kb.baglacVar())
+                            kb.setOnBaglac(BaglacTipi.VEYA);
+                        islenenilgiBilesenleri.add(kb);
+                        return Durum.COKLU_BILGI_ALINDI;
                 }
                 break;
 
@@ -181,7 +204,7 @@ public class BasitDurumMakinesi {
     private Durum islemBileseniGecisi(CumleBileseni bilesen) {
         IslemBileseni b = (IslemBileseni) bilesen;
         if (b.olumsuz())
-            raporla("Uyari: Islemi belirten eylem: " + bilesen.icerik() + ", olumsuzluk iceriyor. Bu gozardi edilecek.");
+            raporla("Uyari: Islemi belirten eylem: " + bilesen.icerik() + ", olumsuzluk bilgisi iceriyor. Bu gozardi edilecek.");
         sorguTasiyici.islemTipi = b.getIslem();
         return Durum.ISLEM_BELIRLENDI;
     }
