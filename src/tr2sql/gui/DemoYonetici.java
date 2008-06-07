@@ -9,7 +9,6 @@ import net.zemberek.yapi.DilBilgisi;
 import net.zemberek.yapi.Kelime;
 import tr2sql.Tr2SQLKelimeEleyici;
 import tr2sql.cozumleyici.SorguCumleBileseni;
-import tr2sql.db.Tablo;
 import tr2sql.db.TurkceSQLCozumleyici;
 
 import java.io.IOException;

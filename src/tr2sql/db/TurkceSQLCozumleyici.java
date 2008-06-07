@@ -4,6 +4,7 @@ import net.zemberek.erisim.Zemberek;
 import net.zemberek.islemler.cozumleme.CozumlemeSeviyesi;
 import net.zemberek.yapi.Kelime;
 import net.zemberek.yapi.Kok;
+import net.zemberek.yapi.KelimeTipi;
 import net.zemberek.tr.yapi.ek.TurkceEkAdlari;
 import tr2sql.SozlukIslemleri;
 import tr2sql.dm.BasitDurumMakinesi;
@@ -80,7 +81,7 @@ public class TurkceSQLCozumleyici {
             // "adi 'ayse','ali can' olan ogrencileri goster." cumlesinden
             // [adi]['ayse'][,]['ali can'][olan][ogrencileri][goster]
             // parcalari elde edilir..
-            Pattern parcalayici = Pattern.compile("('[^']*')|[^ \\t\\n,.]+|,");
+            Pattern parcalayici = Pattern.compile("(\"[^\"]*\")|[^ \\t\\n,.]+|,");
             Matcher m = parcalayici.matcher(c);
 
             while (m.find())
@@ -92,13 +93,22 @@ public class TurkceSQLCozumleyici {
 
             for (String s : cumleParcalari) {
                 // virgul, ve, veya
-                if (s.equals(",") || s.equals("ve") || s.equals("veya")) {
+                if (s.equals(",")) {
                     bilesenler.add(new BaglacBileseni(s));
                     continue;
                 }
 
+                // sayi mi? henuz sadece rakam ile yazilmissa buluyor.
+                try {
+                    int sayi = Integer.parseInt(s);
+                    bilesenler.add(new SayiBileseni(sayi));
+                    continue;
+                } catch (NumberFormatException e) {
+                    //bir sey yapma..
+                }
+
                 // bilgi bileseni. '' isareti icinde olur.
-                if (s.startsWith("'") && s.length() > 2) {
+                if (s.startsWith("\"") && s.length() > 2) {
                     BilgiBileseni bilesen = new BilgiBileseni(s.substring(1, s.length() - 1));
                     bilesenler.add(bilesen);
                     continue;
@@ -133,6 +143,16 @@ public class TurkceSQLCozumleyici {
             if (kavram == null)
                 return new TanimsizBilesen(s);
 
+            String kavramAdi = kavram.getAd();
+
+            if (kavramAdi.equals("VE") || kavramAdi.equals("VEYA")) {
+                return new BaglacBileseni(s);
+            }
+
+            if (kavramAdi.equals("ILK")) {
+                return new MiktarKisitlamaBileseni(s);
+            }
+
             Tablo t = veriTabani.kavramaGoreTabloBul(kavram);
             if (t != null)
                 return new TabloBileseni(t, kelime);
@@ -161,14 +181,4 @@ public class TurkceSQLCozumleyici {
             return new TanimsizBilesen(s);
         }
     }
-
-    public static void main(String[] args) {
-        Map<Integer, String> ogrenciler = new HashMap<Integer, String>();
-        ogrenciler.put(2, "Mehmet");
-        ogrenciler.put(3, "Ahmet");
-        ogrenciler.put(4, "Zeki");
-
-        System.out.println(ogrenciler.get(4));
-    }
-
 }

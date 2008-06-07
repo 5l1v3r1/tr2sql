@@ -21,3 +21,4 @@ BITMEK: bitmek, sonlanmak
 NULL: boş
 VE:ve
 VEYA:veya,yahut
+ILK:ilk

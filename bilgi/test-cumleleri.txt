@@ -1,1 +1,1 @@
-adı 'Ali', soyadı 'Er' olan çalışanların numara ve adını göster
+adı "Ali", soyadı "Er" olan ilk 5 çalışanın numara ve adını göster
