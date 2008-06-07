@@ -12,6 +12,6 @@ public class BaglacBileseni extends TemelCumleBileseni {
 
     public BaglacBileseni(String icerik) {
         this.icerik = icerik;
-        this.tip = CumleBilesenTipi.BAGLAC;        
+        this.tip = CumleBilesenTipi.BAGLAC;
     }
 }

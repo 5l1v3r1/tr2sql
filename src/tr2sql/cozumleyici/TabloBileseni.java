@@ -2,7 +2,6 @@ package tr2sql.cozumleyici;
 
 import net.zemberek.yapi.Kelime;
 import tr2sql.db.Tablo;
-import tr2sql.db.Kolon;
 
 public class TabloBileseni extends TemelCumleBileseni {
 

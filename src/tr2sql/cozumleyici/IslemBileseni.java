@@ -1,7 +1,7 @@
 package tr2sql.cozumleyici;
 
-import tr2sql.db.IslemTipi;
 import net.zemberek.yapi.Kelime;
+import tr2sql.db.IslemTipi;
 
 public class IslemBileseni extends TemelCumleBileseni {
 

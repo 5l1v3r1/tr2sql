@@ -1,12 +1,12 @@
 package tr2sql.dm;
 
 import tr2sql.cozumleyici.*;
-import tr2sql.db.SorguTasiyici;
 import tr2sql.db.Kolon;
 import tr2sql.db.KolonKisitlamaBileseni;
+import tr2sql.db.SorguTasiyici;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BasitDurumMakinesi {
 

@@ -2,8 +2,8 @@ package tr2sql.db;
 
 import net.zemberek.yapi.Kok;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Bu sinifta veri tabanina iliskin bilgiler yer alir.

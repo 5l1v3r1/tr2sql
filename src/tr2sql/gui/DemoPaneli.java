@@ -134,7 +134,6 @@ public class DemoPaneli {
         centerPanel.add(kelimeAyristirBtn);
 
 
-
         JButton cozumBilgiBtn;
         cozumBilgiBtn = new JButton("Cozum bilgileri");
         cozumBilgiBtn.addActionListener(new ActionListener() {

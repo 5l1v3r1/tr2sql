@@ -2,7 +2,7 @@ package tr2sql.cozumleyici;
 
 import tr2sql.db.KiyasTipi;
 
-public class KiyaslamaBileseni extends TemelCumleBileseni{
+public class KiyaslamaBileseni extends TemelCumleBileseni {
     KiyasTipi kiyasTipi;
     boolean olumsuzuk;
 
