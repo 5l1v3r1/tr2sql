@@ -25,4 +25,6 @@ public class SorguTasiyici {
     // sonucta listelenmesi gereken kolonlar.
     public List<Kolon> sonucKolonlari = new ArrayList<Kolon>();
 
+    public String aciklamalar = "";
+
 }

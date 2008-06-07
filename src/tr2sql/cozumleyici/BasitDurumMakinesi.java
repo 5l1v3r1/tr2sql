@@ -13,8 +13,11 @@ public class BasitDurumMakinesi {
     public enum Durum {
         BASLA,
         KOLON_ALINDI,
+        COKLU_KOLON_ALINDI,
         BILGI_ALINDI,
+        COKLU_BILGI_ALINDI,
         KIYAS_ALINDI,
+        SONUC_KOLONU_ALINDI,
         OLMAK_ALINDI,
         TABLO_BULUNDU,
         SINIR_BELIRLENDI,
@@ -23,6 +26,7 @@ public class BasitDurumMakinesi {
     }
 
     private Durum suAnkiDurum = Durum.BASLA;
+
     private SorguTasiyici sorguTasiyici = new SorguTasiyici();
 
     private List<CumleBileseni> bilesenler;
@@ -30,9 +34,10 @@ public class BasitDurumMakinesi {
     private List<KolonKisitlamaBileseni> kolonBilesenleri =
             new ArrayList<KolonKisitlamaBileseni>();
 
-    private List<Kolon> kolonlar = new ArrayList<Kolon>();
-    private List<String> bilgiler = new ArrayList<String>();
-
+    private List<KolonBileseni> islenenKolonBileenleri = new ArrayList<KolonBileseni>();
+    private List<BilgiBileseni> islenenilgiBilesenleri = new ArrayList<BilgiBileseni>();
+    private List<KiyaslamaBileseni> islenenKiyaslamaBileseni = new ArrayList<KiyaslamaBileseni>();
+    private List<Kolon> sonucKolonlari = new ArrayList<Kolon>();
 
     public BasitDurumMakinesi(List<CumleBileseni> bilesenler) {
         this.bilesenler = bilesenler;
@@ -40,7 +45,6 @@ public class BasitDurumMakinesi {
 
     public SorguTasiyici islet() {
         for (int i = 0; i < bilesenler.size(); i++) {
-
             CumleBileseni bilesen = bilesenler.get(i);
             suAnkiDurum = gecis(bilesen);
         }
@@ -57,9 +61,10 @@ public class BasitDurumMakinesi {
                 switch (gecis) {
                     case KOLON:
                         KolonBileseni kb = (KolonBileseni) bilesen;
-                        kolonlar.add(kb.getKolon());
+                        islenenKolonBileenleri.add(kb);
                         if (kb.baglacVar())
-                            return Durum.KOLON_ALINDI;
+                            return Durum.COKLU_KOLON_ALINDI;
+                        else return Durum.KOLON_ALINDI;
                     case TABLO:
                         TabloBileseni tabloBil = (TabloBileseni) bilesen;
                         sorguTasiyici.tablo = tabloBil.getTablo();
@@ -70,9 +75,11 @@ public class BasitDurumMakinesi {
             case KOLON_ALINDI:
                 switch (gecis) {
                     case KISITLAMA_BILGISI:
-                        BilgiBileseni bil = ((BilgiBileseni) bilesen);
-                        bilgiler.add(bil.icerik());
-                        return Durum.BILGI_ALINDI;
+                        BilgiBileseni kb = (BilgiBileseni) bilesen;
+                        islenenilgiBilesenleri.add(kb);
+                        if (kb.baglacVar())
+                            return Durum.COKLU_BILGI_ALINDI;
+                        else return Durum.BILGI_ALINDI;
                     case KOLON:
                         break;
                 }
@@ -110,19 +117,34 @@ public class BasitDurumMakinesi {
                         IslemBileseni b = (IslemBileseni) bilesen;
                         sorguTasiyici.islemTipi = b.getIslem();
                         return Durum.ISLEM_BELIRLENDI;
+                    case KOLON:
+                        Kolon k = ((KolonBileseni) bilesen).getKolon();
+                        sonucKolonlari.add(k);
+                        return Durum.SONUC_KOLONU_ALINDI;
+
                 }
                 break;
+
+            case SONUC_KOLONU_ALINDI:
+                switch (gecis) {
+                    case ISLEM:
+                        IslemBileseni b = (IslemBileseni) bilesen;
+                        sorguTasiyici.islemTipi = b.getIslem();
+                        sorguTasiyici.sonucKolonlari = sonucKolonlari;
+                        return Durum.ISLEM_BELIRLENDI;
+                    case KOLON:
+                        Kolon k = ((KolonBileseni) bilesen).getKolon();
+                        sonucKolonlari.add(k);
+                        return Durum.SONUC_KOLONU_ALINDI;
+                }
+
         }
-        throw new SQLUretimHatasi("Beklenmeyen cumle bilseni: [" + bilesen.toString() + "]. " +
+        throw new SQLUretimHatasi("Beklenmeyen cumle bilseni:" + bilesen.toString() + ". " +
                 "Su anki durum:" + suAnkiDurum.name());
     }
 
-    private void kolonKisitlamaIsle() {
-        for (Kolon kolon : kolonlar) {
-            for (String s : bilgiler) {
+    private void kisitlamaVerileriniEkle() {
 
-            }
-        }
     }
 
     private class BilgiKiyasIkilisi {

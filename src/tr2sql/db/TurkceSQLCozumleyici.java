@@ -133,6 +133,8 @@ public class TurkceSQLCozumleyici {
                 if (bilesen.tip() == CumleBilesenTipi.KOLON)
                     ((KolonBileseni) bilesen).setOnBaglac(baglacTipi);
 
+                bilesenler.add(bilesen);
+
             }
             return bilesenler;
         }

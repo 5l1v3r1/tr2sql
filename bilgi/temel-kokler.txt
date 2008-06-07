@@ -126,4 +126,5 @@ kalmak
 sonlanmak
 ulamak
 yapmak
+yazmak
 yüklemek

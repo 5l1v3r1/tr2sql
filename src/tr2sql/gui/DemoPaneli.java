@@ -133,18 +133,6 @@ public class DemoPaneli {
         });
         centerPanel.add(kelimeAyristirBtn);
 
-
-        JButton cozumBilgiBtn;
-        cozumBilgiBtn = new JButton("Cozum bilgileri");
-        cozumBilgiBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                String giris = girisAlani.getYazi();
-                cikisAlani.setYazi(dy.sorguCumlesiBilesenleri(giris));
-            }
-        });
-        centerPanel.add(cozumBilgiBtn);
-
-
         JButton sqlBtn;
         sqlBtn = new JButton("SQL \u00fcret");
         sqlBtn.addActionListener(new ActionListener() {

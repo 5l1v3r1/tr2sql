@@ -10,6 +10,7 @@ import net.zemberek.yapi.Kelime;
 import tr2sql.Tr2SQLKelimeEleyici;
 import tr2sql.cozumleyici.CumleBileseni;
 import tr2sql.db.TurkceSQLCozumleyici;
+import tr2sql.db.SQLUretimHatasi;
 
 import java.io.IOException;
 import java.util.List;
@@ -100,18 +101,12 @@ public class DemoYonetici {
         return sb.toString();
     }
 
-    public String sorguCumlesiBilesenleri(String giris) {
-        List<CumleBileseni> bilesenler =
-                tr2SQLCozumleyici.sorguCumleBilesenleriniAyir(giris);
-        StringBuilder builder = new StringBuilder();
-        for (CumleBileseni bilesen : bilesenler) {
-            String s = "[" + bilesen.icerik() + " : " + bilesen.tip() + "] ";
-            builder.append(s);
-        }
-        return builder.toString();
-    }
-
     public String sqlDonusum(String giris) {
-        return tr2SQLCozumleyici.sqlDonusum(giris);
+        try {
+            return tr2SQLCozumleyici.sqlDonusum(giris);
+        } catch (SQLUretimHatasi e) {
+            return e.getMessage();
+        }
+
     }
 }

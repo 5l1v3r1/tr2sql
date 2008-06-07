@@ -25,7 +25,7 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         int i = 0;
         for (Kolon kolon : sorgu.sonucKolonlari) {
             sonuc.append(kolon.getAd());
-            if (i++ < sorgu.sonucKolonlari.size())
+            if (i++ < sorgu.sonucKolonlari.size()-1)
                 sonuc.append(", ");
         }
 
