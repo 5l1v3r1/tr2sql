@@ -20,6 +20,8 @@ public class BasitDurumMakinesi {
         SONUC_KOLONU_ALINDI,
         OLMAK_ALINDI,
         TABLO_BULUNDU,
+        SONUC_KISITLAMA_SAYISI_BEKLE,
+        SONUC_KISITLAMA_SAYISI_ALINDI,
         SINIR_BELIRLENDI,
         ISLEM_BELIRLENDI,
         SON
@@ -39,6 +41,9 @@ public class BasitDurumMakinesi {
     private List<KiyaslamaBileseni> islenenKiyaslamaBileseni = new ArrayList<KiyaslamaBileseni>();
     private List<Kolon> sonucKolonlari = new ArrayList<Kolon>();
 
+    // calisma sirasianda olup bitenlerin bir yerde tutulmasini saglar.
+    private StringBuffer cozumRaporu = new StringBuffer();
+
     public BasitDurumMakinesi(List<CumleBileseni> bilesenler) {
         this.bilesenler = bilesenler;
     }
@@ -46,8 +51,14 @@ public class BasitDurumMakinesi {
     public SorguTasiyici islet() {
         for (int i = 0; i < bilesenler.size(); i++) {
             CumleBileseni bilesen = bilesenler.get(i);
+            if (bilesen.tip == CumleBilesenTipi.TANIMSIZ) {
+                raporla("Islenemyen bilesen:" + bilesen.icerik);
+                continue;
+            }
             suAnkiDurum = gecis(bilesen);
         }
+        sorguTasiyici.aciklamalar = cozumRaporu.toString();
+
         return sorguTasiyici;
     }
 
@@ -69,6 +80,8 @@ public class BasitDurumMakinesi {
                         TabloBileseni tabloBil = (TabloBileseni) bilesen;
                         sorguTasiyici.tablo = tabloBil.getTablo();
                         return Durum.TABLO_BULUNDU;
+                    case SONUC_MIKTAR:
+                        return Durum.SONUC_KISITLAMA_SAYISI_BEKLE;
                 }
                 break;
 
@@ -121,9 +134,37 @@ public class BasitDurumMakinesi {
                         Kolon k = ((KolonBileseni) bilesen).getKolon();
                         sonucKolonlari.add(k);
                         return Durum.SONUC_KOLONU_ALINDI;
-
+                    case SONUC_MIKTAR:
+                        return Durum.SONUC_KISITLAMA_SAYISI_BEKLE;
                 }
                 break;
+
+            case SONUC_KISITLAMA_SAYISI_BEKLE:
+                switch (gecis) {
+                    case SAYI:
+                        SayiBileseni sb = (SayiBileseni) bilesen;
+                        sorguTasiyici.sonucMiktarKisitlamaDegeri = sb.deger;
+                        return Durum.SONUC_KISITLAMA_SAYISI_ALINDI;
+                }
+                break;
+
+            case SONUC_KISITLAMA_SAYISI_ALINDI:
+                switch (gecis) {
+                    case TABLO:
+                        TabloBileseni tabloBil = (TabloBileseni) bilesen;
+                        sorguTasiyici.tablo = tabloBil.getTablo();
+                        return Durum.TABLO_BULUNDU;
+                    case ISLEM:
+                        IslemBileseni b = (IslemBileseni) bilesen;
+                        sorguTasiyici.islemTipi = b.getIslem();
+                        return Durum.ISLEM_BELIRLENDI;
+                    case KOLON:
+                        Kolon k = ((KolonBileseni) bilesen).getKolon();
+                        sonucKolonlari.add(k);
+                        return Durum.SONUC_KOLONU_ALINDI;
+                }
+                break;
+
 
             case SONUC_KOLONU_ALINDI:
                 switch (gecis) {
@@ -137,18 +178,14 @@ public class BasitDurumMakinesi {
                         sonucKolonlari.add(k);
                         return Durum.SONUC_KOLONU_ALINDI;
                 }
+                break;
 
         }
         throw new SQLUretimHatasi("Beklenmeyen cumle bilseni:" + bilesen.toString() + ". " +
                 "Su anki durum:" + suAnkiDurum.name());
     }
 
-    private void kisitlamaVerileriniEkle() {
-
-    }
-
-    private class BilgiKiyasIkilisi {
-        String bilgi;
-
+    private void raporla(String s) {
+        cozumRaporu.append(s).append("\n");
     }
 }
