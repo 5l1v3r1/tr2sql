@@ -6,6 +6,7 @@ import tr2sql.db.IslemTipi;
 public class IslemBileseni extends CumleBileseni {
 
     IslemTipi islem;
+    boolean olumsuzluk;
 
     public IslemBileseni(IslemTipi islem, Kelime kelime) {
         this.islem = islem;
@@ -16,5 +17,13 @@ public class IslemBileseni extends CumleBileseni {
 
     public IslemTipi getIslem() {
         return islem;
+    }
+
+    public boolean olumsuz() {
+        return olumsuzluk;
+    }
+
+    public void setOlumsuzluk(boolean olumsuzluk) {
+        this.olumsuzluk = olumsuzluk;
     }
 }

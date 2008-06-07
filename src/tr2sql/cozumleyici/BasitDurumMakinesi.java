@@ -49,8 +49,7 @@ public class BasitDurumMakinesi {
     }
 
     public SorguTasiyici islet() {
-        for (int i = 0; i < bilesenler.size(); i++) {
-            CumleBileseni bilesen = bilesenler.get(i);
+        for (CumleBileseni bilesen : bilesenler) {
             if (bilesen.tip == CumleBilesenTipi.TANIMSIZ) {
                 raporla("Islenemyen bilesen:" + bilesen.icerik);
                 continue;
@@ -132,9 +131,7 @@ public class BasitDurumMakinesi {
                     case ISLEM:
                         return islemBileseniGecisi(bilesen);
                     case KOLON:
-                        Kolon k = ((KolonBileseni) bilesen).getKolon();
-                        sonucKolonlari.add(k);
-                        return Durum.SONUC_KOLONU_ALINDI;
+                        return sonucKolonuGecisi(bilesen);
                     case SONUC_MIKTAR:
                         return Durum.SONUC_KISITLAMA_SAYISI_BEKLE;
                 }
@@ -156,9 +153,7 @@ public class BasitDurumMakinesi {
                     case ISLEM:
                         return islemBileseniGecisi(bilesen);
                     case KOLON:
-                        Kolon k = ((KolonBileseni) bilesen).getKolon();
-                        sonucKolonlari.add(k);
-                        return Durum.SONUC_KOLONU_ALINDI;
+                        return sonucKolonuGecisi(bilesen);
                 }
                 break;
 
@@ -168,19 +163,25 @@ public class BasitDurumMakinesi {
                     case ISLEM:
                         return islemBileseniGecisi(bilesen);
                     case KOLON:
-                        Kolon k = ((KolonBileseni) bilesen).getKolon();
-                        sonucKolonlari.add(k);
-                        return Durum.SONUC_KOLONU_ALINDI;
+                        return sonucKolonuGecisi(bilesen);
                 }
                 break;
 
         }
-        throw new SQLUretimHatasi("Beklenmeyen cumle bilseni:" + bilesen.toString() + ". " +
+        throw new SQLUretimHatasi("Beklenmeyen cumle bileseni:" + bilesen.toString() + ". " +
                 "Su anki durum:" + suAnkiDurum.name());
+    }
+
+    private Durum sonucKolonuGecisi(CumleBileseni bilesen) {
+        Kolon k = ((KolonBileseni) bilesen).getKolon();
+        sonucKolonlari.add(k);
+        return Durum.SONUC_KOLONU_ALINDI;
     }
 
     private Durum islemBileseniGecisi(CumleBileseni bilesen) {
         IslemBileseni b = (IslemBileseni) bilesen;
+        if (b.olumsuz())
+            raporla("Uyari: Islemi belirten eylem: " + bilesen.icerik() + ", olumsuzluk iceriyor. Bu gozardi edilecek.");
         sorguTasiyici.islemTipi = b.getIslem();
         return Durum.ISLEM_BELIRLENDI;
     }

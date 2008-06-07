@@ -151,6 +151,7 @@ public class TurkceSQLCozumleyici {
                 return new TanimsizBilesen(s);
 
             String kavramAdi = kavram.getAd();
+            boolean olumsuzlukEkiVar = olumsuzlukEkiVarmi(kelime);
 
             if (kavramAdi.equals("ILK")) {
                 return new MiktarKisitlamaBileseni(s);
@@ -163,8 +164,11 @@ public class TurkceSQLCozumleyici {
 
             // islem bileseni mi? goster, listele vs.
             IslemTipi tip = IslemTipi.kavramaGoreIslem(kavram);
-            if (tip != IslemTipi.TANIMSIZ)
-                return new IslemBileseni(tip, kelime);
+            if (tip != IslemTipi.TANIMSIZ) {
+                IslemBileseni b = new IslemBileseni(tip, kelime);
+                b.setOlumsuzluk(olumsuzlukEkiVar);
+                return b;
+            }
 
             // kolon bileseni mi?
             List<Kolon> tumKolonlar = veriTabani.tumKolonlar();
@@ -175,7 +179,7 @@ public class TurkceSQLCozumleyici {
 
             // kiyaslama bileseni mi? buyuk, kucuk, esit vs.
             KiyasTipi kiyasTipi = KiyasTipi.kavramdanTipBul(kavram);
-            boolean olumsuzlukEkiVar = olumsuzlukEkiVarmi(kelime);
+
             if (kiyasTipi != null) {
                 return new KiyaslamaBileseni(kiyasTipi, olumsuzlukEkiVar);
             }
