@@ -39,7 +39,7 @@ public class BasitDurumMakinesi {
     private List<Kolon> sonucKolonlari = new ArrayList<Kolon>();
 
     // calisma sirasianda olup bitenlerin bir yerde tutulmasini saglar.
-    private StringBuffer cozumRaporu = new StringBuffer();
+    private StringBuilder cozumRaporu = new StringBuilder();
 
     public BasitDurumMakinesi(List<CumleBileseni> bilesenler) {
         this.bilesenler = bilesenler;
@@ -81,11 +81,7 @@ public class BasitDurumMakinesi {
                     case KISITLAMA_BILGISI:
                         return bilgiBileseniGecisi(bilesen);
                     case KOLON:
-                        KolonBileseni kb = (KolonBileseni) bilesen;
-                        if (!kb.baglacVar())
-                            kb.setOnBaglac(BaglacTipi.VE);
-                        islenenKolonBileenleri.add(kb);
-                        return Durum.COKLU_KOLON_ALINDI;
+                        return cokluKolonBileseniGecisi(bilesen);
                 }
                 break;
 
@@ -94,11 +90,7 @@ public class BasitDurumMakinesi {
                     case KISITLAMA_BILGISI:
                         return bilgiBileseniGecisi(bilesen);
                     case KOLON:
-                        KolonBileseni kb = (KolonBileseni) bilesen;
-                        if (!kb.baglacVar())
-                            kb.setOnBaglac(BaglacTipi.VE);
-                        islenenKolonBileenleri.add(kb);
-                        return Durum.COKLU_KOLON_ALINDI;
+                        return cokluKolonBileseniGecisi(bilesen);
                 }
                 break;
 
@@ -111,11 +103,7 @@ public class BasitDurumMakinesi {
                     case KOLON:
                         break;
                     case KISITLAMA_BILGISI:
-                        BilgiBileseni kb = (BilgiBileseni) bilesen;
-                        if (!kb.baglacVar())
-                            kb.setOnBaglac(BaglacTipi.VEYA);
-                        islenenilgiBilesenleri.add(kb);
-                        return Durum.COKLU_BILGI_ALINDI;
+                        return cokluBilgiBileseniGecisi(bilesen);
                 }
                 break;
 
@@ -128,11 +116,7 @@ public class BasitDurumMakinesi {
                     case KOLON:
                         break;
                     case KISITLAMA_BILGISI:
-                        BilgiBileseni kb = (BilgiBileseni) bilesen;
-                        if (!kb.baglacVar())
-                            kb.setOnBaglac(BaglacTipi.VEYA);
-                        islenenilgiBilesenleri.add(kb);
-                        return Durum.COKLU_BILGI_ALINDI;
+                        return cokluBilgiBileseniGecisi(bilesen);
                 }
                 break;
 
@@ -193,6 +177,22 @@ public class BasitDurumMakinesi {
         }
         throw new SQLUretimHatasi("Beklenmeyen cumle bileseni:" + bilesen.toString() + ". " +
                 "Su anki durum:" + suAnkiDurum.name());
+    }
+
+    private Durum cokluBilgiBileseniGecisi(CumleBileseni bilesen) {
+        BilgiBileseni kb = (BilgiBileseni) bilesen;
+        if (!kb.baglacVar())
+            kb.setOnBaglac(BaglacTipi.VEYA);
+        islenenilgiBilesenleri.add(kb);
+        return Durum.COKLU_BILGI_ALINDI;
+    }
+
+    private Durum cokluKolonBileseniGecisi(CumleBileseni bilesen) {
+        KolonBileseni kb = (KolonBileseni) bilesen;
+        if (!kb.baglacVar())
+            kb.setOnBaglac(BaglacTipi.VE);
+        islenenKolonBileenleri.add(kb);
+        return Durum.COKLU_KOLON_ALINDI;
     }
 
     private Durum sonucKolonuGecisi(CumleBileseni bilesen) {
