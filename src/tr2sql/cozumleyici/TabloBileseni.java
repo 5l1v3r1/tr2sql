@@ -3,7 +3,7 @@ package tr2sql.cozumleyici;
 import net.zemberek.yapi.Kelime;
 import tr2sql.db.Tablo;
 
-public class TabloBileseni extends TemelCumleBileseni {
+public class TabloBileseni extends CumleBileseni {
 
     Tablo tablo;
 

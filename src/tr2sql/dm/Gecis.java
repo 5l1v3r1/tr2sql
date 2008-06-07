@@ -8,5 +8,7 @@ public enum Gecis {
     KIYASLAMA,
     OLMAK,
     TABLO,
-    ISLEM
+    SAYI,
+    ISLEM,
+    SONUC_MIKTAR
 }

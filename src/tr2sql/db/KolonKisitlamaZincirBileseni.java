@@ -6,10 +6,10 @@ package tr2sql.db;
  */
 public class KolonKisitlamaZincirBileseni {
     public KolonKisitlamaBileseni kisitlamaBileseni;
-    public KosulTipi sonrakiBilsenIliskisi = KosulTipi.YOK;
+    public BaglacTipi sonrakiBilsenIliskisi = BaglacTipi.YOK;
 
     public KolonKisitlamaZincirBileseni(KolonKisitlamaBileseni kisitlamaBileseni,
-                                        KosulTipi sonrakiBilsenIliskisi) {
+                                        BaglacTipi sonrakiBilsenIliskisi) {
         this.kisitlamaBileseni = kisitlamaBileseni;
         this.sonrakiBilsenIliskisi = sonrakiBilsenIliskisi;
     }

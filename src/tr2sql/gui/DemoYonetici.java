@@ -8,7 +8,7 @@ import net.zemberek.tr.yapi.TurkiyeTurkcesi;
 import net.zemberek.yapi.DilBilgisi;
 import net.zemberek.yapi.Kelime;
 import tr2sql.Tr2SQLKelimeEleyici;
-import tr2sql.cozumleyici.SorguCumleBileseni;
+import tr2sql.cozumleyici.CumleBileseni;
 import tr2sql.db.TurkceSQLCozumleyici;
 
 import java.io.IOException;
@@ -93,18 +93,18 @@ public class DemoYonetici {
         for (String str : list)
             sb.append('[').append(str).append("] ");
         sb.append("\n\nSorgu bileseni ayristirma sonuclari:\n");
-        List<SorguCumleBileseni> bilesenler = tr2SQLCozumleyici.sorguCumleBilesenleriniAyir(giris);
-        for (SorguCumleBileseni bilesen : bilesenler) {
+        List<CumleBileseni> bilesenler = tr2SQLCozumleyici.sorguCumleBilesenleriniAyir(giris);
+        for (CumleBileseni bilesen : bilesenler) {
             sb.append(bilesen.toString());
         }
         return sb.toString();
     }
 
     public String sorguCumlesiBilesenleri(String giris) {
-        List<SorguCumleBileseni> bilesenler =
+        List<CumleBileseni> bilesenler =
                 tr2SQLCozumleyici.sorguCumleBilesenleriniAyir(giris);
         StringBuilder builder = new StringBuilder();
-        for (SorguCumleBileseni bilesen : bilesenler) {
+        for (CumleBileseni bilesen : bilesenler) {
             String s = "[" + bilesen.icerik() + " : " + bilesen.tip() + "] ";
             builder.append(s);
         }

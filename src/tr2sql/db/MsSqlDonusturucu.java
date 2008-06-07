@@ -77,8 +77,8 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         KolonKisitlamaBileseni isimKisitlama = new KolonKisitlamaBileseni(kolon2, "Ali", KiyasTipi.ESIT);
 
         // kisitlama bilgilerini "ve" ile birbirine bagla.
-        KolonKisitlamaZincirBileseni halka1 = new KolonKisitlamaZincirBileseni(numaraKisitlama, KosulTipi.VE);
-        KolonKisitlamaZincirBileseni halka2 = new KolonKisitlamaZincirBileseni(isimKisitlama, KosulTipi.YOK);
+        KolonKisitlamaZincirBileseni halka1 = new KolonKisitlamaZincirBileseni(numaraKisitlama, BaglacTipi.VE);
+        KolonKisitlamaZincirBileseni halka2 = new KolonKisitlamaZincirBileseni(isimKisitlama, BaglacTipi.YOK);
 
         //bilesenleri bir Linkli liste seklinde sorgu tasiyiciya koyalim
         sorgu.kolonKisitlamaZinciri = Arrays.asList(halka1, halka2);

@@ -1,6 +1,6 @@
 package tr2sql.cozumleyici;
 
-public class SayiBileseni extends TemelCumleBileseni {
+public class SayiBileseni extends CumleBileseni {
 
     int deger;
 

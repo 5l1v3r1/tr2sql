@@ -4,6 +4,7 @@ import tr2sql.cozumleyici.*;
 import tr2sql.db.Kolon;
 import tr2sql.db.KolonKisitlamaBileseni;
 import tr2sql.db.SorguTasiyici;
+import tr2sql.db.BaglacTipi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ public class BasitDurumMakinesi {
     private Durum suAnkiDurum = Durum.BASLA;
     private SorguTasiyici sorguTasiyici = new SorguTasiyici();
 
-    private List<SorguCumleBileseni> bilesenler;
+    private List<CumleBileseni> bilesenler;
 
     private List<KolonKisitlamaBileseni> kolonBilesenleri =
             new ArrayList<KolonKisitlamaBileseni>();
@@ -22,37 +23,47 @@ public class BasitDurumMakinesi {
     private List<String> bilgiler = new ArrayList<String>();
 
 
-    public BasitDurumMakinesi(List<SorguCumleBileseni> bilesenler) {
+    public BasitDurumMakinesi(List<CumleBileseni> bilesenler) {
         this.bilesenler = bilesenler;
     }
 
     public SorguTasiyici islet() {
         for (int i = 0; i < bilesenler.size(); i++) {
-            SorguCumleBileseni sorguCumleBileseni = bilesenler.get(i);
-            suAnkiDurum = gecis(gecisBul(sorguCumleBileseni.tip()), sorguCumleBileseni);
+
+            CumleBileseni bilesen = bilesenler.get(i);
+            suAnkiDurum = gecis(gecisDegeriBul(bilesen), bilesen);
         }
         return sorguTasiyici;
     }
 
-    private Gecis gecisBul(CumleBilesenTipi cbi) {
-        switch (cbi) {
+    private Gecis gecisDegeriBul(CumleBileseni cbi) {
+        switch (cbi.tip()) {
             case ISLEM:
                 return Gecis.ISLEM;
             case KISITLAMA_BILGISI:
-                return Gecis.BILGI;
+                BilgiBileseni bb = (BilgiBileseni) cbi;
+                if (bb.getOnBaglac() != BaglacTipi.YOK)
+                    return Gecis.BAGLAC_BILGI;
+                else return Gecis.BILGI;
             case KIYASLAYICI:
                 return Gecis.KIYASLAMA;
             case KOLON:
-                return Gecis.KOLON;
+                KolonBileseni kb = (KolonBileseni) cbi;
+                if (kb.getOnBaglac() != BaglacTipi.YOK)
+                    return Gecis.KOLON;
+                else return Gecis.BAGLAC_KOLON;
             case TABLO:
                 return Gecis.TABLO;
             case OLMAK:
                 return Gecis.OLMAK;
+            case SAYI:
+                return Gecis.SAYI;
+            case SONUC_MIKTAR:
         }
         return null;
     }
 
-    private Durum gecis(Gecis gecis, SorguCumleBileseni bilesen) {
+    private Durum gecis(Gecis gecis, CumleBileseni bilesen) {
         switch (suAnkiDurum) {
 
             case BASLA:
@@ -127,5 +138,4 @@ public class BasitDurumMakinesi {
         String bilgi;
 
     }
-
 }

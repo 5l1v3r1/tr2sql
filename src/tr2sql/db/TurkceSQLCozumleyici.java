@@ -49,7 +49,7 @@ public class TurkceSQLCozumleyici {
         return stringKavramTablosu;
     }
 
-    public List<SorguCumleBileseni> sorguCumleBilesenleriniAyir(String giris) {
+    public List<CumleBileseni> sorguCumleBilesenleriniAyir(String giris) {
         return new BasitCumleCozumleyici(giris).bilesenler();
     }
 
@@ -87,15 +87,17 @@ public class TurkceSQLCozumleyici {
                 cumleParcalari.add(m.group());
         }
 
-        private List<SorguCumleBileseni> bilesenler() {
-            List<SorguCumleBileseni> bilesenler = new ArrayList<SorguCumleBileseni>();
+        private List<CumleBileseni> bilesenler() {
+            List<CumleBileseni> bilesenler = new ArrayList<CumleBileseni>();
+
+            BaglacTipi baglacTipi;
 
             for (String s : cumleParcalari) {
+
                 // virgul, ve, veya
-                if (s.equals(",")) {
-                    bilesenler.add(new BaglacBileseni(s));
+                baglacTipi = BaglacTipi.baglacTipiTahminEt(s);
+                if (baglacTipi != BaglacTipi.YOK)
                     continue;
-                }
 
                 // sayi mi? henuz sadece rakam ile yazilmissa buluyor.
                 try {
@@ -109,6 +111,7 @@ public class TurkceSQLCozumleyici {
                 // bilgi bileseni. "" isareti icinde olur.
                 if (s.startsWith("\"") && s.length() > 2) {
                     BilgiBileseni bilesen = new BilgiBileseni(s.substring(1, s.length() - 1));
+                    bilesen.setOnBaglac(baglacTipi);
                     bilesenler.add(bilesen);
                     continue;
                 }
@@ -125,8 +128,10 @@ public class TurkceSQLCozumleyici {
                     bilesenler.add(new TanimsizBilesen(s));
                     continue;
                 }
-                SorguCumleBileseni bilesen = bilesenBul(kavram, s, kelime);
-                bilesenler.add(bilesen);
+                CumleBileseni bilesen = bilesenBul(kavram, s, kelime);
+
+                if (bilesen.tip() == CumleBilesenTipi.KOLON)
+                    ((KolonBileseni) bilesen).setOnBaglac(baglacTipi);
 
             }
             return bilesenler;
@@ -137,16 +142,12 @@ public class TurkceSQLCozumleyici {
         }
 
         // kavrama gore sorgu cumle bilesenini bulur.
-        private SorguCumleBileseni bilesenBul(Kavram kavram, String s, Kelime kelime) {
+        private CumleBileseni bilesenBul(Kavram kavram, String s, Kelime kelime) {
 
             if (kavram == null)
                 return new TanimsizBilesen(s);
 
             String kavramAdi = kavram.getAd();
-
-            if (kavramAdi.equals("VE") || kavramAdi.equals("VEYA")) {
-                return new BaglacBileseni(s);
-            }
 
             if (kavramAdi.equals("ILK")) {
                 return new MiktarKisitlamaBileseni(s);
