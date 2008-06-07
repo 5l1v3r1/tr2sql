@@ -3,5 +3,5 @@ işçileri listele
 çalışanların adlarını yaz
 işçilerin isim ve soyadlarını göster
 ilk 5 işçiyi listele
-çalışanların ilk 5 inin adlarını göster
+çalışanların ilk 5 inin adını ve numarasını göster
 adı "Ali", soyadı "Er" olan ilk 5 çalışanın numara ve adını göster
