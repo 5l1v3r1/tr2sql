@@ -93,7 +93,7 @@ public class DemoYonetici {
         sb.append("Kelime ayristirma sonuclari:\n");
         for (String str : list)
             sb.append('[').append(str).append("] ");
-        sb.append("Sorgu bileseni ayristirma sonuclari:\n");
+        sb.append("\n\nSorgu bileseni ayristirma sonuclari:\n");
         List <SorguCumleBileseni> bilesenler =  tr2SQLCozumleyici.sorguCumleBilesenleriniAyir(giris);
         for (SorguCumleBileseni bilesen : bilesenler) {
             sb.append(bilesen.toString());

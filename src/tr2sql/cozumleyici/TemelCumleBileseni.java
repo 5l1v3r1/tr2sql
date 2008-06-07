@@ -17,6 +17,6 @@ public class TemelCumleBileseni implements SorguCumleBileseni {
 
     @Override
     public String toString() {
-        return "[" + tip.name() + ":" + icerik + "] ";
+        return "[" +icerik + ":" + tip() + "] ";
     }
 }
