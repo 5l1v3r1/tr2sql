@@ -57,6 +57,7 @@ public class BasitDurumMakinesi {
             }
             suAnkiDurum = gecis(bilesen);
         }
+        sorguTasiyici.sonucKolonlari = sonucKolonlari;
         sorguTasiyici.aciklamalar = cozumRaporu.toString();
 
         return sorguTasiyici;
@@ -71,15 +72,9 @@ public class BasitDurumMakinesi {
             case BASLA:
                 switch (gecis) {
                     case KOLON:
-                        KolonBileseni kb = (KolonBileseni) bilesen;
-                        islenenKolonBileenleri.add(kb);
-                        if (kb.baglacVar())
-                            return Durum.COKLU_KOLON_ALINDI;
-                        else return Durum.KOLON_ALINDI;
+                        return kolonBileseniGecisi(bilesen);
                     case TABLO:
-                        TabloBileseni tabloBil = (TabloBileseni) bilesen;
-                        sorguTasiyici.tablo = tabloBil.getTablo();
-                        return Durum.TABLO_BULUNDU;
+                        return tabloBileseniGecisi(bilesen);
                     case SONUC_MIKTAR:
                         return Durum.SONUC_KISITLAMA_SAYISI_BEKLE;
                 }
@@ -88,14 +83,22 @@ public class BasitDurumMakinesi {
             case KOLON_ALINDI:
                 switch (gecis) {
                     case KISITLAMA_BILGISI:
-                        BilgiBileseni kb = (BilgiBileseni) bilesen;
-                        islenenilgiBilesenleri.add(kb);
-                        if (kb.baglacVar())
-                            return Durum.COKLU_BILGI_ALINDI;
-                        else return Durum.BILGI_ALINDI;
+                        return bilgiBileseniGecisi(bilesen);
                     case KOLON:
                         break;
                 }
+                break;
+
+            case COKLU_KOLON_ALINDI:
+                switch (gecis) {
+                    case KISITLAMA_BILGISI:
+                        return bilgiBileseniGecisi(bilesen);
+                    case KOLON:
+                        break;
+                }
+                break;
+
+            case COKLU_BILGI_ALINDI:
                 break;
 
             case BILGI_ALINDI:
@@ -127,9 +130,7 @@ public class BasitDurumMakinesi {
             case TABLO_BULUNDU:
                 switch (gecis) {
                     case ISLEM:
-                        IslemBileseni b = (IslemBileseni) bilesen;
-                        sorguTasiyici.islemTipi = b.getIslem();
-                        return Durum.ISLEM_BELIRLENDI;
+                        return islemBileseniGecisi(bilesen);
                     case KOLON:
                         Kolon k = ((KolonBileseni) bilesen).getKolon();
                         sonucKolonlari.add(k);
@@ -151,13 +152,9 @@ public class BasitDurumMakinesi {
             case SONUC_KISITLAMA_SAYISI_ALINDI:
                 switch (gecis) {
                     case TABLO:
-                        TabloBileseni tabloBil = (TabloBileseni) bilesen;
-                        sorguTasiyici.tablo = tabloBil.getTablo();
-                        return Durum.TABLO_BULUNDU;
+                        return tabloBileseniGecisi(bilesen);
                     case ISLEM:
-                        IslemBileseni b = (IslemBileseni) bilesen;
-                        sorguTasiyici.islemTipi = b.getIslem();
-                        return Durum.ISLEM_BELIRLENDI;
+                        return islemBileseniGecisi(bilesen);
                     case KOLON:
                         Kolon k = ((KolonBileseni) bilesen).getKolon();
                         sonucKolonlari.add(k);
@@ -169,10 +166,7 @@ public class BasitDurumMakinesi {
             case SONUC_KOLONU_ALINDI:
                 switch (gecis) {
                     case ISLEM:
-                        IslemBileseni b = (IslemBileseni) bilesen;
-                        sorguTasiyici.islemTipi = b.getIslem();
-                        sorguTasiyici.sonucKolonlari = sonucKolonlari;
-                        return Durum.ISLEM_BELIRLENDI;
+                        return islemBileseniGecisi(bilesen);
                     case KOLON:
                         Kolon k = ((KolonBileseni) bilesen).getKolon();
                         sonucKolonlari.add(k);
@@ -183,6 +177,34 @@ public class BasitDurumMakinesi {
         }
         throw new SQLUretimHatasi("Beklenmeyen cumle bilseni:" + bilesen.toString() + ". " +
                 "Su anki durum:" + suAnkiDurum.name());
+    }
+
+    private Durum islemBileseniGecisi(CumleBileseni bilesen) {
+        IslemBileseni b = (IslemBileseni) bilesen;
+        sorguTasiyici.islemTipi = b.getIslem();
+        return Durum.ISLEM_BELIRLENDI;
+    }
+
+    private Durum tabloBileseniGecisi(CumleBileseni bilesen) {
+        TabloBileseni tabloBil = (TabloBileseni) bilesen;
+        sorguTasiyici.tablo = tabloBil.getTablo();
+        return Durum.TABLO_BULUNDU;
+    }
+
+    private Durum kolonBileseniGecisi(CumleBileseni bilesen) {
+        KolonBileseni kb = (KolonBileseni) bilesen;
+        islenenKolonBileenleri.add(kb);
+        if (kb.baglacVar())
+            return Durum.COKLU_KOLON_ALINDI;
+        else return Durum.KOLON_ALINDI;
+    }
+
+    private Durum bilgiBileseniGecisi(CumleBileseni bilesen) {
+        BilgiBileseni kb = (BilgiBileseni) bilesen;
+        islenenilgiBilesenleri.add(kb);
+        if (kb.baglacVar())
+            return Durum.COKLU_BILGI_ALINDI;
+        else return Durum.BILGI_ALINDI;
     }
 
     private void raporla(String s) {
