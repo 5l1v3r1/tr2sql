@@ -29,14 +29,6 @@ muhasebe
 ürün
 mal
 maden
-demir
-çinko
-bakır
-kalay
-altın
-gümüş
-alüminyum
-bor
 fiyat
 ücret
 paha

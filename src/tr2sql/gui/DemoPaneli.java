@@ -124,6 +124,17 @@ public class DemoPaneli {
         });
         centerPanel.add(veriTabaniBilgileriBtn);
 
+        JButton kelimeAyristirBtn;
+        kelimeAyristirBtn = new JButton("Ayristir");
+        kelimeAyristirBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                cikisAlani.setYazi(dy.cumleParcalari(girisAlani.getYazi()));
+            }
+        });
+        centerPanel.add(kelimeAyristirBtn);
+
+
+
         JButton cozumBilgiBtn;
         cozumBilgiBtn = new JButton("Cozum bilgileri");
         cozumBilgiBtn.addActionListener(new ActionListener() {

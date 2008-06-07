@@ -12,5 +12,6 @@ public class OlmakBIleseni extends TemelCumleBileseni {
         this.olumsuz = olumsuz;
         this.tip = CumleBilesenTipi.OLMAK;
         this.kelime = kelime;
+        this.icerik = kelime.icerikStr();
     }
 }

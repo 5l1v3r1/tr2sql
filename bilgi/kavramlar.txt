@@ -7,7 +7,7 @@ bölüm: bölüm,kısım,departman,birim
 ürün: ürün,mal,maden
 fiyat: fiyat,ücret,paha,değer,eder
 miktar: miktar,üretim
-SORGULA: sorgulamak,getirmek,görüntülemek,listelemek,göstermek,yüklemek,yapmak
+SORGULA: sorgulamak,getirmek,görüntülemek,listelemek,göstermek,yüklemek
 SIL: silmek
 EKLE:eklemek
 GUNCELLE:güncellemek
@@ -20,4 +20,4 @@ BASLAMAK: başlamak
 BITMEK: bitmek, sonlanmak
 NULL: boş
 VE:ve
-VEYA:veya
+VEYA:veya,yahut

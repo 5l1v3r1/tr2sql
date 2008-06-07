@@ -14,4 +14,9 @@ public class TemelCumleBileseni implements SorguCumleBileseni {
     public String icerik() {
         return icerik;
     }
+
+    @Override
+    public String toString() {
+        return "[" + tip.name() + ":" + icerik + "] ";
+    }
 }

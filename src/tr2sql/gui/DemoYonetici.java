@@ -87,6 +87,20 @@ public class DemoYonetici {
         return tr2SQLCozumleyici.getVeriTabani().toString();
     }
 
+    public String cumleParcalari(String giris) {
+        StringBuilder sb = new StringBuilder();
+        List<String> list = tr2SQLCozumleyici.kelimeAyristir(giris);
+        sb.append("Kelime ayristirma sonuclari:\n");
+        for (String str : list)
+            sb.append('[').append(str).append("] ");
+        sb.append("Sorgu bileseni ayristirma sonuclari:\n");
+        List <SorguCumleBileseni> bilesenler =  tr2SQLCozumleyici.sorguCumleBilesenleriniAyir(giris);
+        for (SorguCumleBileseni bilesen : bilesenler) {
+            sb.append(bilesen.toString());
+        }
+        return sb.toString();
+    }
+
     public String sorguCumlesiBilesenleri(String giris) {
         List<SorguCumleBileseni> bilesenler =
                 tr2SQLCozumleyici.sorguCumleBilesenleriniAyir(giris);

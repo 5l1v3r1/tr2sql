@@ -9,9 +9,6 @@ import net.zemberek.yapi.Kelime;
 public class KolonBileseni extends TemelCumleBileseni {
 
     Kolon kolon;
-    String icerik;
-    Kelime kelime;
-
 
     public KolonBileseni(Kolon kolon, Kelime kelime) {
         this.kolon = kolon;

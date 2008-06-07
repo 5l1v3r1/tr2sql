@@ -1,0 +1,1 @@
+adı 'Ali', soyadı 'Er' olan çalışanların numara ve adını göster

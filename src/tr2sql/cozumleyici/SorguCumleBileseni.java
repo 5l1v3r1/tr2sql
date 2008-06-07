@@ -5,4 +5,5 @@ public interface SorguCumleBileseni {
     CumleBilesenTipi tip();
 
     String icerik();
+
 }

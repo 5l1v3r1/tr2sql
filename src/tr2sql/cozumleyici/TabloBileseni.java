@@ -10,7 +10,7 @@ public class TabloBileseni extends TemelCumleBileseni {
 
     public TabloBileseni(Tablo tablo, Kelime kelime) {
         this.tablo = tablo;
-        this.tip = CumleBilesenTipi.KOLON;
+        this.tip = CumleBilesenTipi.TABLO;
         this.icerik = kelime.icerikStr();
         this.kelime = kelime;
     }
