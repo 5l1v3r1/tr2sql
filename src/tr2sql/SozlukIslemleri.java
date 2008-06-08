@@ -59,8 +59,6 @@ public class SozlukIslemleri {
     public Kok tahminEtVeEkle(String s) {
         Kok kok = yeniKok(s);
         sozluk.ekle(kok);
-        List<Kok> kk = sozluk.kokBul(s);
-        System.out.println(kk.toString());
         return kok;
     }
 

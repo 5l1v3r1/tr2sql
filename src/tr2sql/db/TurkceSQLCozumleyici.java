@@ -200,9 +200,6 @@ public class TurkceSQLCozumleyici {
                 return new OlmakBIleseni(kelime, olumsuzlukEkiVar);
             }
 
-            if (kavram.getAd().equals("SAY"))
-                return new SaymaBileseni(s);
-
             return new TanimsizBilesen(s);
         }
     }

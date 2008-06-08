@@ -112,7 +112,7 @@ public class Tr2SQLKelimeEleyici {
                 // kok bulunamadigindan zemberege yeni kok olarak ekliyoruz.  
                 Kok kok = sozlukIslemleri.tahminEtVeEkle(s);
                 kabulEdilenKokler.add(kok);
-                System.out.println(s + " icin kok bulunamadi. yeni kok eklenecek:" + kok);
+                //System.out.println(s + " icin kok bulunamadi. yeni kok eklenecek:" + kok);
             }
         }
     }

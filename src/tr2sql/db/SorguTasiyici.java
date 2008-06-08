@@ -25,8 +25,6 @@ public class SorguTasiyici {
     // sonucta listelenmesi gereken kolonlar.
     public List<Kolon> sonucKolonlari = new ArrayList<Kolon>();
 
-    public boolean saymaSorgusu = false;
-
     public StringBuilder rapor = new StringBuilder();
 
     public SorguTasiyici raporla(String s) {

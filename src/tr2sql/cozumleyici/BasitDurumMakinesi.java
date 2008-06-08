@@ -46,8 +46,6 @@ public class BasitDurumMakinesi {
     // calisma sirasianda olup bitenlerin bir yerde tutulmasini saglar.
     private StringBuilder cozumRaporu = new StringBuilder();
 
-    private boolean saymaSorgusu;
-
     private DilBilgisi dilBilgisi;
     
     //içine ayrıştırdığımız cümle bileşenleri bu kısma gelir. 
@@ -73,7 +71,6 @@ public class BasitDurumMakinesi {
         // sorgu tasiyiciya toplanan bazi bilgileri ekle.
         sorguTasiyici.sonucKolonlari = sonucKolonlari;
         sorguTasiyici.raporla(cozumRaporu.toString());
-        sorguTasiyici.saymaSorgusu = saymaSorgusu;
 
         return sorguTasiyici;
     }
@@ -95,10 +92,7 @@ public class BasitDurumMakinesi {
                         // ilk...
                     case SONUC_MIKTAR:
                         return Durum.SONUC_KISITLAMA_SAYISI_BEKLE;
-                    case SAY:
-                        saymaSorgusu = true;
-                        return Durum.SAYMA_ALINDI;
-                        // "ali" adli
+
                     case KISITLAMA_BILGISI:
                         BilgiBileseni kb = (BilgiBileseni) bilesen;
                         bilgiBilesenleri.add(kb);
@@ -230,9 +224,6 @@ public class BasitDurumMakinesi {
                         return Durum.SONUC_KISITLAMA_SAYISI_BEKLE;
                     case ISLEM:
                         return islemBileseniGecisi(bilesen);
-                    case SAY:
-                        saymaSorgusu = true;
-                        return Durum.SAYMA_ALINDI;
                 }
                 break;
 
@@ -246,10 +237,6 @@ public class BasitDurumMakinesi {
                     case KOLON:
                         kisitlamaIsle();
                         return kolonBileseniGecisi(bilesen);
-                    case SAY:
-                        kisitlamaIsle();                        
-                        saymaSorgusu = true;
-                        return Durum.SAYMA_ALINDI;
                 }
                 break;
 
@@ -269,9 +256,6 @@ public class BasitDurumMakinesi {
                 switch (gecis) {
                     case KOLON:
                         return kolonBileseniGecisi(bilesen);
-                    case SAY:
-                        saymaSorgusu = true;
-                        return Durum.SAYMA_ALINDI;
                     case ISLEM:
                         return islemBileseniGecisi(bilesen);
                 }

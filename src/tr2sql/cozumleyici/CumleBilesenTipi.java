@@ -10,6 +10,5 @@ public enum CumleBilesenTipi {
     ISLEM,
     SAYI,
     KIYASLAYICI,
-    SAY,
     TANIMSIZ
 }
