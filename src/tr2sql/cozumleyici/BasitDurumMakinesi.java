@@ -148,7 +148,7 @@ public class BasitDurumMakinesi {
                         for (BilgiBileseni bilgiBileseni : bilgiBilesenleri) {
                             bilgiBileseni.setKiyasTipi(kb.kiyasTipi);
                         }
-                        break;
+                        return Durum.KIYAS_ALINDI;
                     case KOLON:
                         kisitlamaIsle();
                         return kolonBileseniGecisi(bilesen);

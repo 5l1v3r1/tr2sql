@@ -187,7 +187,7 @@ public class TurkceSQLCozumleyici {
             KiyasTipi kiyasTipi = KiyasTipi.kavramdanTipBul(kavram);
 
             if (kiyasTipi != null) {
-                return new KiyaslamaBileseni(kiyasTipi, olumsuzlukEkiVar);
+                return new KiyaslamaBileseni(kiyasTipi, kelime, olumsuzlukEkiVar);
             }
 
             if (kavram.getAd().equals("OLMAK")) {
