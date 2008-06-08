@@ -6,12 +6,12 @@ package tr2sql.db;
  */
 public class KolonKisitlamaZincirBileseni {
     public KolonKisitlamaBileseni kisitlamaBileseni;
-    public BaglacTipi sonrakiBilsenIliskisi = BaglacTipi.YOK;
+    public BaglacTipi oncekiBilsenIliskisi = BaglacTipi.YOK;
 
     public KolonKisitlamaZincirBileseni(KolonKisitlamaBileseni kisitlamaBileseni,
-                                        BaglacTipi sonrakiBilsenIliskisi) {
+                                        BaglacTipi oncekiBilsenIliskisi) {
         this.kisitlamaBileseni = kisitlamaBileseni;
-        this.sonrakiBilsenIliskisi = sonrakiBilsenIliskisi;
+        this.oncekiBilsenIliskisi = oncekiBilsenIliskisi;
     }
 
     public String sqlDonusumu() {
@@ -20,11 +20,13 @@ public class KolonKisitlamaZincirBileseni {
 
         String kisitlamaSql = kisitlamaBileseni.sqlDonusumu();
 
-        switch (sonrakiBilsenIliskisi) {
+        switch (oncekiBilsenIliskisi) {
             case VE:
-                return kisitlamaSql + " and ";
+                return " and " + kisitlamaSql;
             case VEYA:
-                return kisitlamaSql + " or ";
+                return " or " + kisitlamaSql ;
+            case VIRGUL:
+                return " and " + kisitlamaSql;
         }
         return kisitlamaSql + " ";
     }

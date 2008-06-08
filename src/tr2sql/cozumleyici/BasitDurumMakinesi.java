@@ -117,26 +117,20 @@ public class BasitDurumMakinesi {
             case COKLU_BILGI_ALINDI:
                 switch (gecis) {
                     case OLMAK:
-                        OlmakBIleseni ob = (OlmakBIleseni) bilesen;
-                        if (ob.olumsuz())
-                            for (BilgiBileseni bilgiBileseni : bilgiBilesenleri) {
-                                bilgiBileseni.kiyas = bilgiBileseni.kiyas.tersi();
-                            }
-                        kisitlamaIsle();
-                        return Durum.OLMAK_ALINDI;
+                        return olmakBileseniGecisi(bilesen);
                     case KIYASLAYICI:
                         // adi "a" veya "b" ile baslayan
                         KiyaslamaBileseni kb = (KiyaslamaBileseni) bilesen;
                         if (kb.olumsuzuk)
                             kb.kiyasTipi = kb.kiyasTipi.tersi();
                         for (BilgiBileseni bilgiBileseni : bilgiBilesenleri) {
-                            bilgiBileseni.setKiyas(kb.kiyasTipi);
+                            bilgiBileseni.setKiyasTipi(kb.kiyasTipi);
                         }
                         return Durum.KIYAS_ALINDI;
 
                     case KOLON:
                         kisitlamaIsle();
-                        return Durum.KOLON_ALINDI;
+                        return kolonBileseniGecisi(bilesen);
 
                     case KISITLAMA_BILGISI:
                         return cokluBilgiBileseniGecisi(bilesen);
@@ -146,24 +140,18 @@ public class BasitDurumMakinesi {
             case BILGI_ALINDI:
                 switch (gecis) {
                     case OLMAK:
-                        OlmakBIleseni ob = (OlmakBIleseni) bilesen;
-                        if (ob.olumsuz())
-                            for (BilgiBileseni bilgiBileseni : bilgiBilesenleri) {
-                                bilgiBileseni.kiyas = bilgiBileseni.kiyas.tersi();
-                            }
-                        kisitlamaIsle();
-                        return Durum.OLMAK_ALINDI;
+                        return olmakBileseniGecisi(bilesen);
                     case KIYASLAYICI:
                         KiyaslamaBileseni kb = (KiyaslamaBileseni) bilesen;
                         if (kb.olumsuzuk)
                             kb.kiyasTipi = kb.kiyasTipi.tersi();
                         for (BilgiBileseni bilgiBileseni : bilgiBilesenleri) {
-                            bilgiBileseni.setKiyas(kb.kiyasTipi);
+                            bilgiBileseni.setKiyasTipi(kb.kiyasTipi);
                         }
                         break;
                     case KOLON:
                         kisitlamaIsle();
-                        return Durum.KOLON_ALINDI;
+                        return kolonBileseniGecisi(bilesen);
 
                     case KISITLAMA_BILGISI:
                         return cokluBilgiBileseniGecisi(bilesen);
@@ -176,6 +164,7 @@ public class BasitDurumMakinesi {
                         // numarasi 5 olan ve soyadi....
                         return kolonBileseniGecisi(bilesen);
                     case TABLO:
+
                         return tabloBileseniGecisi(bilesen);
                     case SONUC_MIKTAR:
                         return Durum.SONUC_KISITLAMA_SAYISI_BEKLE;
@@ -185,13 +174,7 @@ public class BasitDurumMakinesi {
             case KIYAS_ALINDI:
                 switch (gecis) {
                     case OLMAK:
-                        OlmakBIleseni ob = (OlmakBIleseni) bilesen;
-                        if (ob.olumsuz())
-                            for (BilgiBileseni bilgiBileseni : bilgiBilesenleri) {
-                                bilgiBileseni.kiyas = bilgiBileseni.kiyas.tersi();
-                            }
-                        kisitlamaIsle();
-                        return Durum.OLMAK_ALINDI;
+                        return olmakBileseniGecisi(bilesen);
                     case TABLO:
                         kisitlamaIsle();
                         return tabloBileseniGecisi(bilesen);
@@ -249,20 +232,22 @@ public class BasitDurumMakinesi {
 
     private void kisitlamaIsle() {
         for (KolonBileseni kolonBileseni : kolonBilesenleri) {
-            for (int i = 0; i < bilgiBilesenleri.size(); i++) {
-                BilgiBileseni bilgiBileseni = bilgiBilesenleri.get(i);
-                BaglacTipi onBaglac = bilgiBileseni.onBaglac;
-                if (i > 0 && onBaglac == BaglacTipi.YOK)
-                    onBaglac = BaglacTipi.VEYA;
-                KolonKisitlamaBileseni kb = new KolonKisitlamaBileseni(
-                        kolonBileseni.getKolon(), bilgiBileseni.icerik(), bilgiBileseni.kiyas);
-                KolonKisitlamaZincirBileseni kkzb = new KolonKisitlamaZincirBileseni(kb, onBaglac);
-                sorguTasiyici.kolonKisitlamaZinciri.add(kkzb);
-            }
+            KolonKisitlamaBileseni kb = new KolonKisitlamaBileseni(
+                    kolonBileseni.getKolon(), bilgiBilesenleri);
+            KolonKisitlamaZincirBileseni kkzb = new KolonKisitlamaZincirBileseni(kb, kolonBileseni.getOnBaglac());
+            sorguTasiyici.kolonKisitlamaZinciri.add(kkzb);
         }
-        kolonBilesenleri.clear();
-        bilgiBilesenleri.clear();
+        kolonKiyasTemizle();
+    }
 
+    private Durum olmakBileseniGecisi(CumleBileseni bilesen) {
+        OlmakBIleseni ob = (OlmakBIleseni) bilesen;
+        if (ob.olumsuz())
+            for (BilgiBileseni bilgiBileseni : bilgiBilesenleri) {
+                bilgiBileseni.kiyasTipi = bilgiBileseni.kiyasTipi.tersi();
+            }
+        kisitlamaIsle();
+        return Durum.OLMAK_ALINDI;
     }
 
     private Durum cokluBilgiBileseniGecisi(CumleBileseni bilesen) {
@@ -324,7 +309,7 @@ public class BasitDurumMakinesi {
             throw new SQLUretimHatasi("Kolon bileseninden sonra sadece bos-null kiyaslama bileseni gelebilir. " +
                     "Gelen bilesen:" + kb.kiyasTipi.name());
         BilgiBileseni b = new BilgiBileseni("");
-        b.setKiyas(KiyasTipi.NULL);
+        b.setKiyasTipi(KiyasTipi.NULL);
         bilgiBilesenleri.add(b);
         return Durum.KIYAS_ALINDI;
     }
@@ -339,11 +324,18 @@ public class BasitDurumMakinesi {
         if (ob.olumsuz())
             tip = tip.tersi();
         for (KolonBileseni kb : kolonBilesenleri) {
-            KolonKisitlamaBileseni kkb = new KolonKisitlamaBileseni(kb.getKolon(), "", tip);
+            BilgiBileseni bb = new BilgiBileseni("");
+            bb.setKiyasTipi(tip);
+            KolonKisitlamaBileseni kkb = new KolonKisitlamaBileseni(kb.getKolon(), bb);
             KolonKisitlamaZincirBileseni kkzb = new KolonKisitlamaZincirBileseni(kkb, kb.getOnBaglac());
             sorguTasiyici.kolonKisitlamaZinciri.add(kkzb);
         }
-        kolonBilesenleri.clear();
+        kolonKiyasTemizle();
         return Durum.OLMAK_ALINDI;
+    }
+
+    private void kolonKiyasTemizle() {
+        kolonBilesenleri = new ArrayList<KolonBileseni>();
+        bilgiBilesenleri = new ArrayList<BilgiBileseni>();
     }
 }

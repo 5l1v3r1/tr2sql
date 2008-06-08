@@ -1,22 +1,33 @@
 package tr2sql.db;
 
+import tr2sql.cozumleyici.BilgiBileseni;
+
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * Bu sinif kolon kisitlama verisini tasir. Ornegin "numarasi [5] olan" kelimelerinden
  * Kolon = NUMARA, kisitlamaDegeri="5" ve KiyasTipi=ESITLIK verileri ile bu siniftan bir nesne olusturulmasi gerekir.
  */
 public class KolonKisitlamaBileseni {
     public Kolon kolon;
+    public List<BilgiBileseni> kisitlamaBilgileri = new ArrayList<BilgiBileseni>();
 
-    public String kisitlamaDegeri;
-    public KiyasTipi kiyasTipi = KiyasTipi.ESIT;
-
-    public KolonKisitlamaBileseni(Kolon kolon, String kisitlamaDegeri, KiyasTipi kiyasTipi) {
+    public KolonKisitlamaBileseni(Kolon kolon, List<BilgiBileseni> kisitlamaBilgileri) {
         this.kolon = kolon;
-        this.kisitlamaDegeri = kisitlamaDegeri;
-        this.kiyasTipi = kiyasTipi;
+        this.kisitlamaBilgileri = kisitlamaBilgileri;
     }
 
-    public String sqlDonusumu() {
+    public KolonKisitlamaBileseni(Kolon kolon, BilgiBileseni kisitlamaBilgisi) {
+        this.kolon = kolon;
+        kisitlamaBilgileri.add(kisitlamaBilgisi);
+    }
+
+    public String sqlKisitlamaDegeriUret(BilgiBileseni bilgiBileseni) {
+
+        KiyasTipi kiyasTipi = bilgiBileseni.getKiyasTipi();
+        String kisitlamaDegeri = bilgiBileseni.icerik();
+
         if (kolon == null)
             throw new SQLUretimHatasi("Kisitlama bileseni icin kolon degeri null olamaz.");
         if (kiyasTipi == null)
@@ -49,7 +60,7 @@ public class KolonKisitlamaBileseni {
                 break;
         }
         if (matematikselKiyas)
-            return kolon.getAd() + " " + deger + " " + kisitlamaDegeriniBicimlendir() + " ";
+            return kolon.getAd() + " " + deger + " " + kisitlamaDegeriniBicimlendir(kisitlamaDegeri) + " ";
 
         boolean benzerlikKiyaslama = true;
         switch (kiyasTipi) {
@@ -85,23 +96,51 @@ public class KolonKisitlamaBileseni {
             return kolon.getAd() + " is not null ";
 
         throw new SQLUretimHatasi("Kisitlama bileseni icin sql kelimeleri uretilemedi:" + toString());
-
     }
 
-    private String kisitlamaDegeriniBicimlendir() {
+
+    public String sqlDonusumu() {
+
+        if (kisitlamaBilgileri.isEmpty())
+            return "";
+
+        if (kisitlamaBilgileri.size() == 1)
+            return sqlKisitlamaDegeriUret(kisitlamaBilgileri.get(0));
+
+        StringBuilder sb = new StringBuilder("(");
+        for (BilgiBileseni bilgiBileseni : kisitlamaBilgileri) {
+            switch (bilgiBileseni.getOnBaglac()) {
+                case VE:
+                    sb.append(" and ");
+                    break;
+                case VIRGUL:
+                case VEYA:
+                    sb.append(" or ");
+                    break;
+                case YOK:
+                    break;
+            }
+            sb.append(sqlKisitlamaDegeriUret(bilgiBileseni));
+        }
+        sb.append(")");
+        return sb.toString();
+    }
+
+    private String kisitlamaDegeriniBicimlendir(String kisitlamaDegeri) {
         if (kolon.getTip() == KolonTipi.YAZI)
             return "'" + kisitlamaDegeri + "'";
         else return kisitlamaDegeri;
     }
 
     public void kiyasTipiniTersineCevir() {
-        kiyasTipi = kiyasTipi.tersi();
+        for (BilgiBileseni bilgiBileseni : kisitlamaBilgileri) {
+            bilgiBileseni.setKiyasTipi(bilgiBileseni.getKiyasTipi().tersi());
+        }
     }
 
     @Override
     public String toString() {
-        return " Kolon : " + kolon.toString() + " , kisitlamaDegeri:" + kisitlamaDegeri + ", " +
-                " Kiyas Tipi:" + kiyasTipi.name();
+        return " Kolon : " + kolon.toString() + " , kisitlamaDegeri:" + kisitlamaBilgileri.toString();
     }
 
 }

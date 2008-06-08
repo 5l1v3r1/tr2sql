@@ -90,19 +90,23 @@ public class TurkceSQLCozumleyici {
         private List<CumleBileseni> bilesenler() {
             List<CumleBileseni> bilesenler = new ArrayList<CumleBileseni>();
 
-            BaglacTipi baglacTipi;
+            BaglacTipi baglacTipi = BaglacTipi.YOK;
 
             for (String s : cumleParcalari) {
 
-                // virgul, ve, veya
-                baglacTipi = BaglacTipi.baglacTipiTahminEt(s);
-                if (baglacTipi != BaglacTipi.YOK)
+                // virgul, ve, veya gibi baglaclari hatirlayip kendinden sonra gelen Kolon ya da
+                // Bilgi Bilesenlerine ekliyoruz.
+                BaglacTipi t = BaglacTipi.baglacTipiTahminEt(s);
+                if (t != BaglacTipi.YOK) {
+                    baglacTipi = t;
                     continue;
+                }
 
                 // sayi mi? henuz sadece rakam ile yazilmissa buluyor.
                 try {
                     int sayi = Integer.parseInt(s);
                     bilesenler.add(new SayiBileseni(sayi));
+                    baglacTipi = BaglacTipi.YOK;
                     continue;
                 } catch (NumberFormatException e) {
                     //bir sey yapma..
@@ -113,6 +117,7 @@ public class TurkceSQLCozumleyici {
                     BilgiBileseni bilesen = new BilgiBileseni(s.substring(1, s.length() - 1));
                     bilesen.setOnBaglac(baglacTipi);
                     bilesenler.add(bilesen);
+                    baglacTipi = BaglacTipi.YOK;
                     continue;
                 }
 
@@ -126,6 +131,7 @@ public class TurkceSQLCozumleyici {
                     kavram = kokKavramTablosu.get(kelime.kok());
                 } else {
                     bilesenler.add(new TanimsizBilesen(s));
+                    baglacTipi = BaglacTipi.YOK;
                     continue;
                 }
                 CumleBileseni bilesen = bilesenBul(kavram, s, kelime);
@@ -134,7 +140,7 @@ public class TurkceSQLCozumleyici {
                     ((KolonBileseni) bilesen).setOnBaglac(baglacTipi);
 
                 bilesenler.add(bilesen);
-
+                baglacTipi = BaglacTipi.YOK;
             }
             return bilesenler;
         }

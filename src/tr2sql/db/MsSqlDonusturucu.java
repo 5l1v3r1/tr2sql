@@ -6,6 +6,8 @@ import net.zemberek.yapi.Kok;
 import java.util.Arrays;
 import java.util.List;
 
+import tr2sql.cozumleyici.BilgiBileseni;
+
 /**
  * Microsoft SQL Server icin Sorgu degerlerinden SQL cumlesi uretici.
  */
@@ -72,9 +74,11 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         sorgu.sonucMiktarKisitlamaDegeri = 10;
 
         // iki tane kolon kisitlama verimiz olsun. ilki "numarasi [5]'ten buyuk" kelimelerinden turemis olsun.
-        KolonKisitlamaBileseni numaraKisitlama = new KolonKisitlamaBileseni(kolon1, "5", KiyasTipi.BUYUK);
+        BilgiBileseni bb = new BilgiBileseni("5", KiyasTipi.BUYUK);
+        KolonKisitlamaBileseni numaraKisitlama = new KolonKisitlamaBileseni(kolon1, bb );
         // ikinci kisitlama verisi ise "adi [Ali] olan" kelimelerinden turemis olsun..
-        KolonKisitlamaBileseni isimKisitlama = new KolonKisitlamaBileseni(kolon2, "Ali", KiyasTipi.ESIT);
+        bb = new BilgiBileseni( "Ali", KiyasTipi.ESIT);
+        KolonKisitlamaBileseni isimKisitlama = new KolonKisitlamaBileseni(kolon2, bb);
 
         // kisitlama bilgilerini "ve" ile birbirine bagla.
         KolonKisitlamaZincirBileseni halka1 = new KolonKisitlamaZincirBileseni(numaraKisitlama, BaglacTipi.VE);

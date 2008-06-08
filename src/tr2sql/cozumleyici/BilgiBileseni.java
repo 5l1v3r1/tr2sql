@@ -6,11 +6,17 @@ import tr2sql.db.KiyasTipi;
 public class BilgiBileseni extends CumleBileseni {
 
     BaglacTipi onBaglac = BaglacTipi.YOK;
-    KiyasTipi kiyas = KiyasTipi.ESIT;
+    KiyasTipi kiyasTipi = KiyasTipi.ESIT;
 
     public BilgiBileseni(String icerik) {
         this.tip = CumleBilesenTipi.KISITLAMA_BILGISI;
         this.icerik = icerik;
+    }
+
+    public BilgiBileseni(String icerik, KiyasTipi kiyasTipi) {
+        this.tip = CumleBilesenTipi.KISITLAMA_BILGISI;
+        this.icerik = icerik;
+        this.kiyasTipi = kiyasTipi;
     }
 
     public BaglacTipi getOnBaglac() {
@@ -25,11 +31,11 @@ public class BilgiBileseni extends CumleBileseni {
         return onBaglac != BaglacTipi.YOK;
     }
 
-    public KiyasTipi getKiyas() {
-        return kiyas;
+    public KiyasTipi getKiyasTipi() {
+        return kiyasTipi;
     }
 
-    public void setKiyas(KiyasTipi kiyas) {
-        this.kiyas = kiyas;
+    public void setKiyasTipi(KiyasTipi kiyasTipi) {
+        this.kiyasTipi = kiyasTipi;
     }
 }
