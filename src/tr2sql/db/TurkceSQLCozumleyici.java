@@ -62,9 +62,7 @@ public class TurkceSQLCozumleyici {
     }
 
     public String sqlDonusum(String giris) {
-        SorguTasiyici st = new BasitDurumMakinesi(
-                sorguCumleBilesenleriniAyir(giris),
-                zemberek.dilBilgisi()).islet();
+        SorguTasiyici st = new BasitDurumMakinesi(sorguCumleBilesenleriniAyir(giris)).islet();
         return new MsSqlDonusturucu().donustur(st);
     }
 

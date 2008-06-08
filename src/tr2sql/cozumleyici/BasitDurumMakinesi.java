@@ -5,10 +5,6 @@ import tr2sql.db.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.zemberek.yapi.DilBilgisi;
-import net.zemberek.yapi.Kelime;
-import net.zemberek.tr.yapi.ek.TurkceEkAdlari;
-
 public class BasitDurumMakinesi {
 
     public enum Durum {
@@ -17,19 +13,15 @@ public class BasitDurumMakinesi {
         KOLON_ALINDI,
         COKLU_KOLON_ALINDI,
         BILGI_ALINDI,
-        KOLON_ONCESI_BILGI_ALINDI,
         COKLU_BILGI_ALINDI,
         KIYAS_ALINDI,
         SONUC_KOLONU_ALINDI,
         OLMAK_ALINDI,
         TABLO_BULUNDU,
-        TABLO_DEN_BULUNDU,
         SONUC_KISITLAMA_SAYISI_BEKLE,
         SONUC_KISITLAMA_SAYISI_ALINDI,
-        KOLON_NULL_KIYAS_ALINDI,
         SINIR_BELIRLENDI,
         ISLEM_BELIRLENDI,
-        SAYMA_ALINDI,
         SON
     }
 
@@ -46,13 +38,10 @@ public class BasitDurumMakinesi {
     // calisma sirasianda olup bitenlerin bir yerde tutulmasini saglar.
     private StringBuilder cozumRaporu = new StringBuilder();
 
-    private DilBilgisi dilBilgisi;
-    
     //içine ayrıştırdığımız cümle bileşenleri bu kısma gelir. 
     //dilbilgisigi, türkçeye ilişkiin bazı işlemler yapmak geerektiğinde kullanılır
-    public BasitDurumMakinesi(List<CumleBileseni> bilesenler, DilBilgisi dilBilgisi) {
+    public BasitDurumMakinesi(List<CumleBileseni> bilesenler) {
         this.bilesenler = bilesenler;
-        this.dilBilgisi = dilBilgisi;
     }
     
     //makineyi işleten metot burasıdır. (state machine)
@@ -92,11 +81,6 @@ public class BasitDurumMakinesi {
                         // ilk...
                     case SONUC_MIKTAR:
                         return Durum.SONUC_KISITLAMA_SAYISI_BEKLE;
-
-                    case KISITLAMA_BILGISI:
-                        BilgiBileseni kb = (BilgiBileseni) bilesen;
-                        bilgiBilesenleri.add(kb);
-                        return Durum.KOLON_ONCESI_BILGI_ALINDI;
                 }
                 break;
 
@@ -108,48 +92,8 @@ public class BasitDurumMakinesi {
                     case KOLON:
                         // adi ve soyadi ...
                         return cokluKolonBileseniGecisi(bilesen);
-                    case KIYASLAYICI:
-                        // adi olan ....
-                        // soyadi bos olan ...
-                        //kolonlar icin sadece bos, bos degil denetimi yapiyoruz.
-                        return kolonSorasiKiyasGecisi(bilesen);
-                    case OLMAK:
-                        // adi, soyadi olan ...
-                        return kolonSonrasiOlmakGecisi(bilesen);
                 }
                 break;
-
-            case SAYMA_ALINDI:
-                // calisanlardan numarasi ...
-                switch (gecis) {
-                    case KOLON:
-                        return kolonBileseniGecisi(bilesen);
-                    case TABLO:
-                        // bu aslinda tam dogru degil..
-                        TabloBileseni tabloBil = (TabloBileseni) bilesen;
-                        sorguTasiyici.tablo = tabloBil.getTablo();
-                        return Durum.TABLO_DEN_BULUNDU;
-                }
-                break;
-
-            case KOLON_ONCESI_BILGI_ALINDI:
-                switch (gecis) {
-                    case KOLON:
-                        KolonBileseni k = (KolonBileseni) bilesen;
-                        kolonBilesenleri.add(k);
-                        kisitlamaIsle();
-                        return Durum.BASLA;
-                    case KIYASLAYICI:
-                        KiyaslamaBileseni kb = (KiyaslamaBileseni) bilesen;
-                        if (kb.olumsuzuk)
-                            kb.kiyasTipi = kb.kiyasTipi.tersi();
-                        for (BilgiBileseni bilgiBileseni : bilgiBilesenleri) {
-                            bilgiBileseni.setKiyasTipi(kb.kiyasTipi);
-                        }
-                        return Durum.KIYAS_ALINDI;
-                }
-                break;
-
 
             case COKLU_KOLON_ALINDI:
                 switch (gecis) {
@@ -159,13 +103,6 @@ public class BasitDurumMakinesi {
                     case KOLON:
                         // adi, soyadi ve okulu ...
                         return cokluKolonBileseniGecisi(bilesen);
-                    case KIYASLAYICI:
-                        // adi olan ....
-                        // soyadi bos olan ...
-                        return kolonSorasiKiyasGecisi(bilesen);
-                    case OLMAK:
-                        // adi, soyadi olan ...
-                        return kolonSonrasiOlmakGecisi(bilesen);
                 }
                 break;
 
@@ -248,16 +185,6 @@ public class BasitDurumMakinesi {
                         return sonucKolonuGecisi(bilesen);
                     case SONUC_MIKTAR:
                         return Durum.SONUC_KISITLAMA_SAYISI_BEKLE;
-                }
-                break;
-
-            case TABLO_DEN_BULUNDU:
-                // calisanlardan numarasi ...
-                switch (gecis) {
-                    case KOLON:
-                        return kolonBileseniGecisi(bilesen);
-                    case ISLEM:
-                        return islemBileseniGecisi(bilesen);
                 }
                 break;
 
@@ -349,10 +276,7 @@ public class BasitDurumMakinesi {
     private Durum tabloBileseniGecisi(CumleBileseni bilesen) {
         TabloBileseni tabloBil = (TabloBileseni) bilesen; //gelen bileşen tablo bilşeni olarak tanımlanır.
         sorguTasiyici.tablo = tabloBil.getTablo();
-        if (ekVarmi(tabloBil.kelime, TurkceEkAdlari.ISIM_CIKMA_DEN))
-            return Durum.TABLO_DEN_BULUNDU;
-        else
-            return Durum.TABLO_BULUNDU;
+        return Durum.TABLO_BULUNDU;
     }
 
     private Durum kolonBileseniGecisi(CumleBileseni bilesen) {
@@ -372,51 +296,15 @@ public class BasitDurumMakinesi {
     }
 
 
-    private Durum kolonSorasiKiyasGecisi(CumleBileseni bilesen) {
-        KiyaslamaBileseni kb = (KiyaslamaBileseni) bilesen;
-        if (kb.kiyasTipi != KiyasTipi.NULL)
-            throw new SQLUretimHatasi("Kolon bileseninden sonra sadece bos-null kiyaslama bileseni gelebilir. " +
-                    "Gelen bilesen:" + kb.kiyasTipi.name());
-        BilgiBileseni b = new BilgiBileseni("");
-        b.setKiyasTipi(KiyasTipi.NULL);
-        bilgiBilesenleri.add(b);
-        return Durum.KIYAS_ALINDI;
-    }
+
 
     private void raporla(String s) {
         cozumRaporu.append(s).append("\n");
     }
 
-    private Durum kolonSonrasiOlmakGecisi(CumleBileseni bilesen) {
-        OlmakBIleseni ob = (OlmakBIleseni) bilesen;
-        KiyasTipi tip = KiyasTipi.NULL_DEGIL;
-        if (ob.olumsuz())
-            tip = tip.tersi();
-        for (KolonBileseni kb : kolonBilesenleri) {
-            BilgiBileseni bb = new BilgiBileseni("");
-            bb.setKiyasTipi(tip);
-            KolonKisitlamaBileseni kkb = new KolonKisitlamaBileseni(kb.getKolon(), bb);
-            KolonKisitlamaZincirBileseni kkzb = new KolonKisitlamaZincirBileseni(kkb, kb.getOnBaglac());
-            sorguTasiyici.kolonKisitlamaZinciri.add(kkzb);
-        }
-        kolonKiyasTemizle();
-        return Durum.OLMAK_ALINDI;
-    }
-
     private void kolonKiyasTemizle() {
         kolonBilesenleri = new ArrayList<KolonBileseni>();
         bilgiBilesenleri = new ArrayList<BilgiBileseni>();
-    }
-
-    /**
-     * bir kelimede istenen ek varsa true, yoksa false doner. birden fazla ek adi girilerbilir.
-     */
-    private boolean ekVarmi(Kelime kelime, String... ekAdi) {
-        for (String e : ekAdi) {
-            if (kelime.ekler().contains(dilBilgisi.ekler().ek(e)))
-                return true;
-        }
-        return false;
     }
 
 }
