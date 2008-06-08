@@ -7,16 +7,12 @@ public enum KiyasTipi {
     BASI_BENZEMEZ,
     SONU_BENZER,
     SONU_BENZEMEZ,
-    ARA_BENZER,
-    ARA_BENZEMEZ,
     KUCUK,
     BUYUK,
     KUCUK_ESIT,
     BUYUK_ESIT,
     NULL,
-    NULL_DEGIL,
-    DAHIL,
-    DAHIL_DEGIL;
+    NULL_DEGIL;
 
     public KiyasTipi tersi() {
         switch (this) {
@@ -44,14 +40,6 @@ public enum KiyasTipi {
                 return SONU_BENZEMEZ;
             case SONU_BENZEMEZ:
                 return SONU_BENZER;
-            case ARA_BENZER:
-                return ARA_BENZEMEZ;
-            case ARA_BENZEMEZ:
-                return ARA_BENZER;
-            case DAHIL:
-                return DAHIL_DEGIL;
-            case DAHIL_DEGIL:
-                return DAHIL;
         }
         throw new IllegalArgumentException("beklenmeyen deger!");
     }

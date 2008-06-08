@@ -70,7 +70,7 @@ public class Tr2SQLKelimeEleyici {
      * @param kelimeler: kelime dizisi
      * @return kisitlama kriterlerine uyan kelimler. eger hic bir kelime uymazsa bos liste doner.
      */
-    public List<Kelime> ele(Kelime... kelimeler) {
+    public List<Kelime> ele(Kelime[] kelimeler) {
         List<Kelime> sonuc = new ArrayList<Kelime>();
         for (Kelime kelime : kelimeler) {
             // eger kelime koku bizim listede yoksa donguye devam et.

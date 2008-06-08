@@ -5,7 +5,7 @@ işçilerin isim ve soyadlarını göster
 ilk 5 işçiyi listele
 çalışanların ilk 5 inin adını ve numarasını göster
 adı "Ali" olan çalışanları göster
-adı "Ali" ve soyadı "Er" olan çalışanları göster
+adı "Ali", soyadı "Er" ya da "Erkan" olan çalışanları göster
 adı "Ali", soyadı "Er" olan ilk 5 çalışanın numara ve adını göster
 numarası "9" dan büyük işçileri listele
 ismi "A" ile başlayan çalışanları göster

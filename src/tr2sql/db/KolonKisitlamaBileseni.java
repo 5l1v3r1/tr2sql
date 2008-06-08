@@ -76,12 +76,6 @@ public class KolonKisitlamaBileseni {
             case SONU_BENZEMEZ:
                 deger = "not like '" + kisitlamaDegeri + "%'";
                 break;
-            case ARA_BENZER:
-                deger = "like '%" + kisitlamaDegeri + "%'";
-                break;
-            case ARA_BENZEMEZ:
-                deger = "not like '%" + kisitlamaDegeri + "%'";
-                break;
             default:
                 benzerlikKiyaslama = false;
                 break;
