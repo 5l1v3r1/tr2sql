@@ -12,6 +12,7 @@ import net.zemberek.tr.yapi.ek.TurkceEkAdlari;
 public class BasitDurumMakinesi {
 
     public enum Durum {
+        //basit durum makinesinde bu durumlarımız var.
         BASLA,
         KOLON_ALINDI,
         COKLU_KOLON_ALINDI,
@@ -48,15 +49,19 @@ public class BasitDurumMakinesi {
     private boolean saymaSorgusu;
 
     private DilBilgisi dilBilgisi;
-
+    
+    //içine ayrıştırdığımız cümle bileşenleri bu kısma gelir. 
+    //dilbilgisigi, türkçeye ilişkiin bazı işlemler yapmak geerektiğinde kullanılır
     public BasitDurumMakinesi(List<CumleBileseni> bilesenler, DilBilgisi dilBilgisi) {
         this.bilesenler = bilesenler;
         this.dilBilgisi = dilBilgisi;
     }
-
+    
+    //makineyi işleten metot burasıdır. (state machine)
     public SorguTasiyici islet() {
         for (CumleBileseni bilesen : bilesenler) {
             if (bilesen.tip == CumleBilesenTipi.TANIMSIZ) {
+                //gereksiz ve işlenemeyen bileşenler burda ihmal ettirilir.
                 raporla("Uyari: Islenemeyen bilesen:" + bilesen.icerik);
                 continue;
             }
@@ -358,7 +363,7 @@ public class BasitDurumMakinesi {
     }
 
     private Durum tabloBileseniGecisi(CumleBileseni bilesen) {
-        TabloBileseni tabloBil = (TabloBileseni) bilesen;
+        TabloBileseni tabloBil = (TabloBileseni) bilesen; //gelen bileşen tablo bilşeni olarak tanımlanır.
         sorguTasiyici.tablo = tabloBil.getTablo();
         if (ekVarmi(tabloBil.kelime, TurkceEkAdlari.ISIM_CIKMA_DEN))
             return Durum.TABLO_DEN_BULUNDU;
