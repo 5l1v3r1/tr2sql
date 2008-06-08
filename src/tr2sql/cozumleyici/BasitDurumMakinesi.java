@@ -37,7 +37,6 @@ public class BasitDurumMakinesi {
     private StringBuilder cozumRaporu = new StringBuilder();
 
     //içine ayrıştırdığımız cümle bileşenleri bu kısma gelir. 
-    //dilbilgisigi, türkçeye ilişkiin bazı işlemler yapmak geerektiğinde kullanılır
     public BasitDurumMakinesi(List<CumleBileseni> bilesenler) {
         this.bilesenler = bilesenler;
     }
@@ -52,9 +51,6 @@ public class BasitDurumMakinesi {
             }
             suAnkiDurum = gecis(bilesen);
         }
-        // eger islenecek kisitlama kalmissa (bu bazi durumlarda oluyor.
-        // mesela: kaç çalışanın ismi "A" ile başlıyor)
-        kisitlamaIsle();
         // sorgu tasiyiciya toplanan bazi bilgileri ekle.
         sorguTasiyici.sonucKolonlari = sonucKolonlari;
         sorguTasiyici.raporla(cozumRaporu.toString());
