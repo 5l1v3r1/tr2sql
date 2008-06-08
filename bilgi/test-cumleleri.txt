@@ -10,6 +10,6 @@ adı "Ali", soyadı "Er" olan ilk 5 çalışanın numara ve adını göster
 numarası "9" dan büyük işçileri listele
 adı "A" ile başlayan çalışanları göster
 adı "A" ile başlamayan çalışanları göster
-adı "A" ile başlamayan, numarası "9" dan büyük olmayan çalışanların ilk 100 tanesini göster
+adı "A" ile başlamayan, numarası "9" dan büyük olmayan ilk 100 çalışanın numara ve adını göster
 adı olan işçileri listele
 adı olmayan işçileri listele
