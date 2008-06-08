@@ -354,7 +354,7 @@ public class BasitDurumMakinesi {
         if (b.olumsuz())
             raporla("Uyari: Islemi belirten eylem: " + bilesen.icerik() + ", olumsuzluk bilgisi iceriyor. Bu gozardi edilecek.");
         sorguTasiyici.islemTipi = b.getIslem();
-        return Durum.SAYMA_ALINDI;
+        return Durum.ISLEM_BELIRLENDI;
     }
 
     private Durum tabloBileseniGecisi(CumleBileseni bilesen) {
