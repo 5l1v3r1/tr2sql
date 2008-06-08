@@ -16,8 +16,8 @@ public class SorguTasiyici {
     public Tablo tablo;
 
     // sorguyu kisitlayan kolon bilgileri
-    public List<KolonKisitlamaZincirBileseni> kolonKisitlamaZinciri =
-            new ArrayList<KolonKisitlamaZincirBileseni>();
+    public List<KolonKisitlamaBileseni> kolonKisitlamalari =
+            new ArrayList<KolonKisitlamaBileseni>();
 
     // sonuc miktari. -1 ise miktar kisitlamasi yok demektir.
     public int sonucMiktarKisitlamaDegeri = -1;

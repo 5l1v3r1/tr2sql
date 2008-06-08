@@ -34,4 +34,8 @@ public class KolonBileseni extends CumleBileseni {
     public BaglacTipi getOnBaglac() {
         return onBaglac;
     }
+
+    public String toString() {
+        return "[" + icerik + ":" + tip() + (onBaglac==BaglacTipi.YOK ? "" : (": on baglac=" + onBaglac.name()))+"] ";
+    }
 }

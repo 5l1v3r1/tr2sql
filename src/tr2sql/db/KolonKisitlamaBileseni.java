@@ -12,15 +12,22 @@ import java.util.ArrayList;
 public class KolonKisitlamaBileseni {
     public Kolon kolon;
     public List<BilgiBileseni> kisitlamaBilgileri = new ArrayList<BilgiBileseni>();
+    public BaglacTipi oncekiBilsenIliskisi = BaglacTipi.YOK;
 
-    public KolonKisitlamaBileseni(Kolon kolon, List<BilgiBileseni> kisitlamaBilgileri) {
+    public KolonKisitlamaBileseni(Kolon kolon,
+                                  List<BilgiBileseni> kisitlamaBilgileri,
+                                  BaglacTipi oncekiBilsenIliskisi) {
         this.kolon = kolon;
         this.kisitlamaBilgileri = kisitlamaBilgileri;
+        this.oncekiBilsenIliskisi = oncekiBilsenIliskisi;
     }
 
-    public KolonKisitlamaBileseni(Kolon kolon, BilgiBileseni kisitlamaBilgisi) {
+    public KolonKisitlamaBileseni(Kolon kolon,
+                                  BilgiBileseni kisitlamaBilgisi,
+                                  BaglacTipi oncekiBilsenIliskisi) {
         this.kolon = kolon;
         kisitlamaBilgileri.add(kisitlamaBilgisi);
+        this.oncekiBilsenIliskisi = oncekiBilsenIliskisi;
     }
 
     public String sqlKisitlamaDegeriUret(BilgiBileseni bilgiBileseni) {
@@ -117,7 +124,17 @@ public class KolonKisitlamaBileseni {
             sb.append(sqlKisitlamaDegeriUret(bilgiBileseni));
         }
         sb.append(")");
-        return sb.toString();
+
+        switch (oncekiBilsenIliskisi) {
+            case VE:
+                return " and " + sb.toString();
+            case VEYA:
+                return " or " + sb.toString();
+            case VIRGUL:
+                return " and " + sb.toString();
+        }
+        
+        return sb.toString() + " ";
     }
 
     private String kisitlamaDegeriniBicimlendir(String kisitlamaDegeri) {

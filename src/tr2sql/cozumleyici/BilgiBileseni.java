@@ -38,4 +38,9 @@ public class BilgiBileseni extends CumleBileseni {
     public void setKiyasTipi(KiyasTipi kiyasTipi) {
         this.kiyasTipi = kiyasTipi;
     }
+
+    public String toString() {
+        return "[" + icerik + ":" + tip() + (onBaglac==BaglacTipi.YOK ? "" : (": on baglac=" + onBaglac.name()))+"] ";
+    }
+    
 }

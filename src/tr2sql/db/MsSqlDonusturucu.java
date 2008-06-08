@@ -44,11 +44,11 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         sonuc.append(" from ").append(sorgu.tablo.getAd()).append(" ");
 
         // kisitlama zincir bileseni varsa "where" kelimesini ekleyelim.
-        if (!sorgu.kolonKisitlamaZinciri.isEmpty())
+        if (!sorgu.kolonKisitlamalari.isEmpty())
             sonuc.append(" where ");
 
         //eger kisitlama bileseni mevcutsa ekleyelim.
-        for (KolonKisitlamaZincirBileseni bilesen : sorgu.kolonKisitlamaZinciri) {
+        for (KolonKisitlamaBileseni bilesen : sorgu.kolonKisitlamalari) {
             sonuc.append(bilesen.sqlDonusumu());
         }
 
@@ -85,17 +85,12 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
 
         // iki tane kolon kisitlama verimiz olsun. ilki "numarasi [5]'ten buyuk" kelimelerinden turemis olsun.
         BilgiBileseni bb = new BilgiBileseni("5", KiyasTipi.BUYUK);
-        KolonKisitlamaBileseni numaraKisitlama = new KolonKisitlamaBileseni(kolon1, bb);
+        KolonKisitlamaBileseni numaraKisitlama = new KolonKisitlamaBileseni(kolon1, bb, BaglacTipi.YOK);
         // ikinci kisitlama verisi ise "adi [Ali] olan" kelimelerinden turemis olsun..
         bb = new BilgiBileseni("Ali", KiyasTipi.ESIT);
-        KolonKisitlamaBileseni isimKisitlama = new KolonKisitlamaBileseni(kolon2, bb);
+        KolonKisitlamaBileseni isimKisitlama = new KolonKisitlamaBileseni(kolon2, bb, BaglacTipi.VE);
 
-        // kisitlama bilgilerini "ve" ile birbirine bagla.
-        KolonKisitlamaZincirBileseni halka1 = new KolonKisitlamaZincirBileseni(numaraKisitlama, BaglacTipi.VE);
-        KolonKisitlamaZincirBileseni halka2 = new KolonKisitlamaZincirBileseni(isimKisitlama, BaglacTipi.YOK);
-
-        //bilesenleri bir Linkli liste seklinde sorgu tasiyiciya koyalim
-        sorgu.kolonKisitlamaZinciri = Arrays.asList(halka1, halka2);
+        sorgu.kolonKisitlamalari = Arrays.asList(numaraKisitlama, isimKisitlama);
 
         SqlDonusturucu sqlDonusturucu = new MsSqlDonusturucu();
 

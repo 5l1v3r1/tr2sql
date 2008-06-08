@@ -40,7 +40,7 @@ public class BasitDurumMakinesi {
     public BasitDurumMakinesi(List<CumleBileseni> bilesenler) {
         this.bilesenler = bilesenler;
     }
-    
+
     //durum makinesini işleten metot burasıdır. (state machine)
     public SorguTasiyici islet() {
         for (CumleBileseni bilesen : bilesenler) {
@@ -224,9 +224,8 @@ public class BasitDurumMakinesi {
     private void kisitlamaIsle() {
         for (KolonBileseni kolonBileseni : kolonBilesenleri) {
             KolonKisitlamaBileseni kb = new KolonKisitlamaBileseni(
-                    kolonBileseni.getKolon(), bilgiBilesenleri);
-            KolonKisitlamaZincirBileseni kkzb = new KolonKisitlamaZincirBileseni(kb, kolonBileseni.getOnBaglac());
-            sorguTasiyici.kolonKisitlamaZinciri.add(kkzb);
+                    kolonBileseni.getKolon(), bilgiBilesenleri, kolonBileseni.getOnBaglac());
+            sorguTasiyici.kolonKisitlamalari.add(kb);
         }
         kolonKiyasTemizle();
     }
