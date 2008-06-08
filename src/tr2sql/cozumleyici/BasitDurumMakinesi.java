@@ -20,9 +20,7 @@ public class BasitDurumMakinesi {
         TABLO_BULUNDU,
         SONUC_KISITLAMA_SAYISI_BEKLE,
         SONUC_KISITLAMA_SAYISI_ALINDI,
-        SINIR_BELIRLENDI,
         ISLEM_BELIRLENDI,
-        SON
     }
 
     private Durum suAnkiDurum = Durum.BASLA;
