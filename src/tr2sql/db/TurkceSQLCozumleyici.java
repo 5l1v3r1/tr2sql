@@ -35,7 +35,7 @@ public class TurkceSQLCozumleyici {
         KavramOkuyucu kavramOkuyucu = new KavramOkuyucu(sozlukIslemleri);
 
         // kavramlari okuyup tablolara at.
-        Set<Kavram> kavramlar = kavramOkuyucu.oku(kavramDosyasi);
+        List<Kavram> kavramlar = kavramOkuyucu.oku(kavramDosyasi);
         for (Kavram kavram : kavramlar) {
             stringKavramTablosu.put(kavram.getAd(), kavram);
             for (Kok kok : kavram.getEsKokler()) {

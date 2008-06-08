@@ -41,7 +41,7 @@ public class BasitDurumMakinesi {
         this.bilesenler = bilesenler;
     }
     
-    //makineyi işleten metot burasıdır. (state machine)
+    //durum makinesini işleten metot burasıdır. (state machine)
     public SorguTasiyici islet() {
         for (CumleBileseni bilesen : bilesenler) {
             if (bilesen.tip == CumleBilesenTipi.TANIMSIZ) {
@@ -217,6 +217,10 @@ public class BasitDurumMakinesi {
                 "Su anki durum:" + suAnkiDurum.name());
     }
 
+    /**
+     * toplanan kisitlamaya dair kolon, bilgi ve bilgi kiyas bilgileri bu metod ile
+     * sorgu tasiyiya KolonKisitlamaZincirBileseni olarak eklenir.
+     */
     private void kisitlamaIsle() {
         for (KolonBileseni kolonBileseni : kolonBilesenleri) {
             KolonKisitlamaBileseni kb = new KolonKisitlamaBileseni(
@@ -288,9 +292,6 @@ public class BasitDurumMakinesi {
             return Durum.COKLU_BILGI_ALINDI;
         else return Durum.BILGI_ALINDI;
     }
-
-
-
 
     private void raporla(String s) {
         cozumRaporu.append(s).append("\n");

@@ -17,7 +17,7 @@ public class SorguTasiyici {
 
     // sorguyu kisitlayan kolon bilgileri
     public List<KolonKisitlamaZincirBileseni> kolonKisitlamaZinciri =
-            new LinkedList<KolonKisitlamaZincirBileseni>();
+            new ArrayList<KolonKisitlamaZincirBileseni>();
 
     // sonuc miktari. -1 ise miktar kisitlamasi yok demektir.
     public int sonucMiktarKisitlamaDegeri = -1;

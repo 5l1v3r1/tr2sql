@@ -25,8 +25,8 @@ public class KavramOkuyucu {
         this.sozlukIslemleri = sozlukIslemleri;
     }
 
-    public Set<Kavram> oku(String KavramDosyaAdi) throws IOException {
-        Set<Kavram> kavramlar = new HashSet<Kavram>();
+    public List<Kavram> oku(String KavramDosyaAdi) throws IOException {
+        List<Kavram> kavramlar = new ArrayList<Kavram>();
         List<String> kavramKarsiliklari = new FileReader(KavramDosyaAdi, "utf-8").asStringList();
         for (String s : kavramKarsiliklari) {
             //bos satirlari islemeden atla..
@@ -60,7 +60,7 @@ public class KavramOkuyucu {
     public static void main(String[] args) throws IOException {
         DilBilgisi db = new TurkceDilBilgisi(new TurkiyeTurkcesi());
         KavramOkuyucu ko = new KavramOkuyucu(new SozlukIslemleri(db.kokler()));
-        Set<Kavram> kavramlar = ko.oku("bilgi/kavramlar.txt");
+        List<Kavram> kavramlar = ko.oku("bilgi/kavramlar.txt");
         System.out.println("kavramlar = " + kavramlar);
     }
 }
