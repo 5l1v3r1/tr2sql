@@ -34,6 +34,8 @@ public enum KiyasTipi {
                 return ESIT;
             case NULL:
                 return NULL_DEGIL;
+            case NULL_DEGIL:
+                return NULL;            
             case BASI_BENZER:
                 return BASI_BENZEMEZ;
             case BASI_BENZEMEZ:
@@ -64,9 +66,9 @@ public enum KiyasTipi {
             return ESIT;
         else if (ad.equals("ESIT_DEGIL"))
             return ESIT_DEGIL;
-        else if (ad.equals("BASI_BENZER"))
+        else if (ad.equals("BASLAMAK"))
             return BASI_BENZER;
-        else if (ad.equals("SONU_BENZER"))
+        else if (ad.equals("BITMEK"))
             return SONU_BENZER;
         else if (ad.equals("NULL"))
             return NULL;
