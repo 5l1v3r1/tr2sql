@@ -16,4 +16,6 @@ ismi "A" ile başlamayan, numarası "9" dan büyük olmayan ilk 100 çalışanı
 adı olan işçileri listele
 adı olmayan işçileri listele
 kaç işçi var
-adı "Ali" olan kaç kişi var
+ismi "A" ile başlayan kaç çalışan var
+kaç çalışanın ismi "A" ile başlıyor
+

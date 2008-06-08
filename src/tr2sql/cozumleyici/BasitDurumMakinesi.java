@@ -62,6 +62,10 @@ public class BasitDurumMakinesi {
             }
             suAnkiDurum = gecis(bilesen);
         }
+        // eger islenecek kisitlama kalmissa (bu bazi durumlarda oluyor.
+        // mesela: kaç çalışanın ismi "A" ile başlıyor)
+        kisitlamaIsle();
+        // sorgu tasiyiciya toplanan bazi bilgileri ekle.
         sorguTasiyici.sonucKolonlari = sonucKolonlari;
         sorguTasiyici.raporla(cozumRaporu.toString());
         sorguTasiyici.saymaSorgusu = saymaSorgusu;
@@ -237,6 +241,10 @@ public class BasitDurumMakinesi {
                     case KOLON:
                         kisitlamaIsle();
                         return kolonBileseniGecisi(bilesen);
+                    case SAY:
+                        kisitlamaIsle();                        
+                        saymaSorgusu = true;
+                        return Durum.SAYMA_ALINDI;
                 }
                 break;
 
