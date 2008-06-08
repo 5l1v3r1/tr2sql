@@ -17,25 +17,35 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
 
         StringBuilder sonuc = new StringBuilder();
 
+        if (sorgu.islemTipi == null) {
+            sorgu.rapor.append("Islem belirten kelime bulunamadi, sorgulama yapildigi var sayilacak. ");
+            sorgu.islemTipi = IslemTipi.SORGULAMA;
+        }
         sonuc.append(sorgu.islemTipi.sqlDonusumu());
 
-        // eger belirtilmisse sonuc miktar kisitlama bilgisini ekleyelim.
-        if (sorgu.sonucMiktarKisitlamaDegeri > -1)
-            sonuc.append(" top ").append(sorgu.sonucMiktarKisitlamaDegeri).append(" ");
+        if (sorgu.saymaSorgusu) {
+            sonuc.append(" count (*) ");
+        } else {
 
-        // sadece belirtilen kolonlarin donmesi istenmisse bunlari ekleyelim
-        int i = 0;
-        for (Kolon kolon : sorgu.sonucKolonlari) {
-            sonuc.append(kolon.getAd());
-            if (i++ < sorgu.sonucKolonlari.size()-1)
-                sonuc.append(", ");
+            // eger belirtilmisse sonuc miktar kisitlama bilgisini ekleyelim.
+            if (sorgu.sonucMiktarKisitlamaDegeri > -1)
+                sonuc.append(" top ").append(sorgu.sonucMiktarKisitlamaDegeri).append(" ");
+
+            // sadece belirtilen kolonlarin donmesi istenmisse bunlari ekleyelim
+            int i = 0;
+            for (Kolon kolon : sorgu.sonucKolonlari) {
+                sonuc.append(kolon.getAd());
+                if (i++ < sorgu.sonucKolonlari.size() - 1)
+                    sonuc.append(", ");
+            }
+            // eger donus kolonlari belirtilmemisse herseyi dondurelim.
+            if (sorgu.sonucKolonlari.isEmpty())
+                sonuc.append(" * ");
         }
 
-        // eger donus kolonlari belirtilmemisse herseyi dondurelim.
-        if (sorgu.sonucKolonlari.isEmpty())
-            sonuc.append(" * ");
-
         // tabloyu ekleyelim
+        if (sorgu.tablo == null)
+            throw new SQLUretimHatasi("Tablo bulunamadi..");
         sonuc.append(" from ").append(sorgu.tablo.getAd()).append(" ");
 
         // kisitlama zincir bileseni varsa "where" kelimesini ekleyelim.
@@ -75,9 +85,9 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
 
         // iki tane kolon kisitlama verimiz olsun. ilki "numarasi [5]'ten buyuk" kelimelerinden turemis olsun.
         BilgiBileseni bb = new BilgiBileseni("5", KiyasTipi.BUYUK);
-        KolonKisitlamaBileseni numaraKisitlama = new KolonKisitlamaBileseni(kolon1, bb );
+        KolonKisitlamaBileseni numaraKisitlama = new KolonKisitlamaBileseni(kolon1, bb);
         // ikinci kisitlama verisi ise "adi [Ali] olan" kelimelerinden turemis olsun..
-        bb = new BilgiBileseni( "Ali", KiyasTipi.ESIT);
+        bb = new BilgiBileseni("Ali", KiyasTipi.ESIT);
         KolonKisitlamaBileseni isimKisitlama = new KolonKisitlamaBileseni(kolon2, bb);
 
         // kisitlama bilgilerini "ve" ile birbirine bagla.

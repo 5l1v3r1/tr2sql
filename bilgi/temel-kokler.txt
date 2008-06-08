@@ -1,11 +1,12 @@
 ﻿# ad, sifat, edat, zamir ve baglaclar
+kaç
 işçi
 memur
 kişi
 insan
 adam
-amele
 eleman
+çalışan
 numara
 no
 kod
@@ -41,7 +42,6 @@ sorgu
 kolon
 satır
 tablo
-kaç
 büyük
 küçük
 fazla
@@ -72,6 +72,7 @@ aynı
 denk
 ve
 veya
+ilk
 
 # sayilar.
 
@@ -98,6 +99,7 @@ bin
 milyon
 
 # eylemler
+olmak
 sorgulamak
 getirmek
 görüntülemek

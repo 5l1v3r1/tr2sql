@@ -30,6 +30,7 @@ public class DemoYonetici {
         try {
             tr2SQLCozumleyici = new TurkceSQLCozumleyici(
                     zemberek,
+                    eleyici,
                     "bilgi/basit-veri-tabani.xml",
                     "bilgi/kavramlar.txt");
         } catch (IOException e) {

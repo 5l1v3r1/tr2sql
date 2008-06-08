@@ -35,12 +35,12 @@ public class SozlukIslemleri {
         if (adayKok != null)
             return adayKok;
 
-        // tek ko varsa depoda bu kelimeye karsilik dusen, dondur.
+        // tek kok varsa depoda bu kelimeye karsilik dusen, dondur.
         List<Kok> kokler = sozluk.kokBul(s);
         if (kokler.size() == 1)
             return kokler.get(0);
 
-        //birden ock kok varsa ilk koku dondur.
+        //birden cok kok varsa ilk koku dondur.
         for (Kok kok : kokler) {
             if (kok.tip() != KelimeTipi.FIIL)
                 return kok;
@@ -59,6 +59,8 @@ public class SozlukIslemleri {
     public Kok tahminEtVeEkle(String s) {
         Kok kok = yeniKok(s);
         sozluk.ekle(kok);
+        List<Kok> kk = sozluk.kokBul(s);
+        System.out.println(kk.toString());
         return kok;
     }
 

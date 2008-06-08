@@ -5,6 +5,10 @@ import tr2sql.db.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.zemberek.yapi.DilBilgisi;
+import net.zemberek.yapi.Kelime;
+import net.zemberek.tr.yapi.ek.TurkceEkAdlari;
+
 public class BasitDurumMakinesi {
 
     public enum Durum {
@@ -12,16 +16,19 @@ public class BasitDurumMakinesi {
         KOLON_ALINDI,
         COKLU_KOLON_ALINDI,
         BILGI_ALINDI,
+        KOLON_ONCESI_BILGI_ALINDI,
         COKLU_BILGI_ALINDI,
         KIYAS_ALINDI,
         SONUC_KOLONU_ALINDI,
         OLMAK_ALINDI,
         TABLO_BULUNDU,
+        TABLO_DEN_BULUNDU,
         SONUC_KISITLAMA_SAYISI_BEKLE,
         SONUC_KISITLAMA_SAYISI_ALINDI,
         KOLON_NULL_KIYAS_ALINDI,
         SINIR_BELIRLENDI,
         ISLEM_BELIRLENDI,
+        SAYMA_ALINDI,
         SON
     }
 
@@ -38,8 +45,13 @@ public class BasitDurumMakinesi {
     // calisma sirasianda olup bitenlerin bir yerde tutulmasini saglar.
     private StringBuilder cozumRaporu = new StringBuilder();
 
-    public BasitDurumMakinesi(List<CumleBileseni> bilesenler) {
+    private boolean saymaSorgusu;
+
+    private DilBilgisi dilBilgisi;
+
+    public BasitDurumMakinesi(List<CumleBileseni> bilesenler, DilBilgisi dilBilgisi) {
         this.bilesenler = bilesenler;
+        this.dilBilgisi = dilBilgisi;
     }
 
     public SorguTasiyici islet() {
@@ -51,7 +63,8 @@ public class BasitDurumMakinesi {
             suAnkiDurum = gecis(bilesen);
         }
         sorguTasiyici.sonucKolonlari = sonucKolonlari;
-        sorguTasiyici.aciklamalar = cozumRaporu.toString();
+        sorguTasiyici.raporla(cozumRaporu.toString());
+        sorguTasiyici.saymaSorgusu = saymaSorgusu;
 
         return sorguTasiyici;
     }
@@ -73,6 +86,14 @@ public class BasitDurumMakinesi {
                         // ilk...
                     case SONUC_MIKTAR:
                         return Durum.SONUC_KISITLAMA_SAYISI_BEKLE;
+                    case SAY:
+                        saymaSorgusu = true;
+                        return Durum.SAYMA_ALINDI;
+                        // "ali" adli
+                    case KISITLAMA_BILGISI:
+                        BilgiBileseni kb = (BilgiBileseni) bilesen;
+                        bilgiBilesenleri.add(kb);
+                        return Durum.KOLON_ONCESI_BILGI_ALINDI;
                 }
                 break;
 
@@ -88,10 +109,41 @@ public class BasitDurumMakinesi {
                         // adi olan ....
                         // soyadi bos olan ...
                         //kolonlar icin sadece bos, bos degil denetimi yapiyoruz.
-                        return kolonSonarsiKiyasGecisi(bilesen);
+                        return kolonSorasiKiyasGecisi(bilesen);
                     case OLMAK:
                         // adi, soyadi olan ...
                         return kolonSonrasiOlmakGecisi(bilesen);
+                }
+                break;
+
+            case SAYMA_ALINDI:
+                // calisanlardan numarasi ...
+                switch (gecis) {
+                    case KOLON:
+                        return kolonBileseniGecisi(bilesen);
+                    case TABLO:
+                        // bu aslinda tam dogru degil..
+                        TabloBileseni tabloBil = (TabloBileseni) bilesen;
+                        sorguTasiyici.tablo = tabloBil.getTablo();
+                        return Durum.TABLO_DEN_BULUNDU;
+                }
+                break;
+
+            case KOLON_ONCESI_BILGI_ALINDI:
+                switch (gecis) {
+                    case KOLON:
+                        KolonBileseni k = (KolonBileseni) bilesen;
+                        kolonBilesenleri.add(k);
+                        kisitlamaIsle();
+                        return Durum.BASLA;
+                    case KIYASLAYICI:
+                        KiyaslamaBileseni kb = (KiyaslamaBileseni) bilesen;
+                        if (kb.olumsuzuk)
+                            kb.kiyasTipi = kb.kiyasTipi.tersi();
+                        for (BilgiBileseni bilgiBileseni : bilgiBilesenleri) {
+                            bilgiBileseni.setKiyasTipi(kb.kiyasTipi);
+                        }
+                        return Durum.KIYAS_ALINDI;
                 }
                 break;
 
@@ -107,7 +159,7 @@ public class BasitDurumMakinesi {
                     case KIYASLAYICI:
                         // adi olan ....
                         // soyadi bos olan ...
-                        return kolonSonarsiKiyasGecisi(bilesen);
+                        return kolonSorasiKiyasGecisi(bilesen);
                     case OLMAK:
                         // adi, soyadi olan ...
                         return kolonSonrasiOlmakGecisi(bilesen);
@@ -164,10 +216,14 @@ public class BasitDurumMakinesi {
                         // numarasi 5 olan ve soyadi....
                         return kolonBileseniGecisi(bilesen);
                     case TABLO:
-
                         return tabloBileseniGecisi(bilesen);
                     case SONUC_MIKTAR:
                         return Durum.SONUC_KISITLAMA_SAYISI_BEKLE;
+                    case ISLEM:
+                        return islemBileseniGecisi(bilesen);
+                    case SAY:
+                        saymaSorgusu = true;
+                        return Durum.SAYMA_ALINDI;
                 }
                 break;
 
@@ -192,6 +248,19 @@ public class BasitDurumMakinesi {
                         return sonucKolonuGecisi(bilesen);
                     case SONUC_MIKTAR:
                         return Durum.SONUC_KISITLAMA_SAYISI_BEKLE;
+                }
+                break;
+
+            case TABLO_DEN_BULUNDU:
+                // calisanlardan numarasi ...
+                switch (gecis) {
+                    case KOLON:
+                        return kolonBileseniGecisi(bilesen);
+                    case SAY:
+                        saymaSorgusu = true;
+                        return Durum.SAYMA_ALINDI;
+                    case ISLEM:
+                        return islemBileseniGecisi(bilesen);
                 }
                 break;
 
@@ -277,13 +346,16 @@ public class BasitDurumMakinesi {
         if (b.olumsuz())
             raporla("Uyari: Islemi belirten eylem: " + bilesen.icerik() + ", olumsuzluk bilgisi iceriyor. Bu gozardi edilecek.");
         sorguTasiyici.islemTipi = b.getIslem();
-        return Durum.ISLEM_BELIRLENDI;
+        return Durum.SAYMA_ALINDI;
     }
 
     private Durum tabloBileseniGecisi(CumleBileseni bilesen) {
         TabloBileseni tabloBil = (TabloBileseni) bilesen;
         sorguTasiyici.tablo = tabloBil.getTablo();
-        return Durum.TABLO_BULUNDU;
+        if (ekVarmi(tabloBil.kelime, TurkceEkAdlari.ISIM_CIKMA_DEN))
+            return Durum.TABLO_DEN_BULUNDU;
+        else
+            return Durum.TABLO_BULUNDU;
     }
 
     private Durum kolonBileseniGecisi(CumleBileseni bilesen) {
@@ -303,7 +375,7 @@ public class BasitDurumMakinesi {
     }
 
 
-    private Durum kolonSonarsiKiyasGecisi(CumleBileseni bilesen) {
+    private Durum kolonSorasiKiyasGecisi(CumleBileseni bilesen) {
         KiyaslamaBileseni kb = (KiyaslamaBileseni) bilesen;
         if (kb.kiyasTipi != KiyasTipi.NULL)
             throw new SQLUretimHatasi("Kolon bileseninden sonra sadece bos-null kiyaslama bileseni gelebilir. " +
@@ -338,4 +410,16 @@ public class BasitDurumMakinesi {
         kolonBilesenleri = new ArrayList<KolonBileseni>();
         bilgiBilesenleri = new ArrayList<BilgiBileseni>();
     }
+
+    /**
+     * bir kelimede istenen ek varsa true, yoksa false doner. birden fazla ek adi girilerbilir.
+     */
+    private boolean ekVarmi(Kelime kelime, String... ekAdi) {
+        for (String e : ekAdi) {
+            if (kelime.ekler().contains(dilBilgisi.ekler().ek(e)))
+                return true;
+        }
+        return false;
+    }
+
 }

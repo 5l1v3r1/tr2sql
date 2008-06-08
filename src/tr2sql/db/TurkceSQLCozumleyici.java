@@ -6,6 +6,7 @@ import net.zemberek.tr.yapi.ek.TurkceEkAdlari;
 import net.zemberek.yapi.Kelime;
 import net.zemberek.yapi.Kok;
 import tr2sql.SozlukIslemleri;
+import tr2sql.Tr2SQLKelimeEleyici;
 import tr2sql.cozumleyici.*;
 import tr2sql.cozumleyici.BasitDurumMakinesi;
 
@@ -22,11 +23,14 @@ public class TurkceSQLCozumleyici {
     private Map<Kok, Kavram> kokKavramTablosu = new HashMap<Kok, Kavram>();
 
     private Zemberek zemberek;
+    private Tr2SQLKelimeEleyici eleyici;
 
     public TurkceSQLCozumleyici(Zemberek zemberek,
+                                Tr2SQLKelimeEleyici eleyici,
                                 String veriTabaniDosyasi,
                                 String kavramDosyasi) throws IOException {
         this.zemberek = zemberek;
+        this.eleyici = eleyici;
         SozlukIslemleri sozlukIslemleri = new SozlukIslemleri(zemberek.dilBilgisi().kokler());
         KavramOkuyucu kavramOkuyucu = new KavramOkuyucu(sozlukIslemleri);
 
@@ -58,7 +62,9 @@ public class TurkceSQLCozumleyici {
     }
 
     public String sqlDonusum(String giris) {
-        SorguTasiyici st = new BasitDurumMakinesi(sorguCumleBilesenleriniAyir(giris)).islet();
+        SorguTasiyici st = new BasitDurumMakinesi(
+                sorguCumleBilesenleriniAyir(giris),
+                zemberek.dilBilgisi()).islet();
         return new MsSqlDonusturucu().donustur(st);
     }
 
@@ -123,11 +129,11 @@ public class TurkceSQLCozumleyici {
 
                 // diger bilesenleri ortaya cikarmak icin kelime cozumlenip kokunden hangi kavrama
                 // karsilik dustugu belirleniyor.
-                Kelime[] sonuclar = zemberek.kelimeCozumle(s, CozumlemeSeviyesi.TUM_KOKLER);
+                List<Kelime> sonuclar = eleyici.ele(zemberek.kelimeCozumle(s, CozumlemeSeviyesi.TUM_KOK_VE_EKLER));
                 Kavram kavram;
                 Kelime kelime;
-                if (sonuclar.length > 0) {
-                    kelime = sonuclar[0];
+                if (sonuclar.size() > 0) {
+                    kelime = sonuclar.get(0);
                     kavram = kokKavramTablosu.get(kelime.kok());
                 } else {
                     bilesenler.add(new TanimsizBilesen(s));
@@ -193,6 +199,9 @@ public class TurkceSQLCozumleyici {
             if (kavram.getAd().equals("OLMAK")) {
                 return new OlmakBIleseni(kelime, olumsuzlukEkiVar);
             }
+
+            if (kavram.getAd().equals("SAY"))
+                return new SaymaBileseni(s);
 
             return new TanimsizBilesen(s);
         }

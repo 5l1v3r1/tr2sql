@@ -54,6 +54,7 @@ public class Tr2SQLKelimeEleyici {
                 ekler.ek(TurkceEkAdlari.ISIM_KUCULTME_CIK),
                 ekler.ek(TurkceEkAdlari.FIIL_SURERLIK_EGOR),
                 ekler.ek(TurkceEkAdlari.FIIL_DONUSUM_ESICE),
+                ekler.ek(TurkceEkAdlari.FIIL_DONUSUM_ME),
                 ekler.ek(TurkceEkAdlari.ISIM_KISI_ONLAR_LER),
                 ekler.ek(TurkceEkAdlari.FIIL_SURERLIK_EKAL));
 
@@ -72,7 +73,7 @@ public class Tr2SQLKelimeEleyici {
     public List<Kelime> ele(Kelime... kelimeler) {
         List<Kelime> sonuc = new ArrayList<Kelime>();
         for (Kelime kelime : kelimeler) {
-            // eger kelime koku bizim listede yoksa hic kasma, donguye devam et.
+            // eger kelime koku bizim listede yoksa donguye devam et.
             if (!kabulEdilenKokler.contains(kelime.kok()))
                 continue;
 
@@ -110,6 +111,7 @@ public class Tr2SQLKelimeEleyici {
             else {
                 // kok bulunamadigindan zemberege yeni kok olarak ekliyoruz.  
                 Kok kok = sozlukIslemleri.tahminEtVeEkle(s);
+                kabulEdilenKokler.add(kok);
                 System.out.println(s + " icin kok bulunamadi. yeni kok eklenecek:" + kok);
             }
         }
