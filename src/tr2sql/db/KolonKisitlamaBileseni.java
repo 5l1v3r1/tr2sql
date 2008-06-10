@@ -105,26 +105,29 @@ public class KolonKisitlamaBileseni {
         if (kisitlamaBilgileri.isEmpty())
             return "";
 
+
+        StringBuilder sb = new StringBuilder();
+
         if (kisitlamaBilgileri.size() == 1)
-            return sqlKisitlamaDegeriUret(kisitlamaBilgileri.get(0));
-
-        StringBuilder sb = new StringBuilder("(");
-        for (BilgiBileseni bilgiBileseni : kisitlamaBilgileri) {
-            switch (bilgiBileseni.getOnBaglac()) {
-                case VE:
-                    sb.append(" and ");
-                    break;
-                case VIRGUL:
-                case VEYA:
-                    sb.append(" or ");
-                    break;
-                case YOK:
-                    break;
+            sb.append(sqlKisitlamaDegeriUret(kisitlamaBilgileri.get(0)));
+        else {
+            sb.append("(");
+            for (BilgiBileseni bilgiBileseni : kisitlamaBilgileri) {
+                switch (bilgiBileseni.getOnBaglac()) {
+                    case VE:
+                        sb.append(" and ");
+                        break;
+                    case VIRGUL:
+                    case VEYA:
+                        sb.append(" or ");
+                        break;
+                    case YOK:
+                        break;
+                }
+                sb.append(sqlKisitlamaDegeriUret(bilgiBileseni));
             }
-            sb.append(sqlKisitlamaDegeriUret(bilgiBileseni));
+            sb.append(")");
         }
-        sb.append(")");
-
         switch (oncekiBilsenIliskisi) {
             case VE:
                 return " and " + sb.toString();
@@ -133,7 +136,7 @@ public class KolonKisitlamaBileseni {
             case VIRGUL:
                 return " and " + sb.toString();
         }
-        
+
         return sb.toString() + " ";
     }
 
