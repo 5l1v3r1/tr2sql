@@ -44,8 +44,6 @@ public class Tr2SQLKelimeEleyici {
         List<Ek> kisitliEkListesi = Arrays.asList(
                 ekler.ek(TurkceEkAdlari.ISIM_ANDIRMA_IMSI),
                 ekler.ek(TurkceEkAdlari.ISIM_ANDIRMA_SI),
-                ekler.ek(TurkceEkAdlari.ISIM_TAMLAMA_I),
-                ekler.ek(TurkceEkAdlari.ISIM_TAMLAMA_IN),
                 ekler.ek(TurkceEkAdlari.ISIM_ILGI_CI),
                 ekler.ek(TurkceEkAdlari.ISIM_KISI_ONLAR_LER),
                 ekler.ek(TurkceEkAdlari.ISIM_ILISKILI_SEL),

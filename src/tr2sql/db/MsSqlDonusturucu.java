@@ -23,6 +23,10 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         }
         sonuc.append(sorgu.islemTipi.sqlDonusumu());
 
+
+        if (sorgu.saymaSorgusu) {
+            sonuc.append(" count (*) ");
+        } else {        
         // eger belirtilmisse sonuc miktar kisitlama bilgisini ekleyelim.
         if (sorgu.sonucMiktarKisitlamaDegeri > -1)
             sonuc.append(" top ").append(sorgu.sonucMiktarKisitlamaDegeri).append(" ");
@@ -37,7 +41,7 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
         // eger donus kolonlari belirtilmemisse herseyi dondurelim.
         if (sorgu.sonucKolonlari.isEmpty())
             sonuc.append(" * ");
-
+        }
         // tabloyu ekleyelim
         if (sorgu.tablo == null)
             throw new SQLUretimHatasi("Tablo bulunamadi..");

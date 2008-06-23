@@ -8,6 +8,8 @@ adı "Ali" olan çalışanları göster
 adı "Ali", soyadı "Er" ya da "Erkan" olan çalışanları göster
 adı "Ali", soyadı "Er" olan ilk 5 çalışanın numara ve adını göster
 numarası "9" dan büyük işçileri listele
+numarası "9" dan büyük kaç işçi var
+işçilerden kaçının numarası "9" dan büyük
 ismi "A" ile başlayan çalışanları göster
 adı "A" ile başlamayan çalışanları göster
 ismi "A" ile başlamayan, numarası "9" dan büyük olmayan ilk 100 çalışanın numara ve adını göster
