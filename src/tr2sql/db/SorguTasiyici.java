@@ -16,7 +16,7 @@ public class SorguTasiyici {
     public Tablo tablo;
 
     // sorguyu kisitlayan kolon bilgileri
-    public List<KolonKisitlamaBileseni> kolonKisitlamalari =  new ArrayList<KolonKisitlamaBileseni>();
+    public List<KolonKisitlamaBileseni> kolonKisitlamalari = new ArrayList<KolonKisitlamaBileseni>();
 
     // sonuc miktari. -1 ise miktar kisitlamasi yok demektir.
     public int sonucMiktarKisitlamaDegeri = -1;
@@ -24,7 +24,7 @@ public class SorguTasiyici {
     // sonucta listelenmesi gereken kolonlar.
     public List<Kolon> sonucKolonlari = new ArrayList<Kolon>();
 
-    public boolean saymaSorgusu = false;    
+    public boolean saymaSorgusu = false;
 
     public StringBuilder rapor = new StringBuilder();
 

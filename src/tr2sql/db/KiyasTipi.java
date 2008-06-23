@@ -31,7 +31,7 @@ public enum KiyasTipi {
             case NULL:
                 return NULL_DEGIL;
             case NULL_DEGIL:
-                return NULL;            
+                return NULL;
             case BASI_BENZER:
                 return BASI_BENZEMEZ;
             case BASI_BENZEMEZ:

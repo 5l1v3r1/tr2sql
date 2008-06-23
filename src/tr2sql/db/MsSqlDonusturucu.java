@@ -26,21 +26,21 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
 
         if (sorgu.saymaSorgusu) {
             sonuc.append(" count (*) ");
-        } else {        
-        // eger belirtilmisse sonuc miktar kisitlama bilgisini ekleyelim.
-        if (sorgu.sonucMiktarKisitlamaDegeri > -1)
-            sonuc.append(" top ").append(sorgu.sonucMiktarKisitlamaDegeri).append(" ");
+        } else {
+            // eger belirtilmisse sonuc miktar kisitlama bilgisini ekleyelim.
+            if (sorgu.sonucMiktarKisitlamaDegeri > -1)
+                sonuc.append(" top ").append(sorgu.sonucMiktarKisitlamaDegeri).append(" ");
 
-        // sadece belirtilen kolonlarin donmesi istenmisse bunlari ekleyelim
-        int i = 0;
-        for (Kolon kolon : sorgu.sonucKolonlari) {
-            sonuc.append(kolon.getAd());
-            if (i++ < sorgu.sonucKolonlari.size() - 1)
-                sonuc.append(", ");
-        }
-        // eger donus kolonlari belirtilmemisse herseyi dondurelim.
-        if (sorgu.sonucKolonlari.isEmpty())
-            sonuc.append(" * ");
+            // sadece belirtilen kolonlarin donmesi istenmisse bunlari ekleyelim
+            int i = 0;
+            for (Kolon kolon : sorgu.sonucKolonlari) {
+                sonuc.append(kolon.getAd());
+                if (i++ < sorgu.sonucKolonlari.size() - 1)
+                    sonuc.append(", ");
+            }
+            // eger donus kolonlari belirtilmemisse herseyi dondurelim.
+            if (sorgu.sonucKolonlari.isEmpty())
+                sonuc.append(" * ");
         }
         // tabloyu ekleyelim
         if (sorgu.tablo == null)

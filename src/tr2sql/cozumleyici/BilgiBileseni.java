@@ -40,7 +40,7 @@ public class BilgiBileseni extends CumleBileseni {
     }
 
     public String toString() {
-        return "[" + icerik + ":" + tip() + (onBaglac==BaglacTipi.YOK ? "" : (": on baglac=" + onBaglac.name()))+"] ";
+        return "[" + icerik + ":" + tip() + (onBaglac == BaglacTipi.YOK ? "" : (": on baglac=" + onBaglac.name())) + "] ";
     }
-    
+
 }

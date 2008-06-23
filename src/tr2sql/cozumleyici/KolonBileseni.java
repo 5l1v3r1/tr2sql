@@ -10,7 +10,7 @@ import tr2sql.db.Kolon;
 public class KolonBileseni extends CumleBileseni {
 
     Kolon kolon;
-    BaglacTipi onBaglac =  BaglacTipi.YOK;
+    BaglacTipi onBaglac = BaglacTipi.YOK;
 
     public KolonBileseni(Kolon kolon, Kelime kelime) {
         this.kolon = kolon;
@@ -24,7 +24,7 @@ public class KolonBileseni extends CumleBileseni {
     }
 
     public boolean baglacVar() {
-        return onBaglac!= BaglacTipi.YOK;
+        return onBaglac != BaglacTipi.YOK;
     }
 
     public Kolon getKolon() {
@@ -36,6 +36,6 @@ public class KolonBileseni extends CumleBileseni {
     }
 
     public String toString() {
-        return "[" + icerik + ":" + tip() + (onBaglac==BaglacTipi.YOK ? "" : (": on baglac=" + onBaglac.name()))+"] ";
+        return "[" + icerik + ":" + tip() + (onBaglac == BaglacTipi.YOK ? "" : (": on baglac=" + onBaglac.name())) + "] ";
     }
 }
