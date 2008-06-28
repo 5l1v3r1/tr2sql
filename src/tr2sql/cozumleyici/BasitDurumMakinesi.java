@@ -10,19 +10,19 @@ public class BasitDurumMakinesi {
     public enum Durum {
         //basit durum makinesinde bu durumlarımız var.
         BASLA,
-        KOLON_ALINDI,
-        COKLU_KOLON_ALINDI,
+        SUTUN_ALINDI,
+        COKLU_SUTUN_ALINDI,
         BILGI_ALINDI,
-        KOLON_ONCESI_BILGI_ALINDI,
+        SUTUN_ONCESI_BILGI_ALINDI,
         COKLU_BILGI_ALINDI,
         KIYAS_ALINDI,
-        SONUC_KOLONU_ALINDI,
+        SONUC_SUTUNU_ALINDI,
         OLMAK_ALINDI,
         TABLO_BULUNDU,
         BASTA_TABLO_BULUNDU,
         SONUC_KISITLAMA_SAYISI_BEKLE,
         SONUC_KISITLAMA_SAYISI_ALINDI,
-        KOLON_NULL_KIYAS_ALINDI,
+        SUTUN_NULL_KIYAS_ALINDI,
         SINIR_BELIRLENDI,
         ISLEM_BELIRLENDI,
         SAYMA_ALINDI,
@@ -35,9 +35,9 @@ public class BasitDurumMakinesi {
 
     private List<CumleBileseni> bilesenler;
 
-    private List<KolonBileseni> kolonBilesenleri = new ArrayList<KolonBileseni>();
+    private List<SutunBileseni> sutunBilesenleri = new ArrayList<SutunBileseni>();
     private List<BilgiBileseni> bilgiBilesenleri = new ArrayList<BilgiBileseni>();
-    private List<Kolon> sonucKolonlari = new ArrayList<Kolon>();
+    private List<Sutun> sonucSutunlari = new ArrayList<Sutun>();
 
     // calisma sirasianda olup bitenlerin bir yerde tutulmasini saglar.
     private StringBuilder cozumRaporu = new StringBuilder();
@@ -63,7 +63,7 @@ public class BasitDurumMakinesi {
         // mesela: kaç çalışanın ismi "A" ile başlıyor)
         kisitlamaIsle();
         // sorgu tasiyiciya toplanan bazi bilgileri ekle.
-        sorguTasiyici.sonucKolonlari = sonucKolonlari;
+        sorguTasiyici.sonucSutunlari = sonucSutunlari;
         sorguTasiyici.raporla(cozumRaporu.toString());
         sorguTasiyici.saymaSorgusu = saymaSorgusu;
 
@@ -78,9 +78,9 @@ public class BasitDurumMakinesi {
 
             case BASLA:
                 switch (gecis) {
-                    case KOLON:
+                    case SUTUN:
                         // numarasi...
-                        return kolonBileseniGecisi(bilesen);
+                        return sutunBileseniGecisi(bilesen);
                     case TABLO:
                         // iscileri..
                         return tabloBileseniGecisi(bilesen);
@@ -94,52 +94,52 @@ public class BasitDurumMakinesi {
                     case KISITLAMA_BILGISI:
                         BilgiBileseni kb = (BilgiBileseni) bilesen;
                         bilgiBilesenleri.add(kb);
-                        return Durum.KOLON_ONCESI_BILGI_ALINDI;
+                        return Durum.SUTUN_ONCESI_BILGI_ALINDI;
                 }
                 break;
 
-            case KOLON_ALINDI:
+            case SUTUN_ALINDI:
                 switch (gecis) {
                     case KISITLAMA_BILGISI:
                         // numarasi "5" ...
                         return bilgiBileseniGecisi(bilesen);
-                    case KOLON:
+                    case SUTUN:
                         // adi ve soyadi ...
-                        return cokluKolonBileseniGecisi(bilesen);
+                        return cokluSutunBileseniGecisi(bilesen);
                     case KIYASLAYICI:
                         // adi olan ....
                         // soyadi bos olan ...
-                        //kolonlar icin sadece bos, bos degil denetimi yapiyoruz.
-                        return kolonSorasiKiyasGecisi(bilesen);
+                        //sutunlar icin sadece bos, bos degil denetimi yapiyoruz.
+                        return sutunSorasiKiyasGecisi(bilesen);
                     case OLMAK:
                         // adi, soyadi olan ...
-                        return kolonSonrasiOlmakGecisi(bilesen);
+                        return sutunSonrasiOlmakGecisi(bilesen);
                 }
                 break;
 
-            case COKLU_KOLON_ALINDI:
+            case COKLU_SUTUN_ALINDI:
                 switch (gecis) {
                     case KISITLAMA_BILGISI:
                         // adi ve soyadi "a" ...
                         return bilgiBileseniGecisi(bilesen);
-                    case KOLON:
+                    case SUTUN:
                         // adi, soyadi ve okulu ...
-                        return cokluKolonBileseniGecisi(bilesen);
+                        return cokluSutunBileseniGecisi(bilesen);
                     case KIYASLAYICI:
                         // adi olan ....
                         // soyadi bos olan ...
-                        return kolonSorasiKiyasGecisi(bilesen);
+                        return sutunSorasiKiyasGecisi(bilesen);
                     case OLMAK:
                         // adi, soyadi olan ...
-                        return kolonSonrasiOlmakGecisi(bilesen);
+                        return sutunSonrasiOlmakGecisi(bilesen);
                 }
                 break;
 
             case SAYMA_ALINDI:
                 // calisanlardan numarasi ...
                 switch (gecis) {
-                    case KOLON:
-                        return kolonBileseniGecisi(bilesen);
+                    case SUTUN:
+                        return sutunBileseniGecisi(bilesen);
                     case TABLO:
                         // bu aslinda tam dogru degil..
                         TabloBileseni tabloBil = (TabloBileseni) bilesen;
@@ -157,20 +157,20 @@ public class BasitDurumMakinesi {
                         KiyasBileseniGecisi(bilesen);
                         return Durum.KIYAS_ALINDI;
 
-                    case KOLON:
+                    case SUTUN:
                         kisitlamaIsle();
-                        return kolonBileseniGecisi(bilesen);
+                        return sutunBileseniGecisi(bilesen);
 
                     case KISITLAMA_BILGISI:
                         return cokluBilgiBileseniGecisi(bilesen);
                 }
                 break;
 
-            case KOLON_ONCESI_BILGI_ALINDI:
+            case SUTUN_ONCESI_BILGI_ALINDI:
                 switch (gecis) {
-                    case KOLON:
-                        KolonBileseni k = (KolonBileseni) bilesen;
-                        kolonBilesenleri.add(k);
+                    case SUTUN:
+                        SutunBileseni k = (SutunBileseni) bilesen;
+                        sutunBilesenleri.add(k);
                         kisitlamaIsle();
                         return Durum.BASLA;
                     case KIYASLAYICI:
@@ -191,9 +191,9 @@ public class BasitDurumMakinesi {
                     case KIYASLAYICI:
                         KiyasBileseniGecisi(bilesen);
                         return Durum.KIYAS_ALINDI;
-                    case KOLON:
+                    case SUTUN:
                         kisitlamaIsle();
-                        return kolonBileseniGecisi(bilesen);
+                        return sutunBileseniGecisi(bilesen);
 
                     case KISITLAMA_BILGISI:
                         return cokluBilgiBileseniGecisi(bilesen);
@@ -202,9 +202,9 @@ public class BasitDurumMakinesi {
 
             case OLMAK_ALINDI:
                 switch (gecis) {
-                    case KOLON:
+                    case SUTUN:
                         // numarasi 5 olan ve soyadi....
-                        return kolonBileseniGecisi(bilesen);
+                        return sutunBileseniGecisi(bilesen);
                     case TABLO:
                         return tabloBileseniGecisi(bilesen);
                     case SONUC_MIKTAR:
@@ -221,9 +221,9 @@ public class BasitDurumMakinesi {
                     case TABLO:
                         kisitlamaIsle();
                         return tabloBileseniGecisi(bilesen);
-                    case KOLON:
+                    case SUTUN:
                         kisitlamaIsle();
-                        return kolonBileseniGecisi(bilesen);
+                        return sutunBileseniGecisi(bilesen);
                     case SAY:
                         kisitlamaIsle();
                         saymaSorgusu = true;
@@ -234,8 +234,8 @@ public class BasitDurumMakinesi {
             case BASTA_TABLO_BULUNDU:
                 // calisanlardan numarasi ...
                 switch (gecis) {
-                    case KOLON:
-                        return kolonBileseniGecisi(bilesen);
+                    case SUTUN:
+                        return sutunBileseniGecisi(bilesen);
                     case SAY:
                         saymaSorgusu = true;
                         return Durum.SAYMA_ALINDI;
@@ -248,8 +248,8 @@ public class BasitDurumMakinesi {
                 switch (gecis) {
                     case ISLEM:
                         return islemBileseniGecisi(bilesen);
-                    case KOLON:
-                        return sonucKolonuGecisi(bilesen);
+                    case SUTUN:
+                        return sonucSutunuGecisi(bilesen);
                     case SONUC_MIKTAR:
                         return Durum.SONUC_KISITLAMA_SAYISI_BEKLE;
                 }
@@ -270,18 +270,18 @@ public class BasitDurumMakinesi {
                         return tabloBileseniGecisi(bilesen);
                     case ISLEM:
                         return islemBileseniGecisi(bilesen);
-                    case KOLON:
-                        return sonucKolonuGecisi(bilesen);
+                    case SUTUN:
+                        return sonucSutunuGecisi(bilesen);
                 }
                 break;
 
 
-            case SONUC_KOLONU_ALINDI:
+            case SONUC_SUTUNU_ALINDI:
                 switch (gecis) {
                     case ISLEM:
                         return islemBileseniGecisi(bilesen);
-                    case KOLON:
-                        return sonucKolonuGecisi(bilesen);
+                    case SUTUN:
+                        return sonucSutunuGecisi(bilesen);
                 }
                 break;
 
@@ -291,16 +291,16 @@ public class BasitDurumMakinesi {
     }
 
     /**
-     * toplanan kisitlamaya dair kolon, bilgi ve bilgi kiyas bilgileri bu metod ile
-     * sorgu tasiyiya KolonKisitlamaZincirBileseni olarak eklenir.
+     * toplanan kisitlamaya dair sutun, bilgi ve bilgi kiyas bilgileri bu metod ile
+     * sorgu tasiyiya SutunKisitlamaZincirBileseni olarak eklenir.
      */
     private void kisitlamaIsle() {
-        for (KolonBileseni kolonBileseni : kolonBilesenleri) {
-            KolonKisitlamaBileseni kb = new KolonKisitlamaBileseni(
-                    kolonBileseni.getKolon(), bilgiBilesenleri, kolonBileseni.getOnBaglac());
-            sorguTasiyici.kolonKisitlamalari.add(kb);
+        for (SutunBileseni sutunBileseni : sutunBilesenleri) {
+            SutunKisitlamaBileseni kb = new SutunKisitlamaBileseni(
+                    sutunBileseni.getSutun(), bilgiBilesenleri, sutunBileseni.getOnBaglac());
+            sorguTasiyici.sutunKisitlamalari.add(kb);
         }
-        kolonKiyasTemizle();
+        sutunKiyasTemizle();
     }
 
     private void KiyasBileseniGecisi(CumleBileseni bilesen) {
@@ -330,18 +330,18 @@ public class BasitDurumMakinesi {
         return Durum.COKLU_BILGI_ALINDI;
     }
 
-    private Durum cokluKolonBileseniGecisi(CumleBileseni bilesen) {
-        KolonBileseni kb = (KolonBileseni) bilesen;
+    private Durum cokluSutunBileseniGecisi(CumleBileseni bilesen) {
+        SutunBileseni kb = (SutunBileseni) bilesen;
         if (!kb.baglacVar())
             kb.setOnBaglac(BaglacTipi.VE);
-        kolonBilesenleri.add(kb);
-        return Durum.COKLU_KOLON_ALINDI;
+        sutunBilesenleri.add(kb);
+        return Durum.COKLU_SUTUN_ALINDI;
     }
 
-    private Durum sonucKolonuGecisi(CumleBileseni bilesen) {
-        Kolon k = ((KolonBileseni) bilesen).getKolon();
-        sonucKolonlari.add(k);
-        return Durum.SONUC_KOLONU_ALINDI;
+    private Durum sonucSutunuGecisi(CumleBileseni bilesen) {
+        Sutun k = ((SutunBileseni) bilesen).getSutun();
+        sonucSutunlari.add(k);
+        return Durum.SONUC_SUTUNU_ALINDI;
     }
 
     private Durum islemBileseniGecisi(CumleBileseni bilesen) {
@@ -355,15 +355,15 @@ public class BasitDurumMakinesi {
     private Durum tabloBileseniGecisi(CumleBileseni bilesen) {
         TabloBileseni tabloBil = (TabloBileseni) bilesen; //gelen bileşen tablo bilşeni olarak tanımlanır.
         sorguTasiyici.tablo = tabloBil.getTablo();
-        return Durum.BASTA_TABLO_BULUNDU;
+        return Durum.TABLO_BULUNDU;
     }
 
-    private Durum kolonBileseniGecisi(CumleBileseni bilesen) {
-        KolonBileseni kb = (KolonBileseni) bilesen;
-        kolonBilesenleri.add(kb);
+    private Durum sutunBileseniGecisi(CumleBileseni bilesen) {
+        SutunBileseni kb = (SutunBileseni) bilesen;
+        sutunBilesenleri.add(kb);
         if (kb.baglacVar())
-            return Durum.COKLU_KOLON_ALINDI;
-        else return Durum.KOLON_ALINDI;
+            return Durum.COKLU_SUTUN_ALINDI;
+        else return Durum.SUTUN_ALINDI;
     }
 
     private Durum bilgiBileseniGecisi(CumleBileseni bilesen) {
@@ -374,10 +374,10 @@ public class BasitDurumMakinesi {
         else return Durum.BILGI_ALINDI;
     }
 
-    private Durum kolonSorasiKiyasGecisi(CumleBileseni bilesen) {
+    private Durum sutunSorasiKiyasGecisi(CumleBileseni bilesen) {
         KiyaslamaBileseni kb = (KiyaslamaBileseni) bilesen;
         if (kb.kiyasTipi != KiyasTipi.NULL)
-            throw new SQLUretimHatasi("Kolon bileseninden sonra sadece bos-null kiyaslama bileseni gelebilir. " +
+            throw new SQLUretimHatasi("Sutun bileseninden sonra sadece bos-null kiyaslama bileseni gelebilir. " +
                     "Gelen bilesen:" + kb.kiyasTipi.name());
         BilgiBileseni b = new BilgiBileseni("");
         b.setKiyasTipi(KiyasTipi.NULL);
@@ -385,17 +385,17 @@ public class BasitDurumMakinesi {
         return Durum.KIYAS_ALINDI;
     }
 
-    private Durum kolonSonrasiOlmakGecisi(CumleBileseni bilesen) {
+    private Durum sutunSonrasiOlmakGecisi(CumleBileseni bilesen) {
         OlmakBIleseni ob = (OlmakBIleseni) bilesen;
         KiyasTipi tip = KiyasTipi.NULL_DEGIL;
         if (ob.olumsuz())
             tip = tip.tersi();
-        for (KolonBileseni kb : kolonBilesenleri) {
+        for (SutunBileseni kb : sutunBilesenleri) {
             BilgiBileseni bb = new BilgiBileseni("");
             bb.setKiyasTipi(tip);
-            KolonKisitlamaBileseni kkb = new KolonKisitlamaBileseni(kb.getKolon(), bb, kb.getOnBaglac());
+            SutunKisitlamaBileseni kkb = new SutunKisitlamaBileseni(kb.getSutun(), bb, kb.getOnBaglac());
         }
-        kolonKiyasTemizle();
+        sutunKiyasTemizle();
         return Durum.OLMAK_ALINDI;
     }
 
@@ -404,8 +404,8 @@ public class BasitDurumMakinesi {
         cozumRaporu.append(s).append("\n");
     }
 
-    private void kolonKiyasTemizle() {
-        kolonBilesenleri = new ArrayList<KolonBileseni>();
+    private void sutunKiyasTemizle() {
+        sutunBilesenleri = new ArrayList<SutunBileseni>();
         bilgiBilesenleri = new ArrayList<BilgiBileseni>();
     }
 

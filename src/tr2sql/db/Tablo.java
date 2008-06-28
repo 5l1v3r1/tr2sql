@@ -13,14 +13,14 @@ public class Tablo {
     private String ad;
     private Kavram kavram;
 
-    private List<Kolon> kolonlar = new ArrayList<Kolon>();
+    private List<Sutun> sutunlar = new ArrayList<Sutun>();
 
 // ---- constructor ----
 
-    public Tablo(String ad, Kavram kavram, List<Kolon> kolonlar) {
+    public Tablo(String ad, Kavram kavram, List<Sutun> sutunlar) {
         this.ad = ad;
         this.kavram = kavram;
-        this.kolonlar = kolonlar;
+        this.sutunlar = sutunlar;
     }
 
 // ---- getters ----
@@ -33,23 +33,23 @@ public class Tablo {
         return kavram;
     }
 
-    public List<Kolon> getKolonlar() {
-        return kolonlar;
+    public List<Sutun> getSutunlar() {
+        return sutunlar;
     }
 
     // ---- diger metodlar -----
 
     /**
-     * kok'e uygun kolon bulursa dondurur.
+     * kok'e uygun sutun bulursa dondurur.
      *
      * @param kok : kelime koku
-     * @return : eger kok kolon kavrami dahilinde ise ilk bulunan kolon doner. hicbir kolon kavrami ile
+     * @return : eger kok sutun kavrami dahilinde ise ilk bulunan sutun doner. hicbir sutun kavrami ile
      *         uyusmazsa null doner.
      */
-    public Kolon kokeGoreKolonBul(Kok kok) {
-        for (Kolon kolon : kolonlar) {
-            if (kolon.getKavram().kokMevcutMu(kok))
-                return kolon;
+    public Sutun kokeGoreSutunBul(Kok kok) {
+        for (Sutun sutun : sutunlar) {
+            if (sutun.getKavram().kokMevcutMu(kok))
+                return sutun;
         }
         return null;
     }
@@ -57,9 +57,9 @@ public class Tablo {
 
     @Override
     public String toString() {
-        StringBuilder b = new StringBuilder("Tablo:" + ad + ", kavram:" + kavram + '\n' + "Kolonlar:\n");
-        for (Kolon kolon : kolonlar)
-            b.append('\t').append(kolon.toString()).append('\n');
+        StringBuilder b = new StringBuilder("Tablo:" + ad + ", kavram:" + kavram + '\n' + "Sutunlar:\n");
+        for (Sutun sutun : sutunlar)
+            b.append('\t').append(sutun.toString()).append('\n');
         return b.toString();
 
     }

@@ -34,26 +34,26 @@ public class XmlVeriTabaniBilgisiOkuyucu {
             tablolar.add(new Tablo(
                     element.getAttribute("ad"),
                     kavram,
-                    kolonlariOku(XmlYardimcisi.ilkEleman(element, "kolonlar"))
+                    sutunlariOku(XmlYardimcisi.ilkEleman(element, "sutunlar"))
             ));
         }
         return tablolar;
     }
 
-    private List<Kolon> kolonlariOku(Element kolonElementi) {
-        List<Element> kolonElemanlari = XmlYardimcisi.elemanlar(kolonElementi, "kolon");
-        List<Kolon> kolonlar = new ArrayList<Kolon>();
-        for (Element element : kolonElemanlari) {
+    private List<Sutun> sutunlariOku(Element sutunElementi) {
+        List<Element> sutunElemanlari = XmlYardimcisi.elemanlar(sutunElementi, "sutun");
+        List<Sutun> sutunlar = new ArrayList<Sutun>();
+        for (Element element : sutunElemanlari) {
             String anahtarStr = element.getAttribute("anahtar").toLowerCase();
             Kavram kavram = kavramTablosu.get(element.getAttribute("kavram"));
             boolean anahtar = anahtarStr.equals("true");
-            kolonlar.add(new Kolon(
+            sutunlar.add(new Sutun(
                     element.getAttribute("ad"),
                     kavram,
-                    KolonTipi.valueOf(element.getAttribute("tip").toUpperCase()),
+                    SutunTipi.valueOf(element.getAttribute("tip").toUpperCase()),
                     anahtar
             ));
         }
-        return kolonlar;
+        return sutunlar;
     }
 }

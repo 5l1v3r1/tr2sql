@@ -1,19 +1,19 @@
 package tr2sql.db;
 
 /**
- * veri tabani kolonunu ifade eder.
+ * veri tabani sutununu ifade eder.
  */
 
-public class Kolon {
+public class Sutun {
 
     private String ad;
     private Kavram kavram;
-    private KolonTipi tip;
+    private SutunTipi tip;
     private boolean anahtar = false;
 
 // ---- constructor ----
 
-    public Kolon(String ad, Kavram kavram, KolonTipi tip, boolean anahtar) {
+    public Sutun(String ad, Kavram kavram, SutunTipi tip, boolean anahtar) {
         this.ad = ad;
         this.kavram = kavram;
         this.tip = tip;
@@ -30,7 +30,7 @@ public class Kolon {
         return kavram;
     }
 
-    public KolonTipi getTip() {
+    public SutunTipi getTip() {
         return tip;
     }
 
@@ -39,7 +39,7 @@ public class Kolon {
     }
 
     public String toString() {
-        return "Kolon{" +
+        return "Sutun{" +
                 "ad:'" + ad + '\'' +
                 ", kavram:'" + kavram + '\'' +
                 ", tip:" + tip +

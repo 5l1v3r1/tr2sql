@@ -6,26 +6,26 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Bu sinif kolon kisitlama verisini tasir. Ornegin "numarasi [5] olan" kelimelerinden
- * Kolon = NUMARA, kisitlamaDegeri="5" ve KiyasTipi=ESITLIK verileri ile bu siniftan bir nesne olusturulmasi gerekir.
+ * Bu sinif sutun kisitlama verisini tasir. Ornegin "numarasi [5] olan" kelimelerinden
+ * Sutun = NUMARA, kisitlamaDegeri="5" ve KiyasTipi=ESITLIK verileri ile bu siniftan bir nesne olusturulmasi gerekir.
  */
-public class KolonKisitlamaBileseni {
-    public Kolon kolon;
+public class SutunKisitlamaBileseni {
+    public Sutun sutun;
     public List<BilgiBileseni> kisitlamaBilgileri = new ArrayList<BilgiBileseni>();
     public BaglacTipi oncekiBilsenIliskisi = BaglacTipi.YOK;
 
-    public KolonKisitlamaBileseni(Kolon kolon,
+    public SutunKisitlamaBileseni(Sutun sutun,
                                   List<BilgiBileseni> kisitlamaBilgileri,
                                   BaglacTipi oncekiBilsenIliskisi) {
-        this.kolon = kolon;
+        this.sutun = sutun;
         this.kisitlamaBilgileri = kisitlamaBilgileri;
         this.oncekiBilsenIliskisi = oncekiBilsenIliskisi;
     }
 
-    public KolonKisitlamaBileseni(Kolon kolon,
+    public SutunKisitlamaBileseni(Sutun sutun,
                                   BilgiBileseni kisitlamaBilgisi,
                                   BaglacTipi oncekiBilsenIliskisi) {
-        this.kolon = kolon;
+        this.sutun = sutun;
         kisitlamaBilgileri.add(kisitlamaBilgisi);
         this.oncekiBilsenIliskisi = oncekiBilsenIliskisi;
     }
@@ -35,8 +35,8 @@ public class KolonKisitlamaBileseni {
         KiyasTipi kiyasTipi = bilgiBileseni.getKiyasTipi();
         String kisitlamaDegeri = bilgiBileseni.icerik();
 
-        if (kolon == null)
-            throw new SQLUretimHatasi("Kisitlama bileseni icin kolon degeri null olamaz.");
+        if (sutun == null)
+            throw new SQLUretimHatasi("Kisitlama bileseni icin sutun degeri null olamaz.");
         if (kiyasTipi == null)
             throw new SQLUretimHatasi("Kisitlama bileseni icin kiyasTipi null olamaz.");
 
@@ -67,7 +67,7 @@ public class KolonKisitlamaBileseni {
                 break;
         }
         if (matematikselKiyas)
-            return kolon.getAd() + " " + deger + " " + kisitlamaDegeriniBicimlendir(kisitlamaDegeri) + " ";
+            return sutun.getAd() + " " + deger + " " + kisitlamaDegeriniBicimlendir(kisitlamaDegeri) + " ";
 
         boolean benzerlikKiyaslama = true;
         switch (kiyasTipi) {
@@ -88,13 +88,13 @@ public class KolonKisitlamaBileseni {
                 break;
         }
         if (benzerlikKiyaslama)
-            return kolon.getAd() + " " + deger + " ";
+            return sutun.getAd() + " " + deger + " ";
 
         if (kiyasTipi == KiyasTipi.NULL)
-            return kolon.getAd() + " is null ";
+            return sutun.getAd() + " is null ";
 
         if (kiyasTipi == KiyasTipi.NULL_DEGIL)
-            return kolon.getAd() + " is not null ";
+            return sutun.getAd() + " is not null ";
 
         throw new SQLUretimHatasi("Kisitlama bileseni icin sql kelimeleri uretilemedi:" + toString());
     }
@@ -141,7 +141,7 @@ public class KolonKisitlamaBileseni {
     }
 
     private String kisitlamaDegeriniBicimlendir(String kisitlamaDegeri) {
-        if (kolon.getTip() == KolonTipi.YAZI)
+        if (sutun.getTip() == SutunTipi.YAZI)
             return "'" + kisitlamaDegeri + "'";
         else return kisitlamaDegeri;
     }
@@ -154,7 +154,7 @@ public class KolonKisitlamaBileseni {
 
     @Override
     public String toString() {
-        return " Kolon : " + kolon.toString() + " , kisitlamaDegeri:" + kisitlamaBilgileri.toString();
+        return " Sutun : " + sutun.toString() + " , kisitlamaDegeri:" + kisitlamaBilgileri.toString();
     }
 
 }

@@ -39,7 +39,7 @@ miktar
 üretim
 sorgu
 şey
-kolon
+sutun
 satır
 tablo
 büyük

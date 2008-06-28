@@ -98,7 +98,7 @@ public class TurkceSQLCozumleyici {
 
             for (String s : cumleParcalari) {
 
-                // virgul, ve, veya gibi baglaclari hatirlayip kendinden sonra gelen Kolon ya da
+                // virgul, ve, veya gibi baglaclari hatirlayip kendinden sonra gelen Sutun ya da
                 // Bilgi Bilesenlerine ekliyoruz.
                 BaglacTipi t = BaglacTipi.baglacTipiTahminEt(s);
                 if (t != BaglacTipi.YOK) {
@@ -140,8 +140,8 @@ public class TurkceSQLCozumleyici {
                 }
                 CumleBileseni bilesen = bilesenBul(kavram, s, kelime);
 
-                if (bilesen.tip() == CumleBilesenTipi.KOLON)
-                    ((KolonBileseni) bilesen).setOnBaglac(baglacTipi);
+                if (bilesen.tip() == CumleBilesenTipi.SUTUN)
+                    ((SutunBileseni) bilesen).setOnBaglac(baglacTipi);
 
                 bilesenler.add(bilesen);
                 baglacTipi = BaglacTipi.YOK;
@@ -180,11 +180,11 @@ public class TurkceSQLCozumleyici {
                 return b;
             }
 
-            // kolon bileseni mi?
-            List<Kolon> tumKolonlar = veriTabani.tumKolonlar();
-            for (Kolon kolon : tumKolonlar) {
-                if (kolon.getKavram().equals(kavram))
-                    return new KolonBileseni(kolon, kelime);
+            // sutun bileseni mi?
+            List<Sutun> tumSutunlar = veriTabani.tumSutunlar();
+            for (Sutun sutun : tumSutunlar) {
+                if (sutun.getKavram().equals(kavram))
+                    return new SutunBileseni(sutun, kelime);
             }
 
             // kiyaslama bileseni mi? buyuk, kucuk, esit vs.

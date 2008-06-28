@@ -1,7 +1,6 @@
 package tr2sql.db;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,14 +14,14 @@ public class SorguTasiyici {
     // ilgili tablo.
     public Tablo tablo;
 
-    // sorguyu kisitlayan kolon bilgileri
-    public List<KolonKisitlamaBileseni> kolonKisitlamalari = new ArrayList<KolonKisitlamaBileseni>();
+    // sorguyu kisitlayan sutun bilgileri
+    public List<SutunKisitlamaBileseni> sutunKisitlamalari = new ArrayList<SutunKisitlamaBileseni>();
 
     // sonuc miktari. -1 ise miktar kisitlamasi yok demektir.
     public int sonucMiktarKisitlamaDegeri = -1;
 
-    // sonucta listelenmesi gereken kolonlar.
-    public List<Kolon> sonucKolonlari = new ArrayList<Kolon>();
+    // sonucta listelenmesi gereken sutunlar.
+    public List<Sutun> sonucSutunlari = new ArrayList<Sutun>();
 
     public boolean saymaSorgusu = false;
 

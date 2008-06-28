@@ -2,7 +2,7 @@ package tr2sql.cozumleyici;
 
 public enum CumleBilesenTipi {
     KISITLAMA_BILGISI,
-    KOLON,
+    SUTUN,
     SONUC_MIKTAR,
     TABLO,
     OLMAK,

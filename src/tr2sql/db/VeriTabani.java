@@ -31,12 +31,12 @@ public class VeriTabani {
         return tablolar;
     }
 
-    public List<Kolon> tumKolonlar() {
-        List<Kolon> kolonlar = new ArrayList<Kolon>();
+    public List<Sutun> tumSutunlar() {
+        List<Sutun> sutunlar = new ArrayList<Sutun>();
         for (Tablo tablo : tablolar) {
-            kolonlar.addAll(tablo.getKolonlar());
+            sutunlar.addAll(tablo.getSutunlar());
         }
-        return kolonlar;
+        return sutunlar;
     }
 
     public Tablo kokeGoreTabloBul(Kok kok) {

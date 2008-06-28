@@ -2,19 +2,19 @@ package tr2sql.cozumleyici;
 
 import net.zemberek.yapi.Kelime;
 import tr2sql.db.BaglacTipi;
-import tr2sql.db.Kolon;
+import tr2sql.db.Sutun;
 
 /**
  * dilek
  */
-public class KolonBileseni extends CumleBileseni {
+public class SutunBileseni extends CumleBileseni {
 
-    Kolon kolon;
+    Sutun sutun;
     BaglacTipi onBaglac = BaglacTipi.YOK;
 
-    public KolonBileseni(Kolon kolon, Kelime kelime) {
-        this.kolon = kolon;
-        this.tip = CumleBilesenTipi.KOLON;
+    public SutunBileseni(Sutun sutun, Kelime kelime) {
+        this.sutun = sutun;
+        this.tip = CumleBilesenTipi.SUTUN;
         this.icerik = kelime.icerikStr();
         this.kelime = kelime;
     }
@@ -27,8 +27,8 @@ public class KolonBileseni extends CumleBileseni {
         return onBaglac != BaglacTipi.YOK;
     }
 
-    public Kolon getKolon() {
-        return kolon;
+    public Sutun getSutun() {
+        return sutun;
     }
 
     public BaglacTipi getOnBaglac() {
