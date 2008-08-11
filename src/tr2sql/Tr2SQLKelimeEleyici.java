@@ -20,7 +20,7 @@ import java.util.*;
  * <p/>
  * yaridmci islemler icin http://code.google.com/p/jmate/ kutuphanesinden yararlanilmistir.
  */
-public class Tr2SQLKelimeEleyici {
+public class Tr2SQLKelimeEleyici implements KelimeEleyici {
 
     private DilBilgisi dilBilgisi;
 
@@ -61,13 +61,6 @@ public class Tr2SQLKelimeEleyici {
 
     }
 
-    /**
-     * bir ya da daha cok kelimeyi kisitlama kriterlerine gore sinar.
-     * sadece kisitlama kriterleirni gecebilenleri bir liste iicnde dondurur.
-     *
-     * @param kelimeler: kelime dizisi
-     * @return kisitlama kriterlerine uyan kelimler. eger hic bir kelime uymazsa bos liste doner.
-     */
     public List<Kelime> ele(Kelime[] kelimeler) {
         List<Kelime> sonuc = new ArrayList<Kelime>();
         for (Kelime kelime : kelimeler) {

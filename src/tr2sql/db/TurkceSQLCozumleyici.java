@@ -7,6 +7,7 @@ import net.zemberek.yapi.Kelime;
 import net.zemberek.yapi.Kok;
 import tr2sql.SozlukIslemleri;
 import tr2sql.Tr2SQLKelimeEleyici;
+import tr2sql.KelimeEleyici;
 import tr2sql.cozumleyici.*;
 import tr2sql.cozumleyici.BasitDurumMakinesi;
 
@@ -23,7 +24,7 @@ public class TurkceSQLCozumleyici {
     private Map<Kok, Kavram> kokKavramTablosu = new HashMap<Kok, Kavram>();
 
     private Zemberek zemberek;
-    private Tr2SQLKelimeEleyici eleyici;
+    private KelimeEleyici eleyici;
 
     public TurkceSQLCozumleyici(Zemberek zemberek,
                                 Tr2SQLKelimeEleyici eleyici,
