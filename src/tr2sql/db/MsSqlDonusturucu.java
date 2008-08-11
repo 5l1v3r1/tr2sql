@@ -47,7 +47,7 @@ public class MsSqlDonusturucu implements SqlDonusturucu {
             throw new SQLUretimHatasi("Tablo bulunamadi..");
         sonuc.append(" from ").append(sorgu.tablo.getAd()).append(" ");
 
-        // kisitlama zincir bileseni varsa "where" kelimesini ekleyelim.
+        // kisitlama bileseni varsa "where" kelimesini ekleyelim.
         if (!sorgu.sutunKisitlamalari.isEmpty())
             sonuc.append(" where ");
 

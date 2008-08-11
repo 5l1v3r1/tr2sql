@@ -292,7 +292,7 @@ public class BasitDurumMakinesi {
 
     /**
      * toplanan kisitlamaya dair sutun, bilgi ve bilgi kiyas bilgileri bu metod ile
-     * sorgu tasiyiya SutunKisitlamaZincirBileseni olarak eklenir.
+     * sorgu tasiyiya SutunKisitlamaBileseni olarak eklenir.
      */
     private void kisitlamaIsle() {
         for (SutunBileseni sutunBileseni : sutunBilesenleri) {
@@ -394,6 +394,7 @@ public class BasitDurumMakinesi {
             BilgiBileseni bb = new BilgiBileseni("");
             bb.setKiyasTipi(tip);
             SutunKisitlamaBileseni kkb = new SutunKisitlamaBileseni(kb.getSutun(), bb, kb.getOnBaglac());
+            sorguTasiyici.sutunKisitlamalari.add(kkb);
         }
         sutunKiyasTemizle();
         return Durum.OLMAK_ALINDI;
