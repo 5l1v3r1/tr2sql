@@ -2,7 +2,7 @@
 
 <project name="tr2sql" default="dagitim" basedir=".">
 
-    <property name="ad-surum" value="tr2sql-0.1"/>
+    <property name="ad-surum" value="tr2sql-0.2"/>
 
     <!-- derleme icin gerekli kutuphanelerin dizinini belirt.-->
     <path id="classpath.build">
@@ -52,7 +52,7 @@
         <copy todir="dagitim">
             <fileset dir="lib-dagitim"/>
             <fileset file="${ad-surum}.jar"/>
-            <fileset file="run.sh"/>
+            <fileset file="run.sh" />
             <fileset file="run.bat"/>
         </copy>
         <!-- bilgi dizinini kopyala -->
@@ -62,9 +62,9 @@
         </copy>
         <!-- unix-linux ozel-->
         <chmod dir="dagitim" perm="777"/>
+        <chmod file="dagitim/start.sh" perm="ugo+rx"/>
 
         <zip basedir="dagitim" file="dagitim/${ad-surum}.zip"/>
-
 
     </target>
 

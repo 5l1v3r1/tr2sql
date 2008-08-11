@@ -1,1 +1,1 @@
-java -classpath ".;jmate-0.2.jar;zemberek-cekirdek-2.1_rc1.jar;zemberek-tr-2.1_rc1.jar;tr2sql-0.1.jar" tr2sql.gui.DemoMain
+java -classpath ".;jmate-0.2.jar;zemberek-cekirdek-2.1_rc1.jar;zemberek-tr-2.1_rc1.jar;tr2sql-0.2.jar" tr2sql.gui.DemoMain
